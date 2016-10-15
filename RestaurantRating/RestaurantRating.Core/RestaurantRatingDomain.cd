@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="RestaurantRating.Domain.Restaurant">
+    <Position X="5.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACIAAAAAAAAAAAAAAAAAQgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Restaurent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.AddRestaurentTransaction">
+    <Position X="16.25" Y="4" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AddRestaurentTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.RemoveRestaurantTransaction">
+    <Position X="11" Y="4" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RemoveRestaurantTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.Transaction&lt;T, U&gt;">
+    <Position X="12" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAABAAAQAAAAAAAAAAAAAgAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.UpdateRestaurantTransaction">
+    <Position X="5.75" Y="4" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>UpdateRestaurantTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.AuditRecord">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>AuditRecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.UpdateRestaurantRequestModel" Collapsed="true">
+    <Position X="23.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Requests\UpdateRestaurantRequestModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.UpdateRestaurantResponseModel" Collapsed="true">
+    <Position X="25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Responses\UpdateRestaurantResponseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.RemoveRestaurantResponseModel" Collapsed="true">
+    <Position X="21.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Responses\RemoveRestaurantResponseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.AddRestaurantRequestModel" Collapsed="true">
+    <Position X="21.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAEgAAAAAQAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Requests\AddResturantRequestModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.AddRestaurantResponseModel" Collapsed="true">
+    <Position X="23.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAAAAAAAAIAAAAAEAAAAAAA=</HashCode>
+      <FileName>Responses\AddRestaurantResponseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestaurantRating.Domain.RemoveRestaurantRequestModel" Collapsed="true">
+    <Position X="25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Requests\RemoveRestaurantRequestModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
