@@ -15,11 +15,10 @@ namespace RestaurantRating.Domain
                 if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaurantId))
                 {
                     Response.WasSucessfull = false;
-                    return;
                 }
                 else
                 {
-                    Repository.RemoveRestaurentID(Request);
+                    Repository.RemoveRestaurentId(Request);
                     Response.WasSucessfull = true;
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.DomainTests
@@ -38,11 +37,11 @@ namespace RestaurantRating.DomainTests
             ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
 
-        private void ValidateRestUpdate(int expectedID, string expectedName, string expectedCuisine, int expectedCreatedById, int expectedUpdatedById, UpdateRestaurantRequestModel restToUpdate)
+        private void ValidateRestUpdate(int expectedId, string expectedName, string expectedCuisine, int expectedCreatedById, int expectedUpdatedById, UpdateRestaurantRequestModel restToUpdate)
         {
             var actualRest = Restaurants.Find(r => r.Id == restToUpdate.RestaurantId);
             Assert.IsNotNull(actualRest, "Update restaurant not found");
-            Assert.AreEqual(expectedID, actualRest.Id, "Restaurant ID");
+            Assert.AreEqual(expectedId, actualRest.Id, "Restaurant ID");
             Assert.AreEqual(expectedName, actualRest.Name, "Restaurant Name");
             Assert.AreEqual(expectedCuisine, actualRest.Cuisine, "Restaurant Cuisine");
             Assert.AreEqual(expectedCreatedById, actualRest.CreatedBy, "Restaurant Created By");

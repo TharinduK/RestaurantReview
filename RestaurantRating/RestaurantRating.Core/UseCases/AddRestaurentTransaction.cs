@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantRating.Domain
 {
@@ -19,7 +15,7 @@ namespace RestaurantRating.Domain
             {
                 if (Repository.DoseRestaurentAlreadyExist(Request)) throw new RestaurantException("Restaurant with same attributes already exists");
 
-                Response.RestaurantId = Repository.AddRestaurentGetNewID(Request);
+                Response.RestaurantId = Repository.AddRestaurentGetNewId(Request);
             //var user = _repository.GetAdminUser();
 
                 //var admiUser = user as Administrator;

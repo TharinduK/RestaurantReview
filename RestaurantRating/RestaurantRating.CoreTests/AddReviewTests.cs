@@ -202,7 +202,6 @@ namespace RestaurantRating.DomainTests
             var expectedComment = "rating comment 4";
             var expectedRestId = 2;
             var expectedCreatedById = 101;
-            var expectedUpdatedById = expectedCreatedById;
             var expectedReviewNumber = 0;
             var expectedSucessStatus = false;
             var reqData = new AddReviewRequestModel()
@@ -244,7 +243,6 @@ namespace RestaurantRating.DomainTests
             var expectedComment = "rating comment 4";
             var expectedRestId = 201;
             var expectedCreatedById = 1;
-            var expectedUpdatedById = expectedCreatedById;
             var expectedReviewNumber = 0;
             var expectedSucessStatus = false;
             var reqData = new AddReviewRequestModel()
@@ -285,7 +283,6 @@ namespace RestaurantRating.DomainTests
             var expectedComment = "rating comment 9";
             var expectedRestId = 2;
             var expectedCreatedById = 3;
-            var expectedUpdatedById = expectedCreatedById;
             var expectedReviewNumber = 0;
             var expectedSucessStatus = false;
             var reqData = new AddReviewRequestModel()
@@ -326,7 +323,6 @@ namespace RestaurantRating.DomainTests
             var expectedComment = "rating comment 9";
             var expectedRestId = 2;
             var expectedCreatedById = 3;
-            var expectedUpdatedById = expectedCreatedById;
             var expectedReviewNumber = 0;
             var expectedSucessStatus = false;
             var reqData = new AddReviewRequestModel()

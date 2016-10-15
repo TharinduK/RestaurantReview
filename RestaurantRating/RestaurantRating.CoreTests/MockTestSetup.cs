@@ -23,7 +23,7 @@ namespace RestaurantRating.DomainTests
             Log = log.Object;
 
             var repo = new Mock<IRepository>();
-            repo.Setup(m => m.AddRestaurentGetNewID(It.IsAny<AddRestaurantRequestModel>()))
+            repo.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Returns<AddRestaurantRequestModel>(r => FakeAddRestaurant(r));
                         
             repo.Setup(m => m.DoseRestaurentAlreadyExist(It.IsAny<AddRestaurantRequestModel>()))
@@ -32,10 +32,10 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.DoseRestaurentIdAlreadyExist(It.IsAny<int>()))
                 .Returns<int>(id => FakeResturantIdExisits(id));
 
-            repo.Setup(m => m.RemoveRestaurentID(It.IsAny<RemoveRestaurantRequestModel>()))
+            repo.Setup(m => m.RemoveRestaurentId(It.IsAny<RemoveRestaurantRequestModel>()))
                 .Callback<RemoveRestaurantRequestModel>(r => FakeRemoveRestaurant(r));
 
-            repo.Setup(m => m.GetRestaurantByID(It.IsAny<int>()))
+            repo.Setup(m => m.GetRestaurantById(It.IsAny<int>()))
                 .Returns<int>(id => FakeGetRestaurantById(id));
 
             repo.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
@@ -51,17 +51,17 @@ namespace RestaurantRating.DomainTests
 
         
 
-        private int FakeAddReview(AddReviewRequestModel addReviewRM)
+        private int FakeAddReview(AddReviewRequestModel addReviewRequestModel)
         {
-            var reviewedRestaurant = Repo.GetRestaurantByID(addReviewRM.RestaruntId);
-            var reviewedUser = Repo.GetUserById(addReviewRM.UserId);
+            var reviewedRestaurant = Repo.GetRestaurantById(addReviewRequestModel.RestaruntId);
+            var reviewedUser = Repo.GetUserById(addReviewRequestModel.UserId);
             var reviewToAdd = new Review
             {
-                Comment = addReviewRM.Comment,
-                CreatedBy = addReviewRM.UserId,
-                PostedDateTime = addReviewRM.DateTimePosted,
-                Rating = addReviewRM.Rating,
-                UpdatedBy = addReviewRM.UserId,
+                Comment = addReviewRequestModel.Comment,
+                CreatedBy = addReviewRequestModel.UserId,
+                PostedDateTime = addReviewRequestModel.DateTimePosted,
+                Rating = addReviewRequestModel.Rating,
+                UpdatedBy = addReviewRequestModel.UserId,
                 ReviewRestaurant = reviewedRestaurant,
                 ReviewUser = reviewedUser,
                 ReviewNumber = Reviews.Count+1

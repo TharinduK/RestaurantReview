@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.DomainTests

@@ -40,26 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddRestaurentTransaction.cs" />
+    <Compile Include="UseCases\AddRestaurentTransaction.cs" />
     <Compile Include="Responses\AddReviewResponseModel.cs" />
     <Compile Include="Requests\AddReviewRequestModel.cs" />
-    <Compile Include="AddReviewTransaction.cs" />
-    <Compile Include="AuditRecord.cs" />
+    <Compile Include="UseCases\AddReviewTransaction.cs" />
+    <Compile Include="Entities\AuditRecord.cs" />
     <Compile Include="Exceptions\RestaurantException.cs" />
     <Compile Include="Interfaces\IApplicationLog.cs" />
     <Compile Include="Requests\RemoveRestaurantRequestModel.cs" />
     <Compile Include="Responses\RemoveRestaurantResponseModel.cs" />
-    <Compile Include="RemoveRestaurantTransaction.cs" />
-    <Compile Include="Review.cs" />
-    <Compile Include="Transaction.cs" />
+    <Compile Include="UseCases\RemoveRestaurantTransaction.cs" />
+    <Compile Include="Entities\Review.cs" />
+    <Compile Include="UseCases\Transaction.cs" />
     <Compile Include="Requests\TransactionRequestModel.cs" />
     <Compile Include="Responses\TransactionResponseModel.cs" />
-    <Compile Include="Restaurent.cs" />
+    <Compile Include="Entities\Restaurent.cs" />
     <Compile Include="Requests\UpdateRestaurantRequestModel.cs" />
     <Compile Include="Responses\UpdateRestaurantResponseModel.cs" />
-    <Compile Include="UpdateRestaurantTransaction.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="Users\Administrator.cs" />
+    <Compile Include="UseCases\UpdateRestaurantTransaction.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Administrator.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Requests\AddResturantRequestModel.cs" />
     <Compile Include="Responses\AddRestaurantResponseModel.cs" />
@@ -68,6 +68,7 @@
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

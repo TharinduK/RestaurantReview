@@ -12,7 +12,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                var restaurantToUpdate = Repository.GetRestaurantByID(Request.RestaurantId);
+                var restaurantToUpdate = Repository.GetRestaurantById(Request.RestaurantId);
                 if (restaurantToUpdate == null) throw new RestaurantException($"Restaurant RestaurantId {Request.RestaurantId} not found in repository");
 
                 if (WasRestaurantDataUpdatedInRequest(restaurantToUpdate))

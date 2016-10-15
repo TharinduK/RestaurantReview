@@ -1,6 +1,6 @@
 ﻿namespace RestaurantRating.Domain
 {
-    public abstract class Transaction<T,U> where T:TransactionRequestModel where U:TransactionResponseModel, new()
+    public abstract class Transaction<T,TU> where T:TransactionRequestModel where TU:TransactionResponseModel, new()
     {
         protected readonly IApplicationLog ApplicationLog;
         protected readonly IRepository Repository;
@@ -12,7 +12,7 @@
             ApplicationLog = log;
         }
         public T Request { get; }
-        public U Response { get; set; } = new U();
+        public TU Response { get; set; } = new TU();
 
         public abstract void Execute();
     }
