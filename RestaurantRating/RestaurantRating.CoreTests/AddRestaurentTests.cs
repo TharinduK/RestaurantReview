@@ -40,7 +40,7 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.AreEqual(expectedResponse, actualResponse, "Invalid response");
 
-            Restaurant actualRest = Resturants[expectedResponse.RestaurantId - 1];
+            Restaurant actualRest = Restaurants[expectedResponse.RestaurantId - 1];
             Assert.AreEqual(expectedRestID, actualRest.Id, "Restaurant ID");
             Assert.AreEqual(expectedName, actualRest.Name, "Restaurant name");
             Assert.AreEqual(expectedCuisine, actualRest.Cuisine, "Restaurant Cuisine");
@@ -52,7 +52,7 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void AddResturant_WithExistingNameSame_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "Restaurant name one",
@@ -81,13 +81,13 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.AreEqual(expectedResponse, actualResponse, "Invalid response");
 
-            Assert.AreEqual(expectedResturantCount, Resturants.Count);
+            Assert.AreEqual(expectedResturantCount, Restaurants.Count);
         }
 
         [TestMethod]
         public void AddResturant_WithExistingNameUpperCase_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "RESTAURANT 1",
@@ -104,7 +104,7 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void AddResturant_WithExistingNameLowerCase_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "restaurant 1",
@@ -121,7 +121,7 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void AddResturant_WithExistingNameMixCase_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "ResTAurant 1",
@@ -138,7 +138,7 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void AddResturant_WithExistingNameExtratSpace_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "   Restaurant 1  ",
@@ -156,7 +156,7 @@ namespace RestaurantRating.DomainTests
         [Ignore]
         public void AddResturant_WithExistingNameExtratSpaceInMiddle_ResturantExistExceptionThrown()
         {
-            Resturants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "   Restaurant    1  ",

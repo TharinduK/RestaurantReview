@@ -10,8 +10,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void RemoveRestaurant_ValidID_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
 
             var restaruntToRemove = new RemoveRestaurantRequestModel { UserId = 103, RestaurantId = 2 };
             var removeRestTran = new RemoveRestaurantTransaction(Repo, Log, restaruntToRemove);
@@ -29,7 +29,7 @@ namespace RestaurantRating.DomainTests
 
         private bool RestaurantExists(RemoveRestaurantRequestModel restaruntToRemove)
         {
-            foreach (var rest in Resturants)
+            foreach (var rest in Restaurants)
             {
                 if (rest.Id == restaruntToRemove.RestaurantId) return true;
             }
@@ -39,8 +39,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void RemoveRestaurant_NonExistingID_Fail()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
 
             var restaruntToRemove = new RemoveRestaurantRequestModel { UserId = 103, RestaurantId = 25 };
             var removeRestTran = new RemoveRestaurantTransaction(Repo, Log, restaruntToRemove);

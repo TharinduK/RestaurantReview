@@ -10,8 +10,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDUpdateName_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "New Name";
             var expectedCuisine = "Cuisine2";
@@ -40,7 +40,7 @@ namespace RestaurantRating.DomainTests
 
         private void ValidateRestUpdate(int expectedID, string expectedName, string expectedCuisine, int expectedCreatedById, int expectedUpdatedById, UpdateRestaurantRequestModel restToUpdate)
         {
-            var actualRest = Resturants.Find(r => r.Id == restToUpdate.RestaurantId);
+            var actualRest = Restaurants.Find(r => r.Id == restToUpdate.RestaurantId);
             Assert.IsNotNull(actualRest, "Update restaurant not found");
             Assert.AreEqual(expectedID, actualRest.Id, "Restaurant ID");
             Assert.AreEqual(expectedName, actualRest.Name, "Restaurant Name");
@@ -52,8 +52,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDUpdateCuisine_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "Restaurant Two";
             var expectedCuisine = "New Cuisine";
@@ -83,8 +83,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDNoDataToUpdate_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "Restaurant Two";
             var expectedCuisine = "Cuisine2";
@@ -114,8 +114,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDWithBlankCuisineUpdateName_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "New Restaurant Name";
             var expectedCuisine = "Cuisine2";
@@ -144,8 +144,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDWithBlankUpdateCuisine_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "Restaurant Two";
             var expectedCuisine = "New Cuisine";
@@ -173,8 +173,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDWithBlankUpdatePaddedCuisine_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "Restaurant Two";
             var expectedCuisine = "New Cuisine";
@@ -202,8 +202,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_ValidIDWithBlankUpdatePaddedName_Succeed()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "New Restaurant Name";
             var expectedCuisine = "Cuisine2";
@@ -231,8 +231,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void UpdateRestaurant_NonExistingID_Fail()
         {
-            Resturants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Resturants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var restToUpdate = new UpdateRestaurantRequestModel
             {
                 UserId = 103,
