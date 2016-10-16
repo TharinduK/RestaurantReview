@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestaurantRating.Domain;
 
@@ -10,9 +9,9 @@ namespace RestaurantRating.DomainTests
     {
         public AddReviewTests()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, Cuisine = "Cuisine 1", Id = 1 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 2, Cuisine = "Cuisine 2", Id = 2 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 3, Cuisine = "Cuisine 3", Id = 3 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 2, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 2, UpdatedBy = 2, Cuisine = "Cuisine 2", Id = 2 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 3, UpdatedBy = 2, Cuisine = "Cuisine 3", Id = 3 });
 
             Users.Add(new User { Id = 1 });
             Users.Add(new User { Id = 2 });
@@ -54,11 +53,11 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.AreEqual(expectedResponse, actualResponse, "Invalid response");
 
-            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber, expectedRestId);
+            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber);
         }
 
         private void ValidateResponse(AddReviewResponseModel expectedResponse, int expectedRating, DateTime expectedPostedDateTime, string expectedComment,
-            int expectedCreatedById, int expectedUpdatedById, int expectedReviewNumber, int expectedRestId)
+            int expectedCreatedById, int expectedUpdatedById, int expectedReviewNumber)
         {
             var actualReview = Reviews[expectedResponse.ReviewNumber - 1];
             Assert.AreEqual(expectedRating, actualReview.Rating, "Rating");
@@ -68,7 +67,7 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedUpdatedById, actualReview.UpdatedBy, "Updated by");
             Assert.AreEqual(expectedReviewNumber, actualReview.ReviewNumber, "Review Number");
 
-            Assert.AreEqual(expectedRestId, actualReview.ReviewRestaurant.Id, "Restaurant Id");
+            //Assert.AreEqual(expectedRestId, actualReview.ReviewRestaurant.Id, "Restaurant Id");
             Assert.AreEqual(expectedCreatedById, actualReview.ReviewUser.Id, "User Id");
         }
 
@@ -83,7 +82,7 @@ namespace RestaurantRating.DomainTests
                 PostedDateTime = DateTime.Now.AddDays(-1),
                 Rating = 3,
                 ReviewNumber = 1,
-                ReviewRestaurant = Restaurants[0],
+                //ReviewRestaurant = Restaurants[0],
                 ReviewUser = Users[0],
                 UpdatedBy = 1
             });
@@ -122,7 +121,7 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.AreEqual(expectedResponse, actualResponse, "Invalid response");
 
-            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber, expectedRestId);
+            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber);
         }
         [TestMethod]
         public void AddReview_vlaidReviewRatingFive_succeed()
@@ -162,7 +161,7 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.AreEqual(expectedResponse, actualResponse, "Invalid response");
 
-            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber, expectedRestId);
+            ValidateResponse(expectedResponse, expectedRating, expectedPostedDateTime, expectedComment, expectedCreatedById, expectedUpdatedById, expectedReviewNumber);
         }
 
         private void AddTwoReviews()
@@ -174,7 +173,7 @@ namespace RestaurantRating.DomainTests
                 PostedDateTime = DateTime.Now.AddDays(-1),
                 Rating = 3,
                 ReviewNumber = 1,
-                ReviewRestaurant = Restaurants[0],
+                //ReviewRestaurant = Restaurants[0],
                 ReviewUser = Users[0],
                 UpdatedBy = 1
             });
@@ -185,7 +184,7 @@ namespace RestaurantRating.DomainTests
                 PostedDateTime = DateTime.Now.AddDays(-2),
                 Rating = 1,
                 ReviewNumber = 2,
-                ReviewRestaurant = Restaurants[1],
+                //ReviewRestaurant = Restaurants[1],
                 ReviewUser = Users[1],
                 UpdatedBy = 2
             });

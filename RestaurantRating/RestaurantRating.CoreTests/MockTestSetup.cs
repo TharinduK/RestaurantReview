@@ -38,6 +38,9 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.GetRestaurantById(It.IsAny<int>()))
                 .Returns<int>(id => FakeGetRestaurantById(id));
 
+            repo.Setup(m => m.GetRestaurantWithReviewsById(It.IsAny<ViewRestaurantRequestModel>()))
+                .Returns<ViewRestaurantRequestModel>(r => FakeGetRestaurantWithReviewesById(r));
+
             repo.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
                 .Returns<AddReviewRequestModel>(r => FakeAddReview(r));
 
@@ -49,11 +52,15 @@ namespace RestaurantRating.DomainTests
             Repo = repo.Object;
         }
 
-        
+        private Restaurant FakeGetRestaurantWithReviewesById(ViewRestaurantRequestModel viewRestaurantRequestModel)
+        {
+            return FakeGetRestaurantById(viewRestaurantRequestModel.RestaurantId);
+        }
+
 
         private int FakeAddReview(AddReviewRequestModel addReviewRequestModel)
         {
-            var reviewedRestaurant = Repo.GetRestaurantById(addReviewRequestModel.RestaruntId);
+            //var reviewedRestaurant = Repo.GetRestaurantById(addReviewRequestModel.RestaruntId);
             var reviewedUser = Repo.GetUserById(addReviewRequestModel.UserId);
             var reviewToAdd = new Review
             {
@@ -62,7 +69,7 @@ namespace RestaurantRating.DomainTests
                 PostedDateTime = addReviewRequestModel.DateTimePosted,
                 Rating = addReviewRequestModel.Rating,
                 UpdatedBy = addReviewRequestModel.UserId,
-                ReviewRestaurant = reviewedRestaurant,
+                //ReviewRestaurant = reviewedRestaurant,
                 ReviewUser = reviewedUser,
                 ReviewNumber = Reviews.Count+1
                };
@@ -73,7 +80,8 @@ namespace RestaurantRating.DomainTests
 
         private Restaurant FakeGetRestaurantById(int id)
         {
-            return Restaurants.Find(r => r.Id == id);
+            var foundRestaurant = Restaurants.Find(r => r.Id == id);
+            return foundRestaurant;
         }
 
         private void FakeRemoveRestaurant(RemoveRestaurantRequestModel r)

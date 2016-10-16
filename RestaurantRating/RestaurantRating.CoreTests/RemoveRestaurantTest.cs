@@ -9,8 +9,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void RemoveRestaurant_ValidID_Succeed()
         {
-            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101,Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 101, Cuisine = "Cuisine2", Name = "Restaurant Two" });
 
             var restaruntToRemove = new RemoveRestaurantRequestModel { UserId = 103, RestaurantId = 2 };
             var removeRestTran = new RemoveRestaurantTransaction(Repo, Log, restaruntToRemove);
@@ -38,8 +38,8 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void RemoveRestaurant_NonExistingID_Fail()
         {
-            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
-            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101,Cuisine = "Cuisine1", Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 101, Cuisine = "Cuisine2", Name = "Restaurant Two" });
 
             var restaruntToRemove = new RemoveRestaurantRequestModel { UserId = 103, RestaurantId = 25 };
             var removeRestTran = new RemoveRestaurantTransaction(Repo, Log, restaruntToRemove);

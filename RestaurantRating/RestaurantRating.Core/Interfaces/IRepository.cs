@@ -11,5 +11,6 @@
         int AddReviewGetNewId(AddReviewRequestModel reviewToAdd);
         User GetUserById(int userId);
         bool DoseUserIdAlreadyExist(int requestUserId);
+        Restaurant GetRestaurantWithReviewsById(ViewRestaurantRequestModel request);
     }
 }

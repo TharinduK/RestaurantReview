@@ -64,6 +64,9 @@
     <Compile Include="Requests\AddResturantRequestModel.cs" />
     <Compile Include="Responses\AddRestaurantResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\ViewRestaurantResponseModel.cs" />
+    <Compile Include="Requests\ViewRestaurantRequestModel.cs" />
+    <Compile Include="UseCases\ViewRestaurantTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />
