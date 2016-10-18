@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantRating.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantRating.DomainTests", "RestaurantRating.CoreTests\RestaurantRating.DomainTests.csproj", "{ABE2205E-6759-40BE-A0A1-8B63B842BEC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantRating.API", "RestaurantRating.API\RestaurantRating.API.csproj", "{4E077F56-BDF8-4AF0-8322-2DAC58DB5AB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ABE2205E-6759-40BE-A0A1-8B63B842BEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABE2205E-6759-40BE-A0A1-8B63B842BEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABE2205E-6759-40BE-A0A1-8B63B842BEC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E077F56-BDF8-4AF0-8322-2DAC58DB5AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E077F56-BDF8-4AF0-8322-2DAC58DB5AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E077F56-BDF8-4AF0-8322-2DAC58DB5AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E077F56-BDF8-4AF0-8322-2DAC58DB5AB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
