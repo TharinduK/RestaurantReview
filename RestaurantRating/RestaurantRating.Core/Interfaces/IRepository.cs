@@ -3,9 +3,9 @@
     public interface IRepository
     {
         object GetAdminUser();
-        int AddRestaurentGetNewId(AddRestaurantRequestModel request);
+        int AddRestaurentGetNewId(AddRestaurantRequestModel requestModel);
         bool DoseRestaurentAlreadyExist(AddRestaurantRequestModel request);
-        void RemoveRestaurentId(RemoveRestaurantRequestModel request);
+        void RemoveRestaurentId(RemoveRestaurantRequestModel reqeustModel);
         bool DoseRestaurentIdAlreadyExist(int restaurantId);
         Restaurant GetRestaurantById(int restaurantId);
         int AddReviewGetNewId(AddReviewRequestModel reviewToAdd);

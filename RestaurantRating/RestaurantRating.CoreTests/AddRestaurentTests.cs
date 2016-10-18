@@ -30,7 +30,7 @@ namespace RestaurantRating.DomainTests
                 RestaurantId = expectedRestID
             };
             
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             //act
             sut.Execute();
@@ -60,14 +60,14 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
             
             sut.Execute();
 
             ExistingResturantAssert(sut);
         }
 
-        private void ExistingResturantAssert(AddRestaurentTransaction sut)
+        private void ExistingResturantAssert(AddRestaurantTransaction sut)
         {
             var expectedResturantCount = 1;
             var expectedSucessStatus = false;
@@ -95,7 +95,7 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             sut.Execute();
 
@@ -112,7 +112,7 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             sut.Execute();
 
@@ -129,7 +129,7 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             sut.Execute();
 
@@ -146,7 +146,7 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             sut.Execute();
 
@@ -164,7 +164,7 @@ namespace RestaurantRating.DomainTests
                 UserId = 1
             };
 
-            var sut = new AddRestaurentTransaction(Repo, Log, reqData);
+            var sut = new AddRestaurantTransaction(Repo, Log, reqData);
 
             sut.Execute();
 

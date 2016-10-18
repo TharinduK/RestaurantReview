@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07E53966-BB7A-466F-810E-D247F5197BCE}</ProjectGuid>
+    <ProjectGuid>{17F7D407-2C27-43C8-83A3-30A5460A523E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RestaurantRating.Domain</RootNamespace>
-    <AssemblyName>RestaurantRating.Domain</AssemblyName>
+    <RootNamespace>RestaurantRating.Repository.InMemory</RootNamespace>
+    <AssemblyName>RestaurantRating.Repository.InMemory</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,41 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UseCases\AddAdminTransaction.cs" />
-    <Compile Include="Responses\AddAdminResponseModel.cs" />
-    <Compile Include="Requests\AddAdminRequestModel.cs" />
-    <Compile Include="UseCases\AddRestaurantTransaction.cs" />
-    <Compile Include="Responses\AddReviewResponseModel.cs" />
-    <Compile Include="Requests\AddReviewRequestModel.cs" />
-    <Compile Include="UseCases\AddReviewTransaction.cs" />
-    <Compile Include="Entities\AuditRecord.cs" />
-    <Compile Include="Exceptions\RestaurantException.cs" />
-    <Compile Include="Interfaces\IApplicationLog.cs" />
-    <Compile Include="Requests\RemoveRestaurantRequestModel.cs" />
-    <Compile Include="Responses\RemoveRestaurantResponseModel.cs" />
-    <Compile Include="UseCases\RemoveRestaurantTransaction.cs" />
-    <Compile Include="Entities\Review.cs" />
-    <Compile Include="UseCases\Transaction.cs" />
-    <Compile Include="Requests\TransactionRequestModel.cs" />
-    <Compile Include="Responses\TransactionResponseModel.cs" />
-    <Compile Include="Entities\Restaurent.cs" />
-    <Compile Include="Requests\UpdateRestaurantRequestModel.cs" />
-    <Compile Include="Responses\UpdateRestaurantResponseModel.cs" />
-    <Compile Include="UseCases\UpdateRestaurantTransaction.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\Administrator.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Requests\AddResturantRequestModel.cs" />
-    <Compile Include="Responses\AddRestaurantResponseModel.cs" />
+    <Compile Include="InMemoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responses\ViewRestaurantResponseModel.cs" />
-    <Compile Include="Requests\ViewRestaurantRequestModel.cs" />
-    <Compile Include="UseCases\ViewRestaurantTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="RestaurantRatingDomain.cd" />
+    <ProjectReference Include="..\RestaurantRating.Core\RestaurantRating.Domain.csproj">
+      <Project>{07e53966-bb7a-466f-810e-d247f5197bce}</Project>
+      <Name>RestaurantRating.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,14 +11,18 @@ namespace RestaurantRating.API
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            //config.Routes.MapHttpRoute(name: "DefaultRouting", routeTemplate: "api/{controller}/{id}", defaults: new { id = RouteParameter.Optional });
             config.Routes.MapHttpRoute(name: "DefaultRouting",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
 
+            //return json when browser request rest
+            //config.Formatters.JsonFormatter.SupportedMediaTypes
+            //    .Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear(); //dont support xml
+
+            //format Json
             config.Formatters.JsonFormatter.SerializerSettings.Formatting
                 = Newtonsoft.Json.Formatting.Indented;
-
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver
                 = new CamelCasePropertyNamesContractResolver();
 

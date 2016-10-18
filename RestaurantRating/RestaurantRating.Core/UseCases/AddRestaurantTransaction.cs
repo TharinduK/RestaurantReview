@@ -2,9 +2,9 @@
 
 namespace RestaurantRating.Domain
 {
-    public class AddRestaurentTransaction : Transaction <AddRestaurantRequestModel, AddRestaurantResponseModel>
+    public class AddRestaurantTransaction : Transaction <AddRestaurantRequestModel, AddRestaurantResponseModel>
     {
-        public AddRestaurentTransaction(IRepository repo, IApplicationLog log, AddRestaurantRequestModel req)
+        public AddRestaurantTransaction(IRepository repo, IApplicationLog log, AddRestaurantRequestModel req)
             :base(repo, log, req)
         {
         }
