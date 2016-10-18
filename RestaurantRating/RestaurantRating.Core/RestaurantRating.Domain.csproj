@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\AddAdminTransaction.cs" />
+    <Compile Include="Responses\AddAdminResponseModel.cs" />
+    <Compile Include="Requests\AddAdminRequestModel.cs" />
     <Compile Include="UseCases\AddRestaurentTransaction.cs" />
     <Compile Include="Responses\AddReviewResponseModel.cs" />
     <Compile Include="Requests\AddReviewRequestModel.cs" />

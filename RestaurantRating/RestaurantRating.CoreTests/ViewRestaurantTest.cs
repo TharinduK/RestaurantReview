@@ -90,19 +90,21 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void ViewRestaurant_ValidIDNoReviews_Succeed()
         {
+            //TODO: review response to check if the values can be updated (they should not be able to)
+            var viewingUserId = 1;
+            var viewingRestID = 1;
+            var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
+            
             var expectedName = "Restaurant name one";
-            var updatingUserId = 1;
             var expectedCuisine = "Cuisine 1";
             var expectedRestId = 1;
             var expectedReviews = Enumerable.Empty<Review>();
             var expectedAverageRating = 0;
             var expectedReviewCount = 0;
-
-            //TODO: review response to check if the values can be updated (they should not be able to)
             var expectedSucessStatus = true;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            var expectedRequestModel = SetupExpectedRequest(updatingUserId, expectedRestId);
+            
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
@@ -162,8 +164,11 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void ViewRestaurant_ValidIDOneReviews_Succeed()
         {
+            var viewingUserId = 1;
+            var viewingRestID = 2;
+            var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
+
             var expectedName = "Restaurant name Two";
-            var updatingUserId = 1;
             var expectedCuisine = "Cuisine 1";
             var expectedRestId = 2;
             var expectedAverageRating = 3;
@@ -184,7 +189,6 @@ namespace RestaurantRating.DomainTests
             var expectedSucessStatus = true;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            var expectedRequestModel = SetupExpectedRequest(updatingUserId, expectedRestId);
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
@@ -201,8 +205,11 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void ViewRestaurant_ValidIDTwoReviews_Succeed()
         {
+            var viewingUserId = 1;
+            var viewingRestID = 3;
+            var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
+
             var expectedName = "Restaurant name Three";
-            var updatingUserId = 1;
             var expectedCuisine = "Cuisine 2";
             var expectedRestId = 3;
             var expectedAverageRating = 4;
@@ -230,7 +237,7 @@ namespace RestaurantRating.DomainTests
             var expectedSucessStatus = true;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            var expectedRequestModel = SetupExpectedRequest(updatingUserId, expectedRestId);
+            
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
@@ -247,8 +254,11 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void ViewRestaurant_ValidIdTenReviews_Succeed()
         {
+            var viewingUserId = 2;
+            var viewingRestID = 4;
+            var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
+
             var expectedName = "Restaurant name Four";
-            var updatingUserId = 2;
             var expectedCuisine = "Cuisine 2";
             var expectedRestId = 4;
             var expectedAverageRating = 3;
@@ -275,8 +285,7 @@ namespace RestaurantRating.DomainTests
             var expectedSucessStatus = true;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            var expectedRequestModel = SetupExpectedRequest(updatingUserId, expectedRestId);
-
+            
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
             viewRestTran.Execute();
