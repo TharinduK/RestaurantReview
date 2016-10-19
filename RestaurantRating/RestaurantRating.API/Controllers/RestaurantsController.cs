@@ -30,17 +30,16 @@ namespace RestaurantRating.API
             _repository = new InMemoryRepository();
             _logger = new InMemoryApplicationLog();
             _factory = new TransactionFactory(_repository, _logger, 1);
-
-
         }
 
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public IEnumerable<Restaurant> Get()
         {
-            return new string[] {"value1", "value2"};
+            return new Restaurant[] { new Restaurant() };
         }
 
-        // GET api/<controller>/5
+        // Read: api/Restaurants/5
+        [HttpGet]
         public IHttpActionResult Get(int id)
         {
             try
@@ -49,8 +48,9 @@ namespace RestaurantRating.API
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return Ok(tran.Response); //200
-                return NotFound();
+                return BadRequest(); //400
             }
+            catch (RestaurantNotFoundException) { return NotFound(); } //404
             catch (Exception ex)
             {
                 _logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
@@ -58,13 +58,13 @@ namespace RestaurantRating.API
             }
         }
 
+        // create: api/Restaurants
         [HttpPost]
-        // POST api/<controller>
         public IHttpActionResult Post([FromBody] AddRestaurantRequestModel value)
         {
             try
             {
-                if (value == null) return BadRequest();
+                if (value == null) return BadRequest();//400
 
                 var tran = _factory.CreateAddRestraurantTransaction(value);
                 tran.Execute();
@@ -73,7 +73,10 @@ namespace RestaurantRating.API
                 {
                     return Created(Request.RequestUri + "/" + tran.Response.RestaurantId, tran.Response); //201
                 }
-            return BadRequest();
+                else
+                {
+                    return BadRequest();//400 -- for PK violations, we would send a bad request response 
+                }
             }
             catch (Exception ex)
             {
@@ -85,25 +88,26 @@ namespace RestaurantRating.API
         //TODO: put must update all the fields 
 
         // PUT api/<controller>/5
+        [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]UpdateRestaurantRequestModel value)
         {
             try
             {
-                if (value == null) return BadRequest();
-
+                if (value == null) return BadRequest();//400
+                //update PUT to include full element/resaurce (PUT only for full entity updates)
                 var tran = _factory.CreateUpdateRestraurantTransaction(value);
                 tran.Execute();
 
-                //Todo: must diferenciate not found, bad reqeust
                 if (tran.Response.WasSucessfull)
                 {
                     return Ok(tran.Response); //200
                 }
-                //not found
-                return NotFound();
-                //bad request
-                //return BadRequest();
+                else
+                {
+                    return BadRequest();
+                }
             }
+            catch (RestaurantNotFoundException) { return NotFound(); } //404
             catch (Exception ex)
             {
                 _logger.ErrorLog($"Web API failed add new restaurant {value}", ex);
@@ -111,15 +115,58 @@ namespace RestaurantRating.API
             }
         }
 
-        //todo: use patch for partial updates
-        //jason patch RFC6902 standard https://tools.ietf.org/html/rfc6902
-        //use Marvin.JasonPatch == to handel patch operation 
-        //patch must use Content-type:application/jeson-patch+json
+        [HttpPatch]
+        public IHttpActionResult Patch(int id, [FromBody]UpdateRestaurantRequestModel value)
+        {
+            try
+            {
+                if (value == null) return BadRequest();//400
+
+                var tran = _factory.CreateUpdateRestraurantTransaction(value);
+                tran.Execute();
+
+                if (tran.Response.WasSucessfull)
+                {
+                    return Ok(tran.Response); //200
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (RestaurantNotFoundException) { return NotFound(); } //404
+            catch (Exception ex)
+            {
+                _logger.ErrorLog($"Web API failed add new restaurant {value}", ex);
+                return InternalServerError(); //500
+            }
+        }
 
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
+            try
+            {
+                var tran = _factory.CreateDeleteRestraurantTransaction(id);
+                tran.Execute();
+
+                if (tran.Response.WasSucessfull)
+                {
+                    return StatusCode(HttpStatusCode.NoContent);//204
+                }
+                else
+                {
+                    return BadRequest();//400
+                }
+            }
+            catch (RestaurantNotFoundException) { return NotFound(); } //404
+            catch (Exception ex)
+            {
+                _logger.ErrorLog($"Web API failed add new restaurant {id}", ex);
+                return InternalServerError(); //500
+            }
         }
     }
 }

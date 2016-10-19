@@ -4,7 +4,7 @@
     {
         object GetAdminUser();
         int AddRestaurentGetNewId(AddRestaurantRequestModel requestModel);
-        bool DoseRestaurentAlreadyExist(AddRestaurantRequestModel request);
+        bool DoseRestaurentNameAlreadyExist(string restaurantNameToCheck);
         void RemoveRestaurentId(RemoveRestaurantRequestModel reqeustModel);
         bool DoseRestaurentIdAlreadyExist(int restaurantId);
         Restaurant GetRestaurantById(int restaurantId);
@@ -12,5 +12,6 @@
         User GetUserById(int userId);
         bool DoseUserIdAlreadyExist(int requestUserId);
         Restaurant GetRestaurantWithReviewsById(ViewRestaurantRequestModel request);
+        void UpdateRestaurant(UpdateRestaurantRequestModel request);
     }
 }

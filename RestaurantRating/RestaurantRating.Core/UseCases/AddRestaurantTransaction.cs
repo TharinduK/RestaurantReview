@@ -13,7 +13,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                if (Repository.DoseRestaurentAlreadyExist(Request)) throw new RestaurantException("Restaurant with same attributes already exists");
+                if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new BaseException("Restaurant with same attributes already exists");
 
                 Response.RestaurantId = Repository.AddRestaurentGetNewId(Request);
             //var user = _repository.GetAdminUser();

@@ -309,6 +309,7 @@ namespace RestaurantRating.DomainTests
         {
         }
         [TestMethod]
+        [ExpectedException(typeof(RestaurantNotFoundException))]
         public void ViewRestaurant_InvalidID_Fail()
         {
             var viewingUserId = 1;

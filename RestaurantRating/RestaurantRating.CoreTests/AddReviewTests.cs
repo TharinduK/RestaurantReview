@@ -35,7 +35,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -103,7 +103,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -143,7 +143,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -191,6 +191,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(UserNotFoundException))]
         public void AddReview_InvlaidUserId_Fail()
         {
             AddTwoReviews();
@@ -209,7 +210,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -232,6 +233,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(RestaurantNotFoundException))]
         public void AddReview_InvlaidRestId_Fail()
         {
             AddTwoReviews();
@@ -250,7 +252,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -290,7 +292,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()
@@ -330,7 +332,7 @@ namespace RestaurantRating.DomainTests
                 DateTimePosted = expectedPostedDateTime,
                 Comment = expectedComment,
                 UserId = expectedCreatedById,
-                RestaruntId = expectedRestId
+                RestaurantId = expectedRestId
             };
 
             var expectedResponse = new AddReviewResponseModel()

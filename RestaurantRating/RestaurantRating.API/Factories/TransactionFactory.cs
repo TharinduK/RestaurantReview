@@ -28,14 +28,24 @@ namespace RestaurantRating.API.Factories
             return new ViewRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        public AddRestaurantTransaction CreateAddRestraurantTransaction(AddRestaurantRequestModel value)
+        internal AddRestaurantTransaction CreateAddRestraurantTransaction(AddRestaurantRequestModel value)
         {
             return new AddRestaurantTransaction(_repo, _log, value);
         }
 
-        public UpdateRestaurantTransaction CreateUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
+        internal UpdateRestaurantTransaction CreateUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
         {
             return new UpdateRestaurantTransaction(_repo, _log, value);
+        }
+
+        internal RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)
+        {
+            var reqModel = new RemoveRestaurantRequestModel
+            {
+                RestaurantId = restaurantIdToRemove,
+                UserId = _callingUserId
+            };
+            return new RemoveRestaurantTransaction(_repo, _log, reqModel);
         }
     }
 }

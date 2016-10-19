@@ -7,10 +7,10 @@ namespace RestaurantRating.Domain
         public string Comment { get; set; }
         public DateTime DateTimePosted { get; set; }
         public int Rating { get; set; }
-        public int RestaruntId { get; set; }
+        public int RestaurantId { get; set; }
 
         public override string ToString()
-            => $"Rating:{Rating} Restaurant Id:{RestaruntId} Posted:{DateTimePosted} Comment:{Comment}";
+            => $"Rating:{Rating} Restaurant Id:{RestaurantId} Posted:{DateTimePosted} Comment:{Comment}";
 
     }
 }

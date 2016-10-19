@@ -26,8 +26,8 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Returns<AddRestaurantRequestModel>(r => FakeAddRestaurant(r));
                         
-            repo.Setup(m => m.DoseRestaurentAlreadyExist(It.IsAny<AddRestaurantRequestModel>()))
-                .Returns<AddRestaurantRequestModel>(r => FakeResturantExisits(r));
+            repo.Setup(m => m.DoseRestaurentNameAlreadyExist(It.IsAny<string>()))
+                .Returns<string>(r => FakeResturantExisits(r));
 
             repo.Setup(m => m.DoseRestaurentIdAlreadyExist(It.IsAny<int>()))
                 .Returns<int>(id => FakeResturantIdExisits(id));
@@ -92,9 +92,9 @@ namespace RestaurantRating.DomainTests
             }
         }
 
-        private bool FakeResturantExisits(AddRestaurantRequestModel restToAdd)
+        private bool FakeResturantExisits(string restNameToCheck)
         {
-            return Restaurants.Any(r => r.Name.Equals(restToAdd.Name.Trim(), StringComparison.CurrentCultureIgnoreCase));
+            return Restaurants.Any(r => r.Name.Equals(restNameToCheck.Trim(), StringComparison.CurrentCultureIgnoreCase));
         }
 
         private bool FakeResturantIdExisits(int restId)

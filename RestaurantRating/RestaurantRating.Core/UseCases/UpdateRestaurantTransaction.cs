@@ -13,15 +13,31 @@ namespace RestaurantRating.Domain
             try
             {
                 var restaurantToUpdate = Repository.GetRestaurantById(Request.RestaurantId);
-                if (restaurantToUpdate == null) throw new RestaurantException($"Restaurant RestaurantId {Request.RestaurantId} not found in repository");
+                if (restaurantToUpdate == null) throw new RestaurantNotFoundException();
+                                
 
-                if (WasRestaurantDataUpdatedInRequest(restaurantToUpdate))
+                if (IsRestaurantDataInRequestDifferentFromRepository(restaurantToUpdate))
                 {
-                    if(!string.IsNullOrWhiteSpace(Request.Name)) restaurantToUpdate.Name = Request.Name;
-                    if (!string.IsNullOrWhiteSpace(Request.Cuisine)) restaurantToUpdate.Cuisine = Request.Cuisine;
-                    restaurantToUpdate.UpdatedBy = Request.UserId;
+                    if (string.IsNullOrWhiteSpace(Request.Name)) Request.Name = restaurantToUpdate.Name;
+                    else if(!restaurantToUpdate.Name.Equals(Request.Name))
+                    {
+                        if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new RestaurantAlreadyExistsException();
+                    }
+                    if (string.IsNullOrWhiteSpace(Request.Cuisine)) Request.Cuisine = restaurantToUpdate.Cuisine;
+
+                    Repository.UpdateRestaurant(Request);
                 }
                 Response.WasSucessfull = true;
+            }
+            catch (RestaurantNotFoundException)
+            {
+                ApplicationLog.InformationLog($"Restaurant with ID {Request.RestaurantId} not found");
+                throw;
+            }
+            catch (RestaurantAlreadyExistsException)
+            {
+                ApplicationLog.InformationLog($"Restaurant name {Request.Name} exists");
+                throw;
             }
             catch (Exception ex)
             {
@@ -30,7 +46,7 @@ namespace RestaurantRating.Domain
             }
         }
 
-        private bool WasRestaurantDataUpdatedInRequest(Restaurant restaurantToUpdate)
+        private bool IsRestaurantDataInRequestDifferentFromRepository(Restaurant restaurantToUpdate)
         {
             //comparing persistent entry to request entry 
             //because request entries can be blank if don't need to update

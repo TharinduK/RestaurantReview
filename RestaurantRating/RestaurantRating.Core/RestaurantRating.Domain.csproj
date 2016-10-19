@@ -69,12 +69,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\ViewRestaurantResponseModel.cs" />
     <Compile Include="Requests\ViewRestaurantRequestModel.cs" />
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="UseCases\ViewRestaurantTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RestaurantRating.DTO\RestaurantRating.DTO.csproj">
+      <Project>{81d3a3d7-ec00-4050-b9ab-f84bdd078b0f}</Project>
+      <Name>RestaurantRating.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

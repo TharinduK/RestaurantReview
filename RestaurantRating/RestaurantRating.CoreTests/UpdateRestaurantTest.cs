@@ -228,6 +228,7 @@ namespace RestaurantRating.DomainTests
             ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
         [TestMethod]
+        [ExpectedException(typeof(RestaurantNotFoundException))]
         public void UpdateRestaurant_NonExistingID_Fail()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });

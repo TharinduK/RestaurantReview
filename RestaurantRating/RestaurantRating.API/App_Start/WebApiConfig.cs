@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Serialization;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace RestaurantRating.API
@@ -21,6 +22,8 @@ namespace RestaurantRating.API
             config.Formatters.XmlFormatter.SupportedMediaTypes.Clear(); //dont support xml
 
             //format Json
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(
+                new MediaTypeHeaderValue("application/json-patch+json"));       // allow json-patch (partial update) operations 
             config.Formatters.JsonFormatter.SerializerSettings.Formatting
                 = Newtonsoft.Json.Formatting.Indented;
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver

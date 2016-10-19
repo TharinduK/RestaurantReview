@@ -14,6 +14,11 @@ namespace RestaurantRating.Repository.InMemory
         {
             
         }
+
+        public void InformationLog(string v)
+        {
+            
+        }
     }
     public class InMemoryRepository : IRepository
     {
@@ -120,9 +125,9 @@ namespace RestaurantRating.Repository.InMemory
             return Restaurants.Count;
         }
 
-        public bool DoseRestaurentAlreadyExist(AddRestaurantRequestModel requestModel)
+        public bool DoseRestaurentNameAlreadyExist(string restNameToCheck)
         {
-            return Restaurants.Any(r => r.Name.Equals(requestModel.Name.Trim(), StringComparison.CurrentCultureIgnoreCase));
+            return Restaurants.Any(r => r.Name.Equals(restNameToCheck.Trim(), StringComparison.CurrentCultureIgnoreCase));
         }
 
         public void RemoveRestaurentId(RemoveRestaurantRequestModel reqeustModel)

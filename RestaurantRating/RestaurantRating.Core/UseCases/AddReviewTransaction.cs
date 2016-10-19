@@ -14,19 +14,22 @@ namespace RestaurantRating.DomainTests
         {
             try
             {
-
-                if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaruntId))
-                {
-                    throw new RestaurantException("Restaurant not found");
-                }
-                if(!Repository.DoseUserIdAlreadyExist(Request.UserId))
-                {
-                    throw new RestaurantException("User not found");
-                }
+                if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaurantId)) throw new RestaurantNotFoundException($"Restaurant ID :{Request.RestaurantId} not found");
+                if (!Repository.DoseUserIdAlreadyExist(Request.UserId)) throw new UserNotFoundException($"User Id :{Request.UserId} not found");
 
                 var newReviewNumber = Repository.AddReviewGetNewId(Request);
                 Response.ReviewNumber = newReviewNumber;
                 Response.WasSucessfull = true;
+            }
+            catch(RestaurantNotFoundException )
+            {
+                ApplicationLog.InformationLog($"Restaurant ID :{Request.RestaurantId} not found");
+                throw;
+            }
+            catch (UserNotFoundException)
+            {
+                ApplicationLog.InformationLog($"User Id :{Request.UserId} not found");
+                throw;
             }
             catch (Exception ex)
             {

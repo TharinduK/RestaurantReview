@@ -11,28 +11,31 @@ namespace RestaurantRating.Domain
 
         public override void Execute()
         {
+            Restaurant restaurantFetched = null;  //TODO: conver to a DTO
             try
             {
-                var restaurantFetched = Repository.GetRestaurantWithReviewsById(Request);
-                if (restaurantFetched == null)
-                {
-                    Response.WasSucessfull = false;
-                    restaurantFetched = Restaurant.Null;
-                }
-                else
-                {
-                    Response.WasSucessfull = true;
-                }
-                Response.Cuisine = restaurantFetched.Cuisine;
-                    Response.Name = restaurantFetched.Name;
-                    Response.RestaurantId = restaurantFetched.Id;
-                    Response.Reviews = restaurantFetched.Reviews;
+                restaurantFetched = Repository.GetRestaurantWithReviewsById(Request);
             }
             catch (Exception ex)
             {
                 ApplicationLog.ErrorLog($"Error retrieving restaurant Id {Request.RestaurantId}", ex);
                 Response.WasSucessfull = false;
             }
+
+            if (restaurantFetched == null)
+            {
+                restaurantFetched = Restaurant.Null;
+                Response.WasSucessfull = false;
+                throw new RestaurantNotFoundException($"Restaurant with ID {Request.RestaurantId} not found");
+            }                
+            else
+            {
+                Response.WasSucessfull = true;
+            }
+            Response.Cuisine = restaurantFetched.Cuisine;
+            Response.Name = restaurantFetched.Name;
+            Response.RestaurantId = restaurantFetched.Id;
+            Response.Reviews = restaurantFetched.Reviews;
         }
     }
 }
