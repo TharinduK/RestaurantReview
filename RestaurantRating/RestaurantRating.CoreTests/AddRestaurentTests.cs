@@ -50,6 +50,7 @@ namespace RestaurantRating.DomainTests
 
         //TODO: move to presistance validation 
         [TestMethod]
+        [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameSame_ResturantExistExceptionThrown()
         {
             Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 100, UpdatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
@@ -85,6 +86,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameUpperCase_ResturantExistExceptionThrown()
         {
             Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
@@ -102,6 +104,7 @@ namespace RestaurantRating.DomainTests
             ExistingResturantAssert(sut);
         }
         [TestMethod]
+        [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameLowerCase_ResturantExistExceptionThrown()
         {
             Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
@@ -119,6 +122,7 @@ namespace RestaurantRating.DomainTests
             ExistingResturantAssert(sut);
         }
         [TestMethod]
+        [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameMixCase_ResturantExistExceptionThrown()
         {
             Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
@@ -136,6 +140,7 @@ namespace RestaurantRating.DomainTests
             ExistingResturantAssert(sut);
         }
         [TestMethod]
+        [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameExtratSpace_ResturantExistExceptionThrown()
         {
             Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });

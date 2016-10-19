@@ -1,4 +1,6 @@
-﻿namespace RestaurantRating.Domain
+﻿using System.Collections.Generic;
+
+namespace RestaurantRating.Domain
 {
     public interface IRepository
     {
@@ -11,7 +13,8 @@
         int AddReviewGetNewId(AddReviewRequestModel reviewToAdd);
         User GetUserById(int userId);
         bool DoseUserIdAlreadyExist(int requestUserId);
-        Restaurant GetRestaurantWithReviewsById(ViewRestaurantRequestModel request);
+        Restaurant GetRestaurantWithReviewsById(int restaurantId);
         void UpdateRestaurant(UpdateRestaurantRequestModel request);
+        IEnumerable<Restaurant> GetAllRestaurantsWithReview();
     }
 }

@@ -38,8 +38,8 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.GetRestaurantById(It.IsAny<int>()))
                 .Returns<int>(id => FakeGetRestaurantById(id));
 
-            repo.Setup(m => m.GetRestaurantWithReviewsById(It.IsAny<ViewRestaurantRequestModel>()))
-                .Returns<ViewRestaurantRequestModel>(r => FakeGetRestaurantWithReviewesById(r));
+            repo.Setup(m => m.GetRestaurantWithReviewsById(It.IsAny<int>()))
+                .Returns<int>(r => FakeGetRestaurantWithReviewesById(r));
 
             repo.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
                 .Returns<AddReviewRequestModel>(r => FakeAddReview(r));
@@ -49,12 +49,36 @@ namespace RestaurantRating.DomainTests
 
             repo.Setup(m => m.DoseUserIdAlreadyExist(It.IsAny<int>()))
                 .Returns<int>(id => id <= Users.Count && id > 0);
+
+            repo.Setup(m => m.UpdateRestaurant(It.IsAny<UpdateRestaurantRequestModel>()))
+                .Callback<UpdateRestaurantRequestModel>(r => FakeUpdateRestaurant(r));
+
+            repo.Setup(m => m.GetAllRestaurantsWithReview())
+                .Returns(FakeGetAllRestaurants());
+                
             Repo = repo.Object;
         }
 
-        private Restaurant FakeGetRestaurantWithReviewesById(ViewRestaurantRequestModel viewRestaurantRequestModel)
+        private IEnumerable<Restaurant> FakeGetAllRestaurants()
         {
-            return FakeGetRestaurantById(viewRestaurantRequestModel.RestaurantId);
+            foreach (var rest in Restaurants)
+                yield return rest;
+        }
+
+        private void FakeUpdateRestaurant(UpdateRestaurantRequestModel updateRestaurantRequestModel)
+        {
+            var findRestToUpdate = Restaurants.Find(r => r.Id == updateRestaurantRequestModel.RestaurantId);
+            if (findRestToUpdate != null)
+            {
+                findRestToUpdate.Cuisine = updateRestaurantRequestModel.Cuisine;
+                findRestToUpdate.Name = updateRestaurantRequestModel.Name;
+                findRestToUpdate.UpdatedBy = updateRestaurantRequestModel.UserId;
+            }
+        }
+
+        private Restaurant FakeGetRestaurantWithReviewesById(int restaurantId)
+        {
+            return FakeGetRestaurantById(restaurantId);
         }
 
 

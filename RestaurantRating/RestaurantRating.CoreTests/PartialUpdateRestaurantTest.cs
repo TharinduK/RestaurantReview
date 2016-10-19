@@ -4,10 +4,10 @@ using RestaurantRating.Domain;
 namespace RestaurantRating.DomainTests
 {
     [TestClass]
-    public class CompleteUpdateRestaurantTest : MockTestSetup
+    public class PartialUpdateRestaurantTest : MockTestSetup
     {
         [TestMethod]
-        public void CompleteUpdateRestaurant_ValidIDUpdateName_Succeed()
+        public void PartialUpdateRestaurant_ValidIDUpdateName_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
@@ -23,7 +23,7 @@ namespace RestaurantRating.DomainTests
                 Name = expectedName,
                 Cuisine = expectedCuisine
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
@@ -49,7 +49,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
-        public void CompleteUpdateRestaurant_ValidIDUpdateCuisine_Succeed()
+        public void PartialUpdateRestaurant_ValidIDUpdateCuisine_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
@@ -65,7 +65,7 @@ namespace RestaurantRating.DomainTests
                 Name = expectedName,
                 Cuisine = expectedCuisine
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
@@ -80,7 +80,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
-        public void CompleteUpdateRestaurant_ValidIDNoDataToUpdate_Succeed()
+        public void PartialUpdateRestaurant_ValidIDNoDataToUpdate_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
@@ -96,7 +96,7 @@ namespace RestaurantRating.DomainTests
                 Name = expectedName,
                 Cuisine = expectedCuisine
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
@@ -111,98 +111,125 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RestaurantInvalidInputException))]
-        public void CompleteUpdateRestaurant_ValidIDWithBlankCuisineUpdateName_Succeed()
+        public void PartialUpdateRestaurant_ValidIDWithBlankCuisineUpdateName_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "New Restaurant Name";
+            var expectedCuisine = "Cuisine2";
+            var expectedCreatedById = 102;
+            var expectedUpdatedById = 103;
             var restToUpdate = new UpdateRestaurantRequestModel
             {
                 UserId = 103,
                 RestaurantId = expectedID,
                 Name = expectedName,
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = false };
+            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+
+            //assert
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
+
+            ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RestaurantInvalidInputException))]
-        public void CompleteUpdateRestaurant_ValidIDWithBlankNameUpdateCuisine_Succeed()
+        public void PartialUpdateRestaurant_ValidIDWithBlankNameUpdateCuisine_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
+            var expectedName = "Restaurant Two";
             var expectedCuisine = "New Cuisine";
+            var expectedCreatedById = 102;
+            var expectedUpdatedById = 103;
             var restToUpdate = new UpdateRestaurantRequestModel
             {
                 UserId = 103,
                 RestaurantId = expectedID,
                 Cuisine = expectedCuisine
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+
+            //assert
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
+
+            ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
         [TestMethod]
-        [ExpectedException(typeof(RestaurantInvalidInputException))]
-        public void CompleteUpdateRestaurant_ValidIDWithBlankUpdatePaddedCuisine_Succeed()
+        public void PartialUpdateRestaurant_ValidIDWithBlankUpdatePaddedCuisine_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
+            var expectedName = "Restaurant Two";
             var expectedCuisine = "New Cuisine";
+            var expectedCreatedById = 102;
+            var expectedUpdatedById = 103;
             var restToUpdate = new UpdateRestaurantRequestModel
             {
                 UserId = 103,
                 RestaurantId = expectedID,
                 Cuisine = "   " + expectedCuisine + "  "
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+
+            //assert
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
+
+            ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
         [TestMethod]
-        [ExpectedException(typeof(RestaurantInvalidInputException))]
-        public void CompleteUpdateRestaurant_ValidIDWithBlankUpdatePaddedName_Succeed()
+        public void PartialUpdateRestaurant_ValidIDWithBlankUpdatePaddedName_Succeed()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
             var expectedID = 2;
             var expectedName = "New Restaurant Name";
+            var expectedCuisine = "Cuisine2";
+            var expectedCreatedById = 102;
+            var expectedUpdatedById = 103;
             var restToUpdate = new UpdateRestaurantRequestModel
             {
                 UserId = 103,
                 RestaurantId = expectedID,
                 Name = "  " + expectedName + "   "
             };
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
-        }
 
+            //assert
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
+
+            ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
+        }
         [TestMethod]
         [ExpectedException(typeof(RestaurantNotFoundException))]
-        public void CompleteUpdateRestaurant_NonExistingID_Fail()
+        public void PartialUpdateRestaurant_NonExistingID_Fail()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = "Cuisine1", Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = "Cuisine2", Name = "Restaurant Two" });
@@ -214,16 +241,19 @@ namespace RestaurantRating.DomainTests
             };
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = false };
 
-            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+            var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+
+            //assert
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
         }
 
         [TestMethod]
         [Ignore]
-        public void CompleteUpdateRestaurant_WithExistingReviews_Succeed()
+        public void PartialUpdateRestaurant_WithExistingReviews_Succeed()
         {
             Assert.Fail();
         }

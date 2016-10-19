@@ -11,31 +11,34 @@ namespace RestaurantRating.Domain
 
         public override void Execute()
         {
-            Restaurant restaurantFetched = null;  //TODO: conver to a DTO
             try
             {
-                restaurantFetched = Repository.GetRestaurantWithReviewsById(Request);
+                var restaurantFetched = Repository.GetRestaurantWithReviewsById(Request.RestaurantId);
+
+                if (restaurantFetched == null)
+                {
+                    Response.WasSucessfull = false;
+                    throw new RestaurantNotFoundException();
+                }
+                else
+                {
+                    Response.WasSucessfull = true;
+                }
+                Response.Cuisine = restaurantFetched.Cuisine;
+                Response.Name = restaurantFetched.Name;
+                Response.RestaurantId = restaurantFetched.Id;
+                Response.Reviews = restaurantFetched.Reviews;
+            }
+            catch (RestaurantNotFoundException)
+            {
+                ApplicationLog.InformationLog($"Restaurant with ID {Request.RestaurantId} not found");
+                throw;
             }
             catch (Exception ex)
             {
                 ApplicationLog.ErrorLog($"Error retrieving restaurant Id {Request.RestaurantId}", ex);
                 Response.WasSucessfull = false;
             }
-
-            if (restaurantFetched == null)
-            {
-                restaurantFetched = Restaurant.Null;
-                Response.WasSucessfull = false;
-                throw new RestaurantNotFoundException($"Restaurant with ID {Request.RestaurantId} not found");
-            }                
-            else
-            {
-                Response.WasSucessfull = true;
-            }
-            Response.Cuisine = restaurantFetched.Cuisine;
-            Response.Name = restaurantFetched.Name;
-            Response.RestaurantId = restaurantFetched.Id;
-            Response.Reviews = restaurantFetched.Reviews;
         }
     }
 }

@@ -13,15 +13,18 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new BaseException("Restaurant with same attributes already exists");
+                //TODO: validate user permission 
+                if (Repository.DoseRestaurentNameAlreadyExist(Request.Name))
+                    throw new RestaurantAlreadyExistsException();
 
                 Response.RestaurantId = Repository.AddRestaurentGetNewId(Request);
-            //var user = _repository.GetAdminUser();
-
-                //var admiUser = user as Administrator;
-                //if(admiUser == null) throw new InvalidOperationExceptio
 
                 Response.WasSucessfull = true;
+            }
+            catch (RestaurantAlreadyExistsException)
+            {
+                ApplicationLog.InformationLog($"Restaurant name {Request.Name} already exists");
+                throw;
             }
             catch(Exception ex)
             {

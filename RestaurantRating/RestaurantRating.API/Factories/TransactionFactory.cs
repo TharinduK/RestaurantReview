@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using RestaurantRating.Domain;
+﻿using RestaurantRating.Domain;
 
 namespace RestaurantRating.API.Factories
 {
@@ -33,9 +29,14 @@ namespace RestaurantRating.API.Factories
             return new AddRestaurantTransaction(_repo, _log, value);
         }
 
-        internal UpdateRestaurantTransaction CreateUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
+        internal PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
         {
-            return new UpdateRestaurantTransaction(_repo, _log, value);
+            return new PartialUpdateRestaurantTransaction(_repo, _log, value);
+        }
+
+        internal CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
+        {
+            return new CompleteUpdateRestaurantTransaction(_repo, _log, value);
         }
 
         internal RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)
@@ -46,6 +47,12 @@ namespace RestaurantRating.API.Factories
                 UserId = _callingUserId
             };
             return new RemoveRestaurantTransaction(_repo, _log, reqModel);
+        }
+
+        public ViewAllRestaurantsTransaction CreateViewAllRestaurantsTransaction()
+        {
+            var reqModel = new ViewAllRestaurantRequestModel {UserId = _callingUserId};
+            return new ViewAllRestaurantsTransaction(_repo, _log, reqModel);
         }
     }
 }

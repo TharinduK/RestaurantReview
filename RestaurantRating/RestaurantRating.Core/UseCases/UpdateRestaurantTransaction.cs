@@ -2,9 +2,9 @@
 
 namespace RestaurantRating.Domain
 {
-    public class UpdateRestaurantTransaction : Transaction<UpdateRestaurantRequestModel, UpdateRestaurantResponseModel>
+    public abstract class UpdateRestaurantTransaction : Transaction<UpdateRestaurantRequestModel, UpdateRestaurantResponseModel>
     {
-        public UpdateRestaurantTransaction(IRepository repo, IApplicationLog log, UpdateRestaurantRequestModel reqeustModel) : base(repo, log, reqeustModel)
+        protected UpdateRestaurantTransaction(IRepository repo, IApplicationLog log, UpdateRestaurantRequestModel reqeustModel) : base(repo, log, reqeustModel)
         {
         }
 
@@ -14,16 +14,13 @@ namespace RestaurantRating.Domain
             {
                 var restaurantToUpdate = Repository.GetRestaurantById(Request.RestaurantId);
                 if (restaurantToUpdate == null) throw new RestaurantNotFoundException();
-                                
+
 
                 if (IsRestaurantDataInRequestDifferentFromRepository(restaurantToUpdate))
                 {
-                    if (string.IsNullOrWhiteSpace(Request.Name)) Request.Name = restaurantToUpdate.Name;
-                    else if(!restaurantToUpdate.Name.Equals(Request.Name))
-                    {
-                        if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new RestaurantAlreadyExistsException();
-                    }
-                    if (string.IsNullOrWhiteSpace(Request.Cuisine)) Request.Cuisine = restaurantToUpdate.Cuisine;
+                    UpdateRequesWithMissingData(restaurantToUpdate);
+
+                    ValidateInputRequest();
 
                     Repository.UpdateRestaurant(Request);
                 }
@@ -39,12 +36,32 @@ namespace RestaurantRating.Domain
                 ApplicationLog.InformationLog($"Restaurant name {Request.Name} exists");
                 throw;
             }
+            catch (RestaurantInvalidInputException ex)
+            {
+                ApplicationLog.InformationLog(ex.Message);
+                throw;
+            }
             catch (Exception ex)
             {
                 ApplicationLog.ErrorLog("Restaurant was not updated", ex);
                 Response.WasSucessfull = false;
             }
         }
+
+        private void ValidateInputRequest()
+        {
+            if (string.IsNullOrWhiteSpace(Request.Name))
+            {
+                throw new RestaurantInvalidInputException("Restaurant name is blank");
+            }
+
+            if(string.IsNullOrWhiteSpace(Request.Cuisine))
+            {
+                throw new RestaurantInvalidInputException("Restaurant cuisine is blank");
+            }
+        }
+
+        protected abstract void UpdateRequesWithMissingData(Restaurant restaurantToUpdate);
 
         private bool IsRestaurantDataInRequestDifferentFromRepository(Restaurant restaurantToUpdate)
         {

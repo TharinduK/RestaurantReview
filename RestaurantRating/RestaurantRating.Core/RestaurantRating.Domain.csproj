@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\PartialUpdateRestaurantTransaction.cs" />
+    <Compile Include="UseCases\CompleteUpdateRestaurantTransaction.cs" />
+    <Compile Include="Exceptions\RestaurantAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\RestaurantNotFoundException.cs" />
+    <Compile Include="Exceptions\RestaurantInvalidInputException.cs" />
     <Compile Include="UseCases\AddAdminTransaction.cs" />
     <Compile Include="Responses\AddAdminResponseModel.cs" />
     <Compile Include="Requests\AddAdminRequestModel.cs" />
@@ -48,7 +53,7 @@
     <Compile Include="Requests\AddReviewRequestModel.cs" />
     <Compile Include="UseCases\AddReviewTransaction.cs" />
     <Compile Include="Entities\AuditRecord.cs" />
-    <Compile Include="Exceptions\RestaurantException.cs" />
+    <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Interfaces\IApplicationLog.cs" />
     <Compile Include="Requests\RemoveRestaurantRequestModel.cs" />
     <Compile Include="Responses\RemoveRestaurantResponseModel.cs" />
@@ -71,6 +76,9 @@
     <Compile Include="Requests\ViewRestaurantRequestModel.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="UseCases\ViewRestaurantTransaction.cs" />
+    <Compile Include="Requests\ViewAllRestaurantRequestModel.cs" />
+    <Compile Include="Responses\ViewAllRestaurantsResponseModel.cs" />
+    <Compile Include="UseCases\ViewAllRestaurantsTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />

@@ -1,25 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.Repository.InMemory
 {
-    public class InMemoryApplicationLog : IApplicationLog
-    {
-        public void ErrorLog(string v, Exception ex)
-        {
-            
-        }
-
-        public void InformationLog(string v)
-        {
-            
-        }
-    }
     public class InMemoryRepository : IRepository
     {
         protected IRepository Repo;
@@ -135,7 +121,7 @@ namespace RestaurantRating.Repository.InMemory
             for (var i = 0; i < Restaurants.Count; i++)
             {
                 if (Restaurants[i].Id == reqeustModel.RestaurantId) Restaurants.RemoveAt(i);
-            };
+            }
         }
 
         public bool DoseRestaurentIdAlreadyExist(int restaurantId)
@@ -164,9 +150,26 @@ namespace RestaurantRating.Repository.InMemory
             throw new NotImplementedException();
         }
 
-        public Restaurant GetRestaurantWithReviewsById(ViewRestaurantRequestModel request)
+        public Restaurant GetRestaurantWithReviewsById(int restaurantToViewId)
         {
-            return GetRestaurantById(request.RestaurantId);
+            return GetRestaurantById(restaurantToViewId);
+        }
+
+        public void UpdateRestaurant(UpdateRestaurantRequestModel request)
+        {
+            var findRestToUpdate = Restaurants.Find(r => r.Id == request.RestaurantId);
+            if (findRestToUpdate != null)
+            {
+                findRestToUpdate.Cuisine = request.Cuisine;
+                findRestToUpdate.Name = request.Name;
+                findRestToUpdate.UpdatedBy = request.UserId;
+            }
+        }
+
+        public IEnumerable<Restaurant> GetAllRestaurantsWithReview()
+        {
+            foreach (var rest in Restaurants)
+                yield return rest;
         }
     }
 }
