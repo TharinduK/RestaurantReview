@@ -171,5 +171,14 @@ namespace RestaurantRating.Repository.InMemory
             foreach (var rest in Restaurants)
                 yield return rest;
         }
+
+        public IEnumerable<Review> GetReviewsForRestaurant(int restaurantId)
+        {
+            var foundRestaurant = Restaurants.Find(r => r.Id == restaurantId);
+            var s = Enumerable.Empty<Review>();
+
+            if (foundRestaurant == null) return null;
+            else return foundRestaurant.Reviews;
+        }
     }
 }

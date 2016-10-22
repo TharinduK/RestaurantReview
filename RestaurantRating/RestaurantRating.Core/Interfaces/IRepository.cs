@@ -11,6 +11,7 @@ namespace RestaurantRating.Domain
         bool DoseRestaurentIdAlreadyExist(int restaurantId);
         Restaurant GetRestaurantById(int restaurantId);
         int AddReviewGetNewId(AddReviewRequestModel reviewToAdd);
+        IEnumerable<Review> GetReviewsForRestaurant(int restaurantId);
         User GetUserById(int userId);
         bool DoseUserIdAlreadyExist(int requestUserId);
         Restaurant GetRestaurantWithReviewsById(int restaurantId);

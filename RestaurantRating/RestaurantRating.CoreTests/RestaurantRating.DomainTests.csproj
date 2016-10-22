@@ -68,6 +68,7 @@
     <Compile Include="RemoveRestaurantTest.cs" />
     <Compile Include="AddReviewTests.cs" />
     <Compile Include="PartialUpdateRestaurantTest.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="ViewAllRestaurantsTest.cs" />
     <Compile Include="ViewRestaurantTest.cs" />
     <Compile Include="UpdateRestaurantTest.cs" />

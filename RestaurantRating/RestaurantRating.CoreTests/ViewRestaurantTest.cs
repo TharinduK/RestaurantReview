@@ -118,7 +118,7 @@ namespace RestaurantRating.DomainTests
             ValidateRestaurant(expectedRestId, expectedName, expectedCuisine, expectedReviews, expectedAverageRating, expectedReviewCount);
         }
 
-        private static ViewRestaurantRequestModel SetupExpectedRequest(int updatingUserId, int expectedRestId)
+        internal static ViewRestaurantRequestModel SetupExpectedRequest(int updatingUserId, int expectedRestId)
         {
             return new ViewRestaurantRequestModel
             {

@@ -41,6 +41,9 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.GetRestaurantWithReviewsById(It.IsAny<int>()))
                 .Returns<int>(r => FakeGetRestaurantWithReviewesById(r));
 
+            repo.Setup(m => m.GetReviewsForRestaurant(It.IsAny<int>()))
+                .Returns<int>(r => FakeGetReviewsForRestaurant(r));
+
             repo.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
                 .Returns<AddReviewRequestModel>(r => FakeAddReview(r));
 
@@ -57,6 +60,15 @@ namespace RestaurantRating.DomainTests
                 .Returns(FakeGetAllRestaurants());
                 
             Repo = repo.Object;
+        }
+
+        private IEnumerable<Review> FakeGetReviewsForRestaurant(int id)
+        {
+            var foundRestaurant = Restaurants.Find(r => r.Id == id);
+            var s = Enumerable.Empty<Review>();
+
+            if (foundRestaurant == null) return null;
+            else return foundRestaurant.Reviews;
         }
 
         private IEnumerable<Restaurant> FakeGetAllRestaurants()

@@ -1,4 +1,5 @@
-﻿using RestaurantRating.Domain;
+﻿using System;
+using RestaurantRating.Domain;
 
 namespace RestaurantRating.API.Factories
 {
@@ -32,6 +33,16 @@ namespace RestaurantRating.API.Factories
         internal PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
         {
             return new PartialUpdateRestaurantTransaction(_repo, _log, value);
+        }
+
+        internal ViewReviewsForRestaurantTransaction CreateViewReviewsForRestaurantTransaction(int restaurantId)
+        {
+            var reqModel = new ViewRestaurantRequestModel
+            {
+                RestaurantId = restaurantId,
+                UserId = _callingUserId
+            };
+            return new ViewReviewsForRestaurantTransaction(_repo, _log, reqModel);
         }
 
         internal CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)

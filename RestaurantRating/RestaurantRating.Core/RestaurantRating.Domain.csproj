@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\ViewReviewsForRestaurantTransaction.cs" />
     <Compile Include="UseCases\PartialUpdateRestaurantTransaction.cs" />
     <Compile Include="UseCases\CompleteUpdateRestaurantTransaction.cs" />
     <Compile Include="Exceptions\RestaurantAlreadyExistsException.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Requests\ViewAllRestaurantRequestModel.cs" />
     <Compile Include="Responses\ViewAllRestaurantsResponseModel.cs" />
     <Compile Include="UseCases\ViewAllRestaurantsTransaction.cs" />
+    <Compile Include="Responses\ViewReviewsForRestaurantResponseModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />

@@ -2,6 +2,7 @@
 using RestaurantRating.Domain;
 using RestaurantRating.Repository.InMemory;
 using System;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace RestaurantRating.API.Controllers
@@ -33,10 +34,11 @@ namespace RestaurantRating.API.Controllers
         {
             try
             {
-                var tran = _factory.CreateViewRestaurantTransaction(restaurantId);
+                var tran = _factory.CreateViewReviewsForRestaurantTransaction(restaurantId);
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull) return Ok(tran.Response); //200
+                var reviews = ConvertToReviewViewModel(tran);
+                if (tran.Response.WasSucessfull) return Ok(reviews); //200
                 return BadRequest(); //400
             }
             catch (RestaurantNotFoundException) { return NotFound(); } //404
@@ -46,5 +48,44 @@ namespace RestaurantRating.API.Controllers
                 return InternalServerError(); //500
             }
         }
+
+        //[HttpGet]
+        //[Route("Reviews/{reviewId}", Name = "ReviewsForRestaurant")]
+        //public IHttpActionResult Get(int reviewid)
+        //{
+        //    try
+        //    {
+        //        var tran = _factory.CreateViewReviewsForRestaurantTransaction(reviewid);
+        //        tran.Execute();
+
+        //        var reviews = ConvertToReviewViewModel(tran);
+        //        if (tran.Response.WasSucessfull) return Ok(reviews); //200
+        //        return BadRequest(); //400
+        //    }
+        //    catch (RestaurantNotFoundException) { return NotFound(); } //404
+        //    catch (Exception ex)
+        //    {
+        //        _logger.ErrorLog($"Web API failed getting restaurant id {reviewid}", ex);
+        //        return InternalServerError(); //500
+        //    }
+        //}
+
+        private static List<ViewModels.Review> ConvertToReviewViewModel(ViewReviewsForRestaurantTransaction tran)
+        {
+            List<ViewModels.Review> reviews = new List<ViewModels.Review>();
+            foreach (var review in tran.Response.Reviews)
+                reviews.Add(new ViewModels.Review
+                {
+                    Comment = review.Comment,
+                    PostedDateTime = review.PostedDateTime,
+                    Rating = review.Rating,
+                    ReviewNumber = review.ReviewNumber,
+                    UserName = review.ReviewUser.UserName
+                });
+#warning add usernamen prop to review suer object 
+            return reviews;
+        }
+
+        //public IHttpActionResult Post()
     }
 }
