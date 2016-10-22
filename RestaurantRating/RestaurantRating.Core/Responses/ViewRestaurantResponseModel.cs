@@ -6,12 +6,12 @@ namespace RestaurantRating.Domain
 {
     public class ViewRestaurantResponseModel : TransactionResponseModel
     {
-        public string Name { get; set; }
-        public string Cuisine { get; set; }
-        public int RestaurantId { get; set; }
+        public string Name;
+        public string Cuisine;
+        public int RestaurantId;
         public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
-        public double AverageRating { get; set; }
-        public int ReviewCount { get; set; }
+        public double AverageRating;
+        public int ReviewCount;
 
         public override string ToString()
             => $"Name:{Name} Cuisine:{Cuisine} Restaurant Id:{RestaurantId} ";

@@ -65,10 +65,7 @@ namespace RestaurantRating.DomainTests
         private IEnumerable<Review> FakeGetReviewsForRestaurant(int id)
         {
             var foundRestaurant = Restaurants.Find(r => r.Id == id);
-            var s = Enumerable.Empty<Review>();
-
-            if (foundRestaurant == null) return null;
-            else return foundRestaurant.Reviews;
+            return foundRestaurant?.Reviews;
         }
 
         private IEnumerable<Restaurant> FakeGetAllRestaurants()

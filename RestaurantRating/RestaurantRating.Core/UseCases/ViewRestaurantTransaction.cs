@@ -28,6 +28,8 @@ namespace RestaurantRating.Domain
                 Response.Name = restaurantFetched.Name;
                 Response.RestaurantId = restaurantFetched.Id;
                 Response.Reviews = restaurantFetched.Reviews;
+                Response.AverageRating = restaurantFetched.AverageRating;
+                Response.ReviewCount = restaurantFetched.ReviewCount;
             }
             catch (RestaurantNotFoundException)
             {

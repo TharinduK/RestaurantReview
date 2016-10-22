@@ -1,9 +1,8 @@
-﻿using System;
-using RestaurantRating.Domain;
+﻿using RestaurantRating.Domain;
 
 namespace RestaurantRating.API.Factories
 {
-    public class TransactionFactory
+    public class TransactionFactory : ITransactionFactory
     {
         private readonly IRepository _repo;
         private readonly IApplicationLog _log;
@@ -25,17 +24,43 @@ namespace RestaurantRating.API.Factories
             return new ViewRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        internal AddRestaurantTransaction CreateAddRestraurantTransaction(AddRestaurantRequestModel value)
+        public AddRestaurantTransaction CreateAddRestraurantTransaction(string name, string cuisine)
         {
-            return new AddRestaurantTransaction(_repo, _log, value);
+            var reqModel = new AddRestaurantRequestModel
+            {
+                Name = name,
+                Cuisine = cuisine,
+                UserId = _callingUserId
+            };
+            return new AddRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        internal PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
+        public PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(int restaurantId, string name, string cuisine)
         {
-            return new PartialUpdateRestaurantTransaction(_repo, _log, value);
+            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisine);
+            return new PartialUpdateRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        internal ViewReviewsForRestaurantTransaction CreateViewReviewsForRestaurantTransaction(int restaurantId)
+        private UpdateRestaurantRequestModel CreateUpdateRestaurantRequestModel(int restaurantId, string name, string cuisine)
+        {
+            var reqModel = new UpdateRestaurantRequestModel
+            {
+                RestaurantId = restaurantId,
+                Name = name,
+                Cuisine = cuisine,
+                UserId = _callingUserId
+            };
+            return reqModel;
+        }
+
+        public CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(int restaurantId, string name, string cuisine)
+        {
+            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisine);
+            return new CompleteUpdateRestaurantTransaction(_repo, _log, reqModel);
+        }
+
+
+        public ViewReviewsForRestaurantTransaction CreateViewReviewsForRestaurantTransaction(int restaurantId)
         {
             var reqModel = new ViewRestaurantRequestModel
             {
@@ -45,12 +70,8 @@ namespace RestaurantRating.API.Factories
             return new ViewReviewsForRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        internal CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(UpdateRestaurantRequestModel value)
-        {
-            return new CompleteUpdateRestaurantTransaction(_repo, _log, value);
-        }
 
-        internal RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)
+        public RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)
         {
             var reqModel = new RemoveRestaurantRequestModel
             {

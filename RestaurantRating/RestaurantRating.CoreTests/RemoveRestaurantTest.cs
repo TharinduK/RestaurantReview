@@ -36,6 +36,7 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(RestaurantNotFoundException))]
         public void RemoveRestaurant_NonExistingID_Fail()
         {
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101,Cuisine = "Cuisine1", Name = "Restaurant one" });

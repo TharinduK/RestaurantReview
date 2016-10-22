@@ -177,8 +177,7 @@ namespace RestaurantRating.Repository.InMemory
             var foundRestaurant = Restaurants.Find(r => r.Id == restaurantId);
             var s = Enumerable.Empty<Review>();
 
-            if (foundRestaurant == null) return null;
-            else return foundRestaurant.Reviews;
+            return foundRestaurant?.Reviews;
         }
     }
 }

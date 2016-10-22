@@ -10,18 +10,21 @@ namespace RestaurantRating.API
     public class RestaurantsController : ApiController
     {
         private readonly IApplicationLog _logger;
-        private readonly TransactionFactory _factory;
+        private readonly ITransactionFactory _factory;
+        private readonly ViewModelMapper _viewModelMapper;
 
-        public RestaurantsController(IRepository repo, IApplicationLog logger)
+        public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory)
         {
+            _viewModelMapper = new ViewModelMapper();
             _logger = logger;
-            _factory = new TransactionFactory(repo, _logger, 1);
+            _factory = factory;
 #warning userID hardcoded  (must use factory inteface)
         }
 
         public RestaurantsController()
         {
             //todo: must be removed with di container 
+            _viewModelMapper = new ViewModelMapper();
             IRepository repository = new InMemoryRepository();
             _logger = new InMemoryApplicationLog();
             _factory = new TransactionFactory(repository, _logger, 1);
@@ -36,8 +39,12 @@ namespace RestaurantRating.API
                 var tran = _factory.CreateViewAllRestaurantsTransaction();
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull) return Ok(tran.Response); //200
-                else return BadRequest();//400
+                if (tran.Response.WasSucessfull)
+                {
+                    var allRestaurants = _viewModelMapper.ConvertDomainRestaurantToViewModel(tran);
+                    return Ok(allRestaurants);
+                }
+                else return BadRequest();
             }
             catch (Exception ex)
             {
@@ -55,99 +62,92 @@ namespace RestaurantRating.API
                 var tran = _factory.CreateViewRestaurantTransaction(id);
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull) return Ok(tran.Response); //200
-                return BadRequest(); //400
+                if (tran.Response.WasSucessfull)
+                {
+                    var rest = ViewModelMapper.ConvertDomainRestaurantToViewModel(id, tran);
+                    return Ok(rest);
+                }
+                return BadRequest();
             }
-            catch (RestaurantNotFoundException) { return NotFound(); } //404
+            catch (RestaurantNotFoundException) { return NotFound(); } 
             catch (Exception ex)
             {
                 _logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
-                return InternalServerError(); //500
+                return InternalServerError();
             }
         }
 
         // create: api/Restaurants
         [HttpPost]
-        public IHttpActionResult Post([FromBody] AddRestaurantRequestModel value)
+        public IHttpActionResult Post([FromBody] ViewModels.Restaurant restaurantRequest)
         {
             try
             {
-                if (value == null) return BadRequest(); //400
+                if (restaurantRequest == null) return BadRequest(); //400
 
-                var tran = _factory.CreateAddRestraurantTransaction(value);
+                var tran = _factory.CreateAddRestraurantTransaction(restaurantRequest.Name, restaurantRequest.Cuisine);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull)
                 {
-                    return Created(Request.RequestUri + "/" + tran.Response.RestaurantId, tran.Response); //201
+                    restaurantRequest.Id = tran.Response.RestaurantId;
+                    return CreatedAtRoute("DefaultRouting",new {id = restaurantRequest.Id }, restaurantRequest); //201
                 }
                 else
                 {
                     return BadRequest(); //400 -- for PK violations, we would send a bad request response 
                 }
             }
-            catch (RestaurantAlreadyExistsException){return BadRequest(); }
+            catch (RestaurantAlreadyExistsException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {value}", ex);
+                _logger.ErrorLog($"Web API failed add new restaurant {restaurantRequest}", ex);
                 return InternalServerError(); //500
             }
         }
 
-        //TODO: put must update all the fields 
-
         // PUT api/<controller>/5
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody]UpdateRestaurantRequestModel value)
+        public IHttpActionResult Put(int id, [FromBody]ViewModels.Restaurant restaurant)
         {
             try
             {
-                if (value == null) return BadRequest(); //400
-                var tran = _factory.CreateCompleteUpdateRestraurantTransaction(value);
+                if (restaurant == null) return BadRequest(); //400
+
+                var tran = _factory.CreateCompleteUpdateRestraurantTransaction(id, restaurant.Name, restaurant.Cuisine);
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull)
-                {
-                    return Ok(tran.Response); //200
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200
+                else return BadRequest();
+
             }
-            catch (RestaurantNotFoundException){return NotFound(); } //404
-            catch (RestaurantInvalidInputException){return BadRequest(); }
+            catch (RestaurantNotFoundException) { return NotFound(); } //404
+            catch (RestaurantInvalidInputException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {value}", ex);
+                _logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
                 return InternalServerError(); //500
             }
         }
 
         [HttpPatch]
-        public IHttpActionResult Patch(int id, [FromBody]UpdateRestaurantRequestModel value)
+        public IHttpActionResult Patch(int id, [FromBody]ViewModels.Restaurant restaurant)
         {
             try
             {
-                if (value == null) return BadRequest();//400
+                if (restaurant == null) return BadRequest();//400
 
-                var tran = _factory.CreatePartialUpdateRestraurantTransaction(value);
+                var tran = _factory.CreatePartialUpdateRestraurantTransaction(id, restaurant.Name, restaurant.Cuisine);
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull)
-                {
-                    return Ok(tran.Response); //200
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200
+                else return BadRequest();
             }
             catch (RestaurantNotFoundException) { return NotFound(); } //404
-            catch (RestaurantInvalidInputException) { return BadRequest(); } 
+            catch (RestaurantInvalidInputException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {value}", ex);
+                _logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
                 return InternalServerError(); //500
             }
         }
@@ -162,14 +162,9 @@ namespace RestaurantRating.API
                 var tran = _factory.CreateDeleteRestraurantTransaction(id);
                 tran.Execute();
 
-                if (tran.Response.WasSucessfull)
-                {
-                    return StatusCode(HttpStatusCode.NoContent);//204
-                }
-                else
-                {
-                    return BadRequest();//400
-                }
+                if (tran.Response.WasSucessfull) return StatusCode(HttpStatusCode.NoContent); //204
+                else return BadRequest(); //400
+
             }
             catch (RestaurantNotFoundException) { return NotFound(); } //404
             catch (Exception ex)

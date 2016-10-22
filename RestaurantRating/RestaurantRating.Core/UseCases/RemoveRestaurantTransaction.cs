@@ -15,6 +15,7 @@ namespace RestaurantRating.Domain
                 if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaurantId))
                 {
                     Response.WasSucessfull = false;
+                    throw new RestaurantNotFoundException();
                 }
                 else
                 {
@@ -22,6 +23,7 @@ namespace RestaurantRating.Domain
                     Response.WasSucessfull = true;
                 }
             }
+            catch (RestaurantNotFoundException) { throw; }
             catch (Exception ex)
             {
                 ApplicationLog.ErrorLog($"Error removing restaurant ID {Request.RestaurantId}", ex);

@@ -3,7 +3,7 @@
 namespace RestaurantRating.Domain
 {
     [Serializable]
-    public class UserNotFoundException : BaseException
+    public class UserNotFoundException : RestaurantConstrantException
     {
         public UserNotFoundException()
         {
