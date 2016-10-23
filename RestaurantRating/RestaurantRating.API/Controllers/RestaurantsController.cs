@@ -75,7 +75,7 @@ namespace RestaurantRating.API
                 {
                     restaurantRequest.Id = tran.Response.RestaurantId;
                     restaurantRequest.CuisineName = tran.Response.CuisineName;
-                    return CreatedAtRoute("DefaultRouting",new {id = restaurantRequest.Id }, restaurantRequest); //201
+                    return CreatedAtRoute("DefaultRouting",new {id = restaurantRequest.Id }, restaurantRequest);
                 }
                 else
                 {

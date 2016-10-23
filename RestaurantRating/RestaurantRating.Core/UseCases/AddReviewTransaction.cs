@@ -1,7 +1,7 @@
 ﻿using System;
 using RestaurantRating.Domain;
 
-namespace RestaurantRating.DomainTests
+namespace RestaurantRating.Domain
 {
     public class AddReviewTransaction : Transaction<AddReviewRequestModel, AddReviewResponseModel>
     {

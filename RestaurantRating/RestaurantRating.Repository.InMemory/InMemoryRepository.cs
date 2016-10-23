@@ -8,7 +8,6 @@ namespace RestaurantRating.Repository.InMemory
 {
     public class InMemoryRepository : IRepository
     {
-        protected IRepository Repo;
         protected List<Restaurant> Restaurants = new List<Restaurant>();
         protected List<Review> Reviews = new EditableList<Review>();
         protected List<User> Users = new List<User>();
@@ -143,19 +142,33 @@ namespace RestaurantRating.Repository.InMemory
             return foundRestaurant;
         }
 
-        public int AddReviewGetNewId(AddReviewRequestModel reviewToAdd)
+        public int AddReviewGetNewId(AddReviewRequestModel addReviewRequestModel)
         {
-            throw new NotImplementedException();
+            var reviewedUser = GetUserById(addReviewRequestModel.UserId);
+            var reviewToAdd = new Review
+            {
+                Comment = addReviewRequestModel.Comment,
+                CreatedBy = addReviewRequestModel.UserId,
+                PostedDateTime = addReviewRequestModel.DateTimePosted,
+                Rating = addReviewRequestModel.Rating,
+                UpdatedBy = addReviewRequestModel.UserId,
+                //ReviewRestaurant = reviewedRestaurant,
+                ReviewUser = reviewedUser,
+                ReviewNumber = Reviews.Count + 1
+            };
+            Reviews.Add(reviewToAdd);
+
+            return Reviews.Count;
         }
 
         public User GetUserById(int userId)
         {
-            throw new NotImplementedException();
+            return Users[userId - 1];
         }
 
         public bool DoseUserIdAlreadyExist(int requestUserId)
         {
-            throw new NotImplementedException();
+            return (requestUserId <= Users.Count && requestUserId > 0);
         }
 
         public Restaurant GetRestaurantWithReviewsById(int restaurantToViewId)

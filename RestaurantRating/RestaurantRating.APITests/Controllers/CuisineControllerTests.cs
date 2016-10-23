@@ -345,8 +345,6 @@ namespace RestaurantRating.APITests
         public void GetRestaurantsOnCuisineId_InvalidCuisineID_NotFound()
         {
             //arrange
-            var expectedResponse = new API.ViewModels.Restaurant[] { };
-
             var repoResonse = new Restaurant[] { };
             var cuisineId = 5;
 

@@ -100,13 +100,11 @@ namespace RestaurantRating.DomainTests
                 CuisineId = 100,
                 Name = "New Name"
             };
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = false };
 
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             //act
             updateRestTran.Execute();
-            var actualResponse = updateRestTran.Response;
         }
         [TestMethod]
         public void CompleteUpdateRestaurant_ValidIDNoDataToUpdate_Succeed()
@@ -156,11 +154,8 @@ namespace RestaurantRating.DomainTests
             };
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = false };
-
             //act
             updateRestTran.Execute();
-            var actualResponse = updateRestTran.Response;
         }
 
         [TestMethod]

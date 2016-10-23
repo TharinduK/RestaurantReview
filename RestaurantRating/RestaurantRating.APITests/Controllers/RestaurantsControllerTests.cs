@@ -422,14 +422,7 @@ namespace RestaurantRating.APITests
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = cuisineName,
-                Id = cuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
-
+            
             MockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new Exception());
 
@@ -448,19 +441,9 @@ namespace RestaurantRating.APITests
         public void PostNewRestaurant_NameAlreadyExistsException_BadData()
         {
             //arrange
-            var cuisineName = "Mexican";
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
-            var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = cuisineName,
-                Id = cuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
-
-
+            
             MockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new RestaurantAlreadyExistsException());
 
@@ -478,17 +461,8 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void PostNewRestaurant_ServerException_InternalError()
         {
-            var cuisineName = "Mexican";
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
-            var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = cuisineName,
-                Id = cuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
 
             var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
@@ -894,15 +868,6 @@ namespace RestaurantRating.APITests
             var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
-            var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = updatedCuisineName,
-                Id = updatedCuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
-
 
             var requestModel = new API.ViewModels.Restaurant
             {
@@ -940,15 +905,6 @@ namespace RestaurantRating.APITests
             var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
-            var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = updatedCuisineName,
-                Id = updatedCuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
-
 
             var requestModel = new API.ViewModels.Restaurant
             {
@@ -989,15 +945,6 @@ namespace RestaurantRating.APITests
             var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
-            var createdUser = 10;
-            var cuisine = new Cuisine
-            {
-                Name = updatedCuisineName,
-                Id = updatedCuisineId,
-                CreatedBy = createdUser,
-                UpdatedBy = createdUser
-            };
-
 
             var requestModel = new API.ViewModels.Restaurant
             {

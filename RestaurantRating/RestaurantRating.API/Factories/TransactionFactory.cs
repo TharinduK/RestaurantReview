@@ -1,4 +1,5 @@
 ﻿using RestaurantRating.Domain;
+using Review = RestaurantRating.API.ViewModels.Review;
 
 namespace RestaurantRating.API.Factories
 {
@@ -85,6 +86,20 @@ namespace RestaurantRating.API.Factories
         {
             var reqModel = new ViewCuisinesRequestModel{UserId = _callingUserId};
             return new ViewCuisinesTransaction(_repo, _log, reqModel);
+        }
+
+        public AddReviewTransaction CreateAddReviewsForRestaurantTransaction(int restaurantId, Review reviewRequest)
+        {
+            var reqModel = new AddReviewRequestModel
+            {
+                RestaurantId = restaurantId,
+
+                Comment = reviewRequest.Comment,
+                DateTimePosted = reviewRequest.PostedDateTime,
+                Rating = reviewRequest.Rating,
+                UserId = _callingUserId
+            };
+            return new AddReviewTransaction(_repo, _log, reqModel);
         }
 
         public RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)

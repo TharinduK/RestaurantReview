@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using Moq;
+using RestaurantRating.API;
 using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 using Review = RestaurantRating.API.ViewModels.Review;
@@ -218,6 +220,226 @@ namespace RestaurantRating.APITests
             Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
         }
 
+        #endregion
+
+        #region Post/create new Review 
+        [TestMethod]
+        public void PostNewReviewForeRestaurant_ValidInput_OkWithUrl()
+        {
+            //arrange
+            var restaurantID = 10;
+
+            var postedDate = new DateTime(2016, 10, 1);
+            var createdUser = 10;
+            int postedRating = 3;
+            int expectedReviewNumber = 1;
+            string postedComment = "Review comment 1";
+            User postingUser = new User { Id = createdUser, UserName = "Ruchira" };
+            var reviewEntry = new Domain.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                ReviewUser = postingUser,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
+            var expectedResponse = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                ReviewNumber = expectedReviewNumber,
+                UserName = postingUser.UserName,
+            };
+
+            var requestReview = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                UserName = postingUser.UserName,
+                //no review Number 
+            };
+
+            var transactionRequest = new AddReviewRequestModel
+            {
+                Comment = postedComment,
+                DateTimePosted = postedDate,
+                Rating = postedRating,
+                RestaurantId = restaurantID,
+                UserId = CallingUserId
+            };
+
+            //MockRepository.Setup(m => m.AddReviewGetNewId(transactionRequest)).Returns(expectedReviewNumber);
+            MockRepository.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>())).Returns(expectedReviewNumber);
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
+            MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
+
+            var ctrl = new ReviewsController(MockRepository.Object, 
+                MockLogger.Object, 
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+
+            //act
+            var actionResult = ctrl.Post(restaurantID, requestReview);
+            var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<API.ViewModels.Review>;
+
+            //assert
+            Assert.IsNotNull(createdResult, "created-201 status was not returned");
+            Assert.AreEqual("NewReviewForRestaurant", createdResult.RouteName);
+            Assert.AreEqual(restaurantID, createdResult.RouteValues["id"]);
+
+            //validate response
+            ValidateReviewResponse(createdResult.Content, expectedResponse);
+        }
+
+        [TestMethod]
+        public void PostNewReviewForeRestaurant_InvalidRestaurantID_NotFound()
+        {
+            //arrange
+            var restaurantID = 10;
+            var newReviewNumber = 12;
+            var postedDate = new DateTime(2016, 10, 1);
+            var createdUser = 10;
+            int postedRating = 10;
+            string postedComment = "Review comment 1";
+            User postingUser = new User { Id = createdUser, UserName = "Ruchira" };
+
+            var requestReview = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                UserName = postingUser.UserName,
+                //no review Number 
+            };
+
+            MockRepository.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
+                .Returns(newReviewNumber);
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(false);
+            MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
+
+            var ctrl = new ReviewsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+
+            //act
+            var actionResult = ctrl.Post(restaurantID, requestReview);
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void PostNewReviewForeRestaurant_InvalidUserD_BadData()
+        {
+            //arrange
+            var restaurantID = 10;
+            var newReviewNumber = 12;
+            var postedDate = new DateTime(2016, 10, 1);
+            var createdUser = 10;
+            int postedRating = 10;
+            string postedComment = "Review comment 1";
+            User postingUser = new User { Id = createdUser, UserName = "Ruchira" };
+
+            var requestReview = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                UserName = postingUser.UserName,
+                //no review Number 
+            };
+
+            MockRepository.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
+                .Returns(newReviewNumber);
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
+            MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(false);
+
+            var ctrl = new ReviewsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+
+            //act
+            var actionResult = ctrl.Post(restaurantID, requestReview);
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void PostNewReviewForeRestaurant_DatabaseException_BadData()
+        {
+            //arrange
+            var restaurantID = 10;
+
+            var postedDate = new DateTime(2016, 10, 1);
+            var createdUser = 10;
+            int postedRating = 10;
+            string postedComment = "Review comment 1";
+            User postingUser = new User { Id = createdUser, UserName = "Ruchira" };
+
+            var requestReview = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                UserName = postingUser.UserName,
+                //no review Number 
+            };
+
+            MockRepository.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
+                .Throws(new Exception());
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
+            MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
+
+            var ctrl = new ReviewsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+
+            //act
+            var actionResult = ctrl.Post(restaurantID, requestReview);
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
+        }
+
+
+        [TestMethod()]
+        public void PostNewReviewForeRestaurant_ServerException_InternalError()
+        {
+            //arrange
+            var restaurantID = 10;
+
+            var postedDate = new DateTime(2016, 10, 1);
+            var createdUser = 10;
+            int postedRating = 10;
+            string postedComment = "Review comment 1";
+            User postingUser = new User { Id = createdUser, UserName = "Ruchira" };
+
+            var requestReview = new API.ViewModels.Review
+            {
+                Comment = postedComment,
+                PostedDateTime = postedDate,
+                Rating = postedRating,
+                UserName = postingUser.UserName,
+                //no review Number 
+            };
+
+            MockRepository.Setup(m => m.AddReviewGetNewId(It.IsAny<AddReviewRequestModel>()))
+                .Throws(new Exception());
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
+            MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
+
+            var ctrl = new ReviewsController(MockRepository.Object, MockLogger.Object, null);
+
+            //act
+            var actionResult = ctrl.Post(restaurantID, requestReview);
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+        }
         #endregion
     }
 }

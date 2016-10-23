@@ -7,6 +7,7 @@ namespace RestaurantRating.DomainTests
     public class AddAdminUserTests : MockTestSetup
     {
         [TestMethod]
+        [Ignore]
         public void AddAdmin_ValidInput_Succeed()
         {
             var expectedFirstName = "Ruchira";
