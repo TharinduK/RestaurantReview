@@ -31,7 +31,7 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.DoseRestaurentNameAlreadyExist(It.IsAny<string>()))
                 .Returns<string>(r => FakeResturantExisits(r));
 
-            repo.Setup(m => m.DoseRestaurentIdAlreadyExist(It.IsAny<int>()))
+            repo.Setup(m => m.DoseRestaurentIdExist(It.IsAny<int>()))
                 .Returns<int>(id => FakeResturantIdExisits(id));
 
             repo.Setup(m => m.RemoveRestaurentId(It.IsAny<RemoveRestaurantRequestModel>()))

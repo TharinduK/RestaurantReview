@@ -9,7 +9,7 @@ namespace RestaurantRating.Domain
         User GetUserById(int userId);
 
         bool DoseRestaurentNameAlreadyExist(string restaurantNameToCheck);
-        bool DoseRestaurentIdAlreadyExist(int restaurantId);
+        bool DoseRestaurentIdExist(int restaurantId);
         IEnumerable<Restaurant> GetRestaurantForCuisine(int requestCusineId);
         Restaurant GetRestaurantById(int restaurantId);
         Restaurant GetRestaurantWithReviewsById(int restaurantId);

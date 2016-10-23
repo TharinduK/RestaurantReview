@@ -12,7 +12,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaurantId))
+                if (!Repository.DoseRestaurentIdExist(Request.RestaurantId))
                 {
                     Response.WasSucessfull = false;
                     throw new RestaurantNotFoundException();

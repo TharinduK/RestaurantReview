@@ -132,7 +132,7 @@ namespace RestaurantRating.Repository.InMemory
             }
         }
 
-        public bool DoseRestaurentIdAlreadyExist(int restaurantId)
+        public bool DoseRestaurentIdExist(int restaurantId)
         {
             return Restaurants.Any(r => r.Id == restaurantId);
         }

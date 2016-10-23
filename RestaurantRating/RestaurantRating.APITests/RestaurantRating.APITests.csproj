@@ -75,6 +75,7 @@
     <Compile Include="Controllers\ControllerTestsBase.cs" />
     <Compile Include="Controllers\CuisineControllerTests.cs" />
     <Compile Include="Controllers\RestaurantsControllerTests.cs" />
+    <Compile Include="Controllers\ReviewsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -516,7 +516,7 @@ namespace RestaurantRating.APITests
             };
 
             MockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
-            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(155))
                 .Returns(true);
 
             var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
@@ -543,7 +543,7 @@ namespace RestaurantRating.APITests
             };
 
             MockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
-            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(155))
                 .Returns(false);
 
             var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
@@ -561,7 +561,7 @@ namespace RestaurantRating.APITests
             //arrange
             var RestIdToDelete = 555;
 
-            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(RestIdToDelete))
                 .Throws(new Exception());
 
             var ctrl = new RestaurantsController(MockRepository.Object,
@@ -581,7 +581,7 @@ namespace RestaurantRating.APITests
             //arrange
             var RestIdToDelete = 555;
 
-            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
+            MockRepository.Setup(m => m.DoseRestaurentIdExist(RestIdToDelete))
                 .Returns(true);
 
             var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);

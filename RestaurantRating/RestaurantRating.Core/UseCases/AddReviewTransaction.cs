@@ -14,7 +14,7 @@ namespace RestaurantRating.DomainTests
         {
             try
             {
-                if (!Repository.DoseRestaurentIdAlreadyExist(Request.RestaurantId)) throw new RestaurantNotFoundException($"Restaurant ID :{Request.RestaurantId} not found");
+                if (!Repository.DoseRestaurentIdExist(Request.RestaurantId)) throw new RestaurantNotFoundException($"Restaurant ID :{Request.RestaurantId} not found");
                 if (!Repository.DoseUserIdAlreadyExist(Request.UserId)) throw new UserNotFoundException($"User Id :{Request.UserId} not found");
 
                 var newReviewNumber = Repository.AddReviewGetNewId(Request);

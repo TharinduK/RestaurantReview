@@ -53,5 +53,24 @@ namespace RestaurantRating.API
             }
             return retrivedCuisines;
         }
+
+        public static IEnumerable<ViewModels.Review> ConvertDomainReviewToViewModel(IEnumerable<Domain.Review> domainReviews)
+        {
+            var reviews = new List<ViewModels.Review>();
+
+            foreach (var review in domainReviews)
+            {
+                reviews.Add(new ViewModels.Review
+                {
+                    Comment = review.Comment,
+                    PostedDateTime = review.PostedDateTime,
+                    Rating = review.Rating,
+                    ReviewNumber = review.ReviewNumber,
+                    UserName = review.ReviewUser.UserName
+                });
+            }
+
+            return reviews;
+        }
     }
 }

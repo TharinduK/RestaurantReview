@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace RestaurantRating.Domain
 {
@@ -13,18 +14,16 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                var fetchedReviewsForRestaurant = Repository.GetReviewsForRestaurant(Request.RestaurantId);
-
-                if (fetchedReviewsForRestaurant == null)
+                if (!Repository.DoseRestaurentIdExist(Request.RestaurantId))
                 {
                     Response.WasSucessfull = false;
                     throw new RestaurantNotFoundException();
                 }
-                else
-                {
-                    Response.WasSucessfull = true;
-                }
-                Response.Reviews = fetchedReviewsForRestaurant;
+
+                var fetchedReviewsForRestaurant = Repository.GetReviewsForRestaurant(Request.RestaurantId);
+
+                Response.Reviews = fetchedReviewsForRestaurant ?? Enumerable.Empty<Review>();
+                Response.WasSucessfull = true;
             }
             catch (RestaurantNotFoundException)
             {
