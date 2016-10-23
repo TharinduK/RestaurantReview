@@ -22,11 +22,11 @@ namespace RestaurantRating.Repository.InMemory
             Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
             Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
 
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 1 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 2 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 2", Id = 3 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2, Cuisine = "Cuisine 2", Id = 4 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Five", CreatedBy = 2, UpdatedBy = 1, Cuisine = "Cuisine 3", Id = 5 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1,   Cuisine = Cuisines[0], Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1,   Cuisine = Cuisines[0], Id = 2 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[1], Id = 3 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2, Cuisine = Cuisines[1], Id = 4 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Five", CreatedBy = 2, UpdatedBy = 1, Cuisine = Cuisines[3], Id = 5 });
 
             Users.Add(new User { Id = 1 });
             Users.Add(new User { Id = 2 });
@@ -107,10 +107,11 @@ namespace RestaurantRating.Repository.InMemory
 
         public int AddRestaurentGetNewId(AddRestaurantRequestModel requestModel)
         {
+            var cuisineRef = GetCuisineById(requestModel.CuisineId);
             Restaurants.Add(new Restaurant
             {
                 Id = Restaurants.Count + 1,
-                Cuisine = requestModel.Cuisine,
+                Cuisine = cuisineRef,
                 CreatedBy = requestModel.UserId,
                 UpdatedBy = requestModel.UserId,
                 Name = requestModel.Name
@@ -164,10 +165,11 @@ namespace RestaurantRating.Repository.InMemory
 
         public void UpdateRestaurant(UpdateRestaurantRequestModel request)
         {
+            var relatedCuisine = GetCuisineById(request.CuisineId);
             var findRestToUpdate = Restaurants.Find(r => r.Id == request.RestaurantId);
             if (findRestToUpdate != null)
             {
-                findRestToUpdate.Cuisine = request.Cuisine;
+                findRestToUpdate.Cuisine = relatedCuisine;
                 findRestToUpdate.Name = request.Name;
                 findRestToUpdate.UpdatedBy = request.UserId;
             }
@@ -184,16 +186,20 @@ namespace RestaurantRating.Repository.InMemory
             return Cuisines;
         }
 
-        public bool DoseCuisineIdAlreadyExist(int requestCusineId)
+        public Cuisine GetCuisineById(int cuisineId)
+        {
+            return Cuisines[cuisineId - 1];
+        }
+
+        public bool DoseCuisineIdExist(int requestCusineId)
         {
             return (requestCusineId > 0 && requestCusineId < Cuisines.Count);
         }
 
         public IEnumerable<Restaurant> GetRestaurantForCuisine(int requestCusineId)
         {
-            //var foundRestaurant = Restaurants.Find(r => r.Id == restaurantId);
-            //return foundRestaurant?.Reviews;
-            return Enumerable.Empty<Restaurant>();
+            var foundRestaurant = Restaurants.FindAll(r => r.Cuisine.Id == requestCusineId);
+            return foundRestaurant;
         }
 
         public IEnumerable<Review> GetReviewsForRestaurant(int restaurantId)

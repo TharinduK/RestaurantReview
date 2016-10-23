@@ -22,7 +22,8 @@ namespace RestaurantRating.API
             {
                 Id = rest.Id,
                 Name = rest.Name,
-                Cuisine = rest.Cuisine,
+                CuisineId = rest.Cuisine.Id,
+                CuisineName = rest.Cuisine.Name,
                 ReviewCount = rest.ReviewCount,
                 AverageRating = rest.AverageRating
             };
@@ -35,7 +36,8 @@ namespace RestaurantRating.API
             {
                 Id = id,
                 Name = tran.Response.Name,
-                Cuisine = tran.Response.Cuisine,
+                CuisineId = tran.Response.CuisineId,
+                CuisineName = tran.Response.CuisineName,
                 ReviewCount = tran.Response.ReviewCount,
                 AverageRating = tran.Response.AverageRating
             };

@@ -2,7 +2,8 @@
 {
     public class Restaurant
     {
-        public string Cuisine;
+        public int CuisineId;
+        public string CuisineName;
         public int Id;
         public string Name;
         public double AverageRating;

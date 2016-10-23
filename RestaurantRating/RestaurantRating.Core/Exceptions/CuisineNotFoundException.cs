@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace RestaurantRating.Domain.UseCases
+namespace RestaurantRating.Domain
 {
     [Serializable]
-    class CuisineNotFoundException : Exception
+    public class CuisineNotFoundException : Exception
     {
         public CuisineNotFoundException()
         {

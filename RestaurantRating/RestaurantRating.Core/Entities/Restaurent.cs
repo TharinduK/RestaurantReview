@@ -5,13 +5,11 @@ namespace RestaurantRating.Domain
 {
     public class Restaurant : AuditRecord
     {
-        private string _cuisine;//TODO: must update cuisine to use a cuisine object (not string)
         private string _name;
         private List<Review> _reviews;
 
         private class NullRestaurant : Restaurant
         {
-            public override string Cuisine => string.Empty;
             public override string Name => string.Empty;
             public override void AddReview(Review reviewToAdd){}
             public override double AverageRating => 0;
@@ -20,11 +18,8 @@ namespace RestaurantRating.Domain
 
         public static readonly Restaurant Null = new NullRestaurant();
 
-        public virtual string Cuisine
-        {
-            get { return _cuisine; }
-            set { _cuisine = value.Trim(); }
-        }
+        public virtual Cuisine Cuisine { get; set; }
+
         public int Id { get; set; }
         public virtual string Name
         {
@@ -65,7 +60,7 @@ namespace RestaurantRating.Domain
         {
             return Cuisine.GetHashCode() + Name.GetHashCode() + Id.GetHashCode() + Reviews.GetHashCode();
         }
-        public override string ToString() => $"Cuisine:{Cuisine} Name:{Name} Id:{Id} Review Count:{Reviews.Count()}";
+        public override string ToString() => $"CuisineId:{Cuisine} Name:{Name} Id:{Id} Review Count:{Reviews.Count()}";
 
     }
 }

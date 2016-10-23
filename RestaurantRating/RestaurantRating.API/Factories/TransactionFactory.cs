@@ -24,38 +24,38 @@ namespace RestaurantRating.API.Factories
             return new ViewRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        public AddRestaurantTransaction CreateAddRestraurantTransaction(string name, string cuisine)
+        public AddRestaurantTransaction CreateAddRestraurantTransaction(string name, int cuisineId)
         {
             var reqModel = new AddRestaurantRequestModel
             {
                 Name = name,
-                Cuisine = cuisine,
+                CuisineId = cuisineId,
                 UserId = _callingUserId
             };
             return new AddRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        public PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(int restaurantId, string name, string cuisine)
+        public PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(int restaurantId, string name, int cuisineId)
         {
-            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisine);
+            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisineId);
             return new PartialUpdateRestaurantTransaction(_repo, _log, reqModel);
         }
 
-        private UpdateRestaurantRequestModel CreateUpdateRestaurantRequestModel(int restaurantId, string name, string cuisine)
+        private UpdateRestaurantRequestModel CreateUpdateRestaurantRequestModel(int restaurantId, string name, int cuisineId)
         {
             var reqModel = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaurantId,
                 Name = name,
-                Cuisine = cuisine,
+                CuisineId = cuisineId,
                 UserId = _callingUserId
             };
             return reqModel;
         }
 
-        public CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(int restaurantId, string name, string cuisine)
+        public CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(int restaurantId, string name, int cuisineId)
         {
-            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisine);
+            var reqModel = CreateUpdateRestaurantRequestModel(restaurantId, name, cuisineId);
             return new CompleteUpdateRestaurantTransaction(_repo, _log, reqModel);
         }
 

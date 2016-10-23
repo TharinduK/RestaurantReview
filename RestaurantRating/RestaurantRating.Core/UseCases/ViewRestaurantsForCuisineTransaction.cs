@@ -1,5 +1,4 @@
-﻿using RestaurantRating.Domain.UseCases;
-using System;
+﻿using System;
 using System.Linq;
 
 namespace RestaurantRating.Domain
@@ -15,7 +14,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                if (!Repository.DoseCuisineIdAlreadyExist(Request.CusineID))
+                if (!Repository.DoseCuisineIdExist(Request.CusineID))
                 {
                     Response.WasSucessfull = false;
                     throw new CuisineNotFoundException();
@@ -27,12 +26,12 @@ namespace RestaurantRating.Domain
             }
             catch (CuisineNotFoundException)
             {
-                ApplicationLog.InformationLog($"Cuisine ID {Request.CusineID} not found");
+                ApplicationLog.InformationLog($"CuisineId ID {Request.CusineID} not found");
                 throw;
             }
             catch (Exception ex)
             {
-                ApplicationLog.ErrorLog($"Error retrieving restaurants with Cuisine Id {Request.CusineID}", ex);
+                ApplicationLog.ErrorLog($"Error retrieving restaurants with CuisineId Id {Request.CusineID}", ex);
                 Response.WasSucessfull = false;
             }
         }

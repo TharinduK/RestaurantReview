@@ -58,13 +58,28 @@ namespace RestaurantRating.DomainTests
             repo.Setup(m => m.UpdateRestaurant(It.IsAny<UpdateRestaurantRequestModel>()))
                 .Callback<UpdateRestaurantRequestModel>(r => FakeUpdateRestaurant(r));
 
+            repo.Setup(m => m.GetCuisineById(It.IsAny<int>()))
+                .Returns<int>(id => Cuisines[id]);
+
+            repo.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>()))
+                .Returns<int>(id => (id > 0 && id <= Cuisines.Count));
+
             repo.Setup(m => m.GetAllRestaurantsWithReview())
                 .Returns(FakeGetAllRestaurants());
 
             repo.Setup(m => m.GetAllCuisines())
                 .Returns(Cuisines);
+
+            repo.Setup(m => m.GetRestaurantForCuisine(It.IsAny<int>()))
+                .Returns<int>(id => FakeGetRestaurantsForCuisineID(id));
                 
             Repo = repo.Object;
+        }
+
+        private IEnumerable<Restaurant> FakeGetRestaurantsForCuisineID(int id)
+        {
+            var foundRestaurant = Restaurants.FindAll(r => r.Cuisine.Id == id);
+            return foundRestaurant;
         }
 
         private IEnumerable<Review> FakeGetReviewsForRestaurant(int id)
@@ -81,10 +96,11 @@ namespace RestaurantRating.DomainTests
 
         private void FakeUpdateRestaurant(UpdateRestaurantRequestModel updateRestaurantRequestModel)
         {
+            var cuisineRef = Cuisines[updateRestaurantRequestModel.CuisineId - 1];
             var findRestToUpdate = Restaurants.Find(r => r.Id == updateRestaurantRequestModel.RestaurantId);
             if (findRestToUpdate != null)
             {
-                findRestToUpdate.Cuisine = updateRestaurantRequestModel.Cuisine;
+                findRestToUpdate.Cuisine = cuisineRef;
                 findRestToUpdate.Name = updateRestaurantRequestModel.Name;
                 findRestToUpdate.UpdatedBy = updateRestaurantRequestModel.UserId;
             }
@@ -142,10 +158,11 @@ namespace RestaurantRating.DomainTests
 
         private int FakeAddRestaurant(AddRestaurantRequestModel r)
         {
+            var cuisineRef = Cuisines[r.CuisineId - 1];
             Restaurants.Add(new Restaurant
             {
                 Id = Restaurants.Count + 1,
-                Cuisine = r.Cuisine,
+                Cuisine = cuisineRef,
                 CreatedBy = r.UserId,
                 UpdatedBy = r.UserId,
                 Name = r.Name

@@ -14,7 +14,7 @@
             {
                 if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new RestaurantAlreadyExistsException();
             }
-            if (string.IsNullOrWhiteSpace(Request.Cuisine)) Request.Cuisine = restaurantToUpdate.Cuisine;
+            if (Request.CuisineId == 0) Request.CuisineId = restaurantToUpdate.Cuisine.Id;
         }
     }
 }

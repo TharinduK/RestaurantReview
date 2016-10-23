@@ -14,10 +14,13 @@ namespace RestaurantRating.Domain
             try
             {
                 //TODO: validate user permission 
-                if (Repository.DoseRestaurentNameAlreadyExist(Request.Name))
-                    throw new RestaurantAlreadyExistsException();
+                if (Repository.DoseRestaurentNameAlreadyExist(Request.Name)) throw new RestaurantAlreadyExistsException();
 
+                var cuisineRef =Repository.GetCuisineById(Request.CuisineId);
+                if(cuisineRef == null) throw new CuisineNotFoundException();
+                
                 Response.RestaurantId = Repository.AddRestaurentGetNewId(Request);
+                Response.CuisineName = cuisineRef.Name;
 
                 Response.WasSucessfull = true;
             }

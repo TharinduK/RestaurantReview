@@ -9,9 +9,15 @@ namespace RestaurantRating.DomainTests
     {
         public AddReviewTests()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 2, Cuisine = "Cuisine 1", Id = 1 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 2, UpdatedBy = 2, Cuisine = "Cuisine 2", Id = 2 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 3, UpdatedBy = 2, Cuisine = "Cuisine 3", Id = 3 });
+            Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 2, Name = "Armenian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 3, Name = "Italian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
+
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[0], Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[0], Id = 2 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[1], Id = 3 });
 
             Users.Add(new User { Id = 1 });
             Users.Add(new User { Id = 2 });

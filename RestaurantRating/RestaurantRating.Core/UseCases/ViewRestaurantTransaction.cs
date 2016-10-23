@@ -24,7 +24,8 @@ namespace RestaurantRating.Domain
                 {
                     Response.WasSucessfull = true;
                 }
-                Response.Cuisine = restaurantFetched.Cuisine;
+                Response.CuisineId = restaurantFetched.Cuisine.Id;
+                Response.CuisineName = restaurantFetched.Cuisine.Name;
                 Response.Name = restaurantFetched.Name;
                 Response.RestaurantId = restaurantFetched.Id;
                 Response.Reviews = restaurantFetched.Reviews;

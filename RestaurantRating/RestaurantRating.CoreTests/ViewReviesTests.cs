@@ -10,11 +10,18 @@ namespace RestaurantRating.DomainTests
     {
         public ViewReviesTests()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 1 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 2 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 2", Id = 3 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2, Cuisine = "Cuisine 2", Id = 4 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Five", CreatedBy = 2, UpdatedBy = 1, Cuisine = "Cuisine 3", Id = 5 });
+            Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 2, Name = "Armenian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 3, Name = "Italian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
+
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[0], Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[0], Id = 2 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = Cuisines[1], Id = 3 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2, Cuisine = Cuisines[1], Id = 4 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Five", CreatedBy = 2, UpdatedBy = 1, Cuisine = Cuisines[3], Id = 5 });
+
 
             Users.Add(new User { Id = 1 });
             Users.Add(new User { Id = 2 });
@@ -93,7 +100,7 @@ namespace RestaurantRating.DomainTests
             //arrange
             var viewingUserId = 1;
             var restaurantID = 2;
-            var request = ViewRestaurantTest.SetupExpectedRequest(viewingUserId, restaurantID);
+            var request = ViewRestaurantTests.SetupExpectedRequest(viewingUserId, restaurantID);
 
             var expectedReview = new Review
             {
@@ -138,7 +145,7 @@ namespace RestaurantRating.DomainTests
         {
             var viewingUserId = 1;
             var restaurantID = 3;
-            var request = ViewRestaurantTest.SetupExpectedRequest(viewingUserId, restaurantID);
+            var request = ViewRestaurantTests.SetupExpectedRequest(viewingUserId, restaurantID);
 
             var expectedReviews = new List<Review> {
             new Review
@@ -199,7 +206,7 @@ namespace RestaurantRating.DomainTests
         {
             var viewingUserId = 1;
             var restaurantID = 4;
-            var request = ViewRestaurantTest.SetupExpectedRequest(viewingUserId, restaurantID);
+            var request = ViewRestaurantTests.SetupExpectedRequest(viewingUserId, restaurantID);
 
             var expectedReviews = new List<Review>();
             for (var i = 0; i < 10; i++)
@@ -240,7 +247,7 @@ namespace RestaurantRating.DomainTests
         {
             var viewingUserId = 1;
             var restaurantID = 1;
-            var request = ViewRestaurantTest.SetupExpectedRequest(viewingUserId, restaurantID);
+            var request = ViewRestaurantTests.SetupExpectedRequest(viewingUserId, restaurantID);
 
             var expectedReviews = new List<Review>();
             var expectedSucessStatus = true;
@@ -265,7 +272,7 @@ namespace RestaurantRating.DomainTests
         {
             var viewingUserId = 1;
             var restaurantID = 1010;
-            var request = ViewRestaurantTest.SetupExpectedRequest(viewingUserId, restaurantID);
+            var request = ViewRestaurantTests.SetupExpectedRequest(viewingUserId, restaurantID);
 
             var expectedReviews = new List<Review>();
             var expectedSucessStatus = false;

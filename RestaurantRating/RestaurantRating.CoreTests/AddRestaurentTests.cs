@@ -6,6 +6,14 @@ namespace RestaurantRating.DomainTests
     [TestClass()]
     public class AddRestaurentTests : MockTestSetup
     {
+        public AddRestaurentTests()
+        {
+            Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 2, Name = "Armenian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 3, Name = "Italian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
+        }
 
         //unit of work_state under test_expected behavior
         [TestMethod()]
@@ -13,14 +21,14 @@ namespace RestaurantRating.DomainTests
         {
             //Assign 
             var expectedName = "Restaurant name one";
-            var expectedCuisine = "Cuisine 1";
+            var expectedCuisine = Cuisines[0].Id;
             var expectedCreatedById = 1;
             var expectedUpdatedById = expectedCreatedById;
             var expectedRestID = 1;
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = expectedName,
-                Cuisine = expectedCuisine,
+                CuisineId = expectedCuisine,
                 UserId = expectedCreatedById
             };
             var expectedSucessStatus = true;
@@ -43,7 +51,7 @@ namespace RestaurantRating.DomainTests
             Restaurant actualRest = Restaurants[expectedResponse.RestaurantId - 1];
             Assert.AreEqual(expectedRestID, actualRest.Id, "Restaurant ID");
             Assert.AreEqual(expectedName, actualRest.Name, "Restaurant name");
-            Assert.AreEqual(expectedCuisine, actualRest.Cuisine, "Restaurant Cuisine");
+            Assert.AreEqual(expectedCuisine, actualRest.Cuisine.Id, "Restaurant CuisineId");
             Assert.AreEqual(expectedCreatedById, actualRest.CreatedBy, "Created by");
             Assert.AreEqual(expectedUpdatedById, actualRest.UpdatedBy, "Updated by");
         }
@@ -53,11 +61,11 @@ namespace RestaurantRating.DomainTests
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameSame_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 100, UpdatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 100, UpdatedBy = 100, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "Restaurant name one",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 
@@ -89,11 +97,11 @@ namespace RestaurantRating.DomainTests
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameUpperCase_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 100, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 100, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "RESTAURANT 1",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 
@@ -107,11 +115,11 @@ namespace RestaurantRating.DomainTests
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameLowerCase_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "restaurant 1",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 
@@ -125,11 +133,11 @@ namespace RestaurantRating.DomainTests
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameMixCase_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "ResTAurant 1",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 
@@ -143,11 +151,11 @@ namespace RestaurantRating.DomainTests
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameExtratSpace_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "   Restaurant 1  ",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 
@@ -161,11 +169,11 @@ namespace RestaurantRating.DomainTests
         [Ignore]
         public void AddResturant_WithExistingNameExtratSpaceInMiddle_ResturantExistExceptionThrown()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = Cuisines[0], Id = 1 });
             var reqData = new AddRestaurantRequestModel()
             {
                 Name = "   Restaurant    1  ",
-                Cuisine = "Cuisine 2",
+                CuisineId = Cuisines[1].Id,
                 UserId = 1
             };
 

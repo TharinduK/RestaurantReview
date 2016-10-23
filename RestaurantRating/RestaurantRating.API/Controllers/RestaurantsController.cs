@@ -85,12 +85,13 @@ namespace RestaurantRating.API
             {
                 if (restaurantRequest == null) return BadRequest(); //400
 
-                var tran = _factory.CreateAddRestraurantTransaction(restaurantRequest.Name, restaurantRequest.Cuisine);
+                var tran = _factory.CreateAddRestraurantTransaction(restaurantRequest.Name, restaurantRequest.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull)
                 {
                     restaurantRequest.Id = tran.Response.RestaurantId;
+                    restaurantRequest.CuisineName = tran.Response.CuisineName;
                     return CreatedAtRoute("DefaultRouting",new {id = restaurantRequest.Id }, restaurantRequest); //201
                 }
                 else
@@ -114,7 +115,7 @@ namespace RestaurantRating.API
             {
                 if (restaurant == null) return BadRequest(); //400
 
-                var tran = _factory.CreateCompleteUpdateRestraurantTransaction(id, restaurant.Name, restaurant.Cuisine);
+                var tran = _factory.CreateCompleteUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200
@@ -137,7 +138,7 @@ namespace RestaurantRating.API
             {
                 if (restaurant == null) return BadRequest();//400
 
-                var tran = _factory.CreatePartialUpdateRestraurantTransaction(id, restaurant.Name, restaurant.Cuisine);
+                var tran = _factory.CreatePartialUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200

@@ -7,14 +7,15 @@ namespace RestaurantRating.Domain
     public class ViewRestaurantResponseModel : TransactionResponseModel
     {
         public string Name;
-        public string Cuisine;
+        public int CuisineId;
+        public string CuisineName;
         public int RestaurantId;
         public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
         public double AverageRating;
         public int ReviewCount;
 
         public override string ToString()
-            => $"Name:{Name} Cuisine:{Cuisine} Restaurant Id:{RestaurantId} ";
+            => $"Name:{Name} CuisineId Id:{CuisineId} Restaurant Id:{RestaurantId} ";
 
         public override bool Equals(object obj)
         {
@@ -25,11 +26,11 @@ namespace RestaurantRating.Domain
                 return RestaurantId.Equals(model.RestaurantId)
                     && WasSucessfull.Equals(model.WasSucessfull)
                     && Name.Equals(model.Name)
-                    && Cuisine.Equals(model.Cuisine)
+                    && CuisineId.Equals(model.CuisineId)
                     && Reviews.SequenceEqual(model.Reviews);
         }
         public override int GetHashCode()
-            => Name.GetHashCode() + Cuisine.GetHashCode() + RestaurantId.GetHashCode() + Reviews.GetHashCode();
+            => Name.GetHashCode() + CuisineId.GetHashCode() + RestaurantId.GetHashCode() + Reviews.GetHashCode();
 
     }
 }

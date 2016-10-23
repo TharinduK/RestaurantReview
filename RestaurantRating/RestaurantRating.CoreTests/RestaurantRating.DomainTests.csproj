@@ -70,8 +70,8 @@
     <Compile Include="PartialUpdateRestaurantTest.cs" />
     <Compile Include="ViewCuisinesTests.cs" />
     <Compile Include="ViewReviesTests.cs" />
-    <Compile Include="ViewAllRestaurantsTest.cs" />
-    <Compile Include="ViewRestaurantTest.cs" />
+    <Compile Include="ViewMultipleRestaurantsTests.cs" />
+    <Compile Include="ViewRestaurantTests.cs" />
     <Compile Include="UpdateRestaurantTest.cs" />
   </ItemGroup>
   <ItemGroup>

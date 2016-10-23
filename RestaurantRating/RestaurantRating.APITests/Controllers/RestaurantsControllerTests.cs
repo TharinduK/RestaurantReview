@@ -24,15 +24,24 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 1234;
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
 
             var expectedResponse = new[]
             {
                 new API.ViewModels.Restaurant{
                     Id = restID,
                     AverageRating = 0,
-                    Cuisine = cuisineName,
+                    CuisineName = cuisineName,
+                    CuisineId = cuisineId,
                     Name = restName,
                     ReviewCount = 0
                 }
@@ -43,7 +52,7 @@ namespace RestaurantRating.APITests
                 Id = restID,
                 CreatedBy = createdUser,
                 UpdatedBy = createdUser,
-                Cuisine = cuisineName,
+                Cuisine = cuisine,
                 Name = restName
             }
             };
@@ -71,8 +80,16 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 1234;
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
 
             var expectedResponse = new[]
             {
@@ -80,7 +97,8 @@ namespace RestaurantRating.APITests
                 {
                     Id = restID,
                     AverageRating = 0,
-                    Cuisine = cuisineName,
+                                   CuisineName = cuisineName,
+                CuisineId = cuisineId,
                     Name = restName,
                     ReviewCount = 0
                 },
@@ -88,7 +106,8 @@ namespace RestaurantRating.APITests
                 {
                     Id = restID+1,
                     AverageRating = 0,
-                    Cuisine = cuisineName + " 1",
+                                    CuisineName = cuisineName,
+                CuisineId = cuisineId,
                     Name = restName + " 1",
                     ReviewCount = 0
                 }
@@ -101,7 +120,7 @@ namespace RestaurantRating.APITests
                     Id = restID,
                     CreatedBy = createdUser,
                     UpdatedBy = createdUser,
-                    Cuisine = cuisineName,
+                    Cuisine = cuisine,
                     Name = restName
                 },
                 new Restaurant
@@ -109,7 +128,7 @@ namespace RestaurantRating.APITests
                     Id = restID + 1,
                     CreatedBy = createdUser,
                     UpdatedBy = createdUser,
-                    Cuisine = cuisineName + " 1",
+                    Cuisine = cuisine,
                     Name = restName + " 1",
                 }
             };
@@ -148,7 +167,8 @@ namespace RestaurantRating.APITests
             Assert.AreEqual(expectedRest.Id, actualRestaurantViewMode.Id, "");
             Assert.AreEqual(expectedRest.Name, actualRestaurantViewMode.Name);
             Assert.AreEqual(expectedRest.AverageRating, actualRestaurantViewMode.AverageRating);
-            Assert.AreEqual(expectedRest.Cuisine, actualRestaurantViewMode.Cuisine);
+            Assert.AreEqual(expectedRest.CuisineId, actualRestaurantViewMode.CuisineId);
+            Assert.AreEqual(expectedRest.CuisineName, actualRestaurantViewMode.CuisineName);
             Assert.AreEqual(expectedRest.ReviewCount, actualRestaurantViewMode.ReviewCount);
         }
 
@@ -216,14 +236,23 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 555;
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
 
             var expectedResponse = new API.ViewModels.Restaurant
             {
                 Id = restID,
                 AverageRating = 3,
-                Cuisine = cuisineName,
+                CuisineName = cuisineName,
+                CuisineId = cuisineId,
                 Name = restName,
                 ReviewCount = 100
             };
@@ -233,7 +262,7 @@ namespace RestaurantRating.APITests
                 Id = restID,
                 CreatedBy = createdUser,
                 UpdatedBy = createdUser,
-                Cuisine = cuisineName,
+                Cuisine = cuisine,
                 Name = restName
             };
             //restaurant 4 setup 
@@ -267,11 +296,12 @@ namespace RestaurantRating.APITests
             //assert
             Assert.IsNotNull(contentResult, "Ok-200 status was not returned");
             Assert.IsNotNull(contentResult.Content, "No content was returned");
-            Assert.AreEqual(expectedResponse.Id, contentResult.Content.Id);
-            Assert.AreEqual(expectedResponse.Name, contentResult.Content.Name);
-            Assert.AreEqual(expectedResponse.AverageRating, contentResult.Content.AverageRating);
-            Assert.AreEqual(expectedResponse.Cuisine, contentResult.Content.Cuisine);
-            Assert.AreEqual(expectedResponse.ReviewCount, contentResult.Content.ReviewCount);
+            ValidateRestaurantResponse(expectedResponse, contentResult.Content);
+            //Assert.AreEqual(expectedResponse.Id, contentResult.Content.Id);
+            //Assert.AreEqual(expectedResponse.Name, contentResult.Content.Name);
+            //Assert.AreEqual(expectedResponse.AverageRating, contentResult.Content.AverageRating);
+            //Assert.AreEqual(expectedResponse.Cuisine, contentResult.Content.Cuisine);
+            //Assert.AreEqual(expectedResponse.ReviewCount, contentResult.Content.ReviewCount);
         }
 
         [TestMethod()]
@@ -335,32 +365,43 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var expectedRestId = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
 
             var expectedResponse = new API.ViewModels.Restaurant
             {
                 Id = expectedRestId,
                 AverageRating = 0,
-                Cuisine = cuisineName,
+                CuisineName = cuisineName,
+                CuisineId = cuisineId,
                 Name = restName,
                 ReviewCount = 0
             };
 
             var transactionRequest = new AddRestaurantRequestModel
             {
-                Cuisine = cuisineName,
+                CuisineId = cuisineId,
                 Name = restName,
                 UserId = _callingUserID
             };
 
             _mockRepository.Setup(m => m.AddRestaurentGetNewId(transactionRequest))
                 .Returns(expectedRestId);
+            _mockRepository.Setup(m => m.GetCuisineById(It.IsAny<int>())).Returns(cuisine);
 
             var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
 
             //act
-            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { Cuisine = cuisineName, Name = restName });
+            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<API.ViewModels.Restaurant>;
 
             //assert
@@ -377,7 +418,16 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
 
             _mockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new Exception());
@@ -387,7 +437,7 @@ namespace RestaurantRating.APITests
                 new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
 
             //act
-            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { Cuisine = cuisineName, Name = restName });
+            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
 
             // assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
@@ -398,7 +448,17 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             _mockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new RestaurantAlreadyExistsException());
@@ -408,7 +468,7 @@ namespace RestaurantRating.APITests
                 new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
 
             //act
-            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { Cuisine = cuisineName, Name = restName });
+            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
 
             // assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
@@ -418,11 +478,21 @@ namespace RestaurantRating.APITests
         public void PostNewRestaurant_ServerException_InternalError()
         {
             var cuisineName = "Mexican";
+            var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = cuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
             var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
 
             //act
-            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { Cuisine = cuisineName, Name = restName });
+            var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
 
             // assert
             Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
@@ -529,17 +599,27 @@ namespace RestaurantRating.APITests
         public void PutRestaurant_ValidData_OK()
         {
             //arrange
-            var originalCuisineName = "Indian";
-            var originalRestaurantName = "No1 Mexican Restaurant";
+            var cuisineName = "Indian";
+            var originalCuisineId = 1;
+            var originalRestaurantName = "No1 Indian Restaurant";
             var updatedCuisineName = "Mexican";
+            var updateCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
             var createdUser = 10;
+            var originalCuisine = new Cuisine
+            {
+                Name = cuisineName,
+                Id = originalCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
             //var expectedResponse = new API.ViewModels.Restaurant
             //{
             //    Id = restaruantIdToUpdate,
             //    AverageRating = 3.5,
-            //    Cuisine = updatedCuisineName,
+            //    CuisineId = updatedCuisineName,
             //    Name = updatedRestaurantName,
             //    ReviewCount = 120
             //};
@@ -549,26 +629,28 @@ namespace RestaurantRating.APITests
                 Id = restaruantIdToUpdate,
                 CreatedBy = createdUser,
                 UpdatedBy = createdUser,
-                Cuisine = originalCuisineName,
+                Cuisine = originalCuisine,
                 Name = originalRestaurantName
             };
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updateCuisineId,
+                CuisineName= updatedCuisineName,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updateCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
 
             _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            _mockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
             _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Returns(restaurantBeforeUpdate);
 
@@ -594,20 +676,31 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
+                CuisineName = updatedCuisineName,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
@@ -629,20 +722,30 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
-
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+            
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineName = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
@@ -666,20 +769,31 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineName = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
@@ -705,15 +819,24 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var originalCuisineName = "Indian";
-            var originalRestaurantName = "No1 Mexican Restaurant";
+            var originalCuisineId = 1;
+            var originalRestaurantName = "No1 Indian Restaurant";
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
             var createdUser = 10;
+            var originalCuisine = new Cuisine
+            {
+                Name = originalCuisineName,
+                Id = originalCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
             //var expectedResponse = new API.ViewModels.Restaurant
             //{
             //    Id = restaruantIdToUpdate,
             //    AverageRating = 3.5,
-            //    Cuisine = updatedCuisineName,
+            //    CuisineId = updatedCuisineName,
             //    Name = updatedRestaurantName,
             //    ReviewCount = 120
             //};
@@ -723,7 +846,7 @@ namespace RestaurantRating.APITests
                 Id = restaruantIdToUpdate,
                 CreatedBy = createdUser,
                 UpdatedBy = createdUser,
-                Cuisine = originalCuisineName,
+                Cuisine = originalCuisine,
                 Name = originalRestaurantName
             };
 
@@ -741,6 +864,7 @@ namespace RestaurantRating.APITests
             };
 
             _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            _mockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
             _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Returns(restaurantBeforeUpdate);
 
@@ -766,20 +890,31 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineName = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
@@ -801,23 +936,35 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineName = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
+
 
             _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
                 .Throws(new Exception());
@@ -838,23 +985,35 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var updatedCuisineName = "Mexican";
+            var updatedCuisineId = 10;
             var updatedRestaurantName = "World Cafe";
             var restaruantIdToUpdate = 155;
+            var createdUser = 10;
+            var cuisine = new Cuisine
+            {
+                Name = updatedCuisineName,
+                Id = updatedCuisineId,
+                CreatedBy = createdUser,
+                UpdatedBy = createdUser
+            };
+
 
             var requestModel = new API.ViewModels.Restaurant
             {
                 Id = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineName = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
             };
 
             var transactionRequest = new UpdateRestaurantRequestModel
             {
                 RestaurantId = restaruantIdToUpdate,
-                Cuisine = updatedCuisineName,
+                CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
                 UserId = _callingUserID
             };
+
 
             _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
             .Throws(new Exception());

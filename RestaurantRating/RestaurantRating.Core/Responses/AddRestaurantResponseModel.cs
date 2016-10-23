@@ -3,6 +3,7 @@
     public class AddRestaurantResponseModel : TransactionResponseModel
     {
         public int RestaurantId { get; set; }
+        public string CuisineName { get; set; }
 
         public override string ToString()=> $"ID:{RestaurantId} WasSucess:{WasSucessfull}";
         public override bool Equals(object obj)

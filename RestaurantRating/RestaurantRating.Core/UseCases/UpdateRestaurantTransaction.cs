@@ -15,7 +15,6 @@ namespace RestaurantRating.Domain
                 var restaurantToUpdate = Repository.GetRestaurantById(Request.RestaurantId);
                 if (restaurantToUpdate == null) throw new RestaurantNotFoundException();
 
-
                 if (IsRestaurantDataInRequestDifferentFromRepository(restaurantToUpdate))
                 {
                     UpdateRequesWithMissingData(restaurantToUpdate);
@@ -41,6 +40,11 @@ namespace RestaurantRating.Domain
                 ApplicationLog.InformationLog(ex.Message);
                 throw;
             }
+            catch (CuisineNotFoundException ex)
+            {
+                ApplicationLog.InformationLog(ex.Message);
+                throw;
+            }
             catch (Exception ex)
             {
                 ApplicationLog.ErrorLog("Restaurant was not updated", ex);
@@ -55,10 +59,12 @@ namespace RestaurantRating.Domain
                 throw new RestaurantInvalidInputException("Restaurant name is blank");
             }
 
-            if(string.IsNullOrWhiteSpace(Request.Cuisine))
+            if(Request.CuisineId == 0)
             {
-                throw new RestaurantInvalidInputException("Restaurant cuisine is blank");
+                throw new RestaurantInvalidInputException("Restaurant cuisine is not specified");
             }
+
+            if (!Repository.DoseCuisineIdExist(Request.CuisineId)) throw new CuisineNotFoundException();
         }
 
         protected abstract void UpdateRequesWithMissingData(Restaurant restaurantToUpdate);
@@ -67,7 +73,7 @@ namespace RestaurantRating.Domain
         {
             //comparing persistent entry to request entry 
             //because request entries can be blank if don't need to update
-            if (!restaurantToUpdate.Cuisine.Equals(Request.Cuisine)) return true;
+            if (!restaurantToUpdate.Cuisine.Id.Equals(Request.CuisineId)) return true;
             if (!restaurantToUpdate.Name.Equals(Request.Name)) return true;
 
             return false;
