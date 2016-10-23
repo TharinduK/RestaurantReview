@@ -1,6 +1,6 @@
 ﻿namespace RestaurantRating.Domain
 {
-    public class RestaurantInvalidInputException : RestaurantConstrantException
+    public class RestaurantInvalidInputException : BaseException
     {
         public RestaurantInvalidInputException(string message) : base(message)
         {

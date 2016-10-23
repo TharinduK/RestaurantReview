@@ -14,6 +14,8 @@ namespace RestaurantRating.DomainTests
         protected List<Restaurant> Restaurants = new List<Restaurant>();
         protected List<Review> Reviews = new EditableList<Review>();
         protected List<User> Users = new List<User>();
+        protected List<Cuisine> Cuisines = new List<Cuisine>();
+
         protected IApplicationLog Log;
 
         [TestInitialize]
@@ -58,6 +60,9 @@ namespace RestaurantRating.DomainTests
 
             repo.Setup(m => m.GetAllRestaurantsWithReview())
                 .Returns(FakeGetAllRestaurants());
+
+            repo.Setup(m => m.GetAllCuisines())
+                .Returns(Cuisines);
                 
             Repo = repo.Object;
         }

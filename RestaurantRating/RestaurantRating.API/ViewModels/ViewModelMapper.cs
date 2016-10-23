@@ -9,7 +9,7 @@ namespace RestaurantRating.API
         public IEnumerable<Restaurant> ConvertDomainRestaurantToViewModel(ViewAllRestaurantsTransaction tran)
         {
             var allRestaurants = new List<Restaurant>();
-            foreach (var rest in tran.Response.AllRestaurants)
+            foreach (var rest in tran.Response.Restaurants)
             {
                 allRestaurants.Add(ConvertDomainRestaurantToViewModel(rest));
             }

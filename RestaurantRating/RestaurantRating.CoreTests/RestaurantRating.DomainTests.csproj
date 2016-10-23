@@ -68,6 +68,7 @@
     <Compile Include="RemoveRestaurantTest.cs" />
     <Compile Include="AddReviewTests.cs" />
     <Compile Include="PartialUpdateRestaurantTest.cs" />
+    <Compile Include="ViewCuisinesTests.cs" />
     <Compile Include="ViewReviesTests.cs" />
     <Compile Include="ViewAllRestaurantsTest.cs" />
     <Compile Include="ViewRestaurantTest.cs" />
@@ -77,10 +78,6 @@
     <ProjectReference Include="..\RestaurantRating.Core\RestaurantRating.Domain.csproj">
       <Project>{07E53966-BB7A-466F-810E-D247F5197BCE}</Project>
       <Name>RestaurantRating.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RestaurantRating.DTO\RestaurantRating.DTO.csproj">
-      <Project>{81D3A3D7-EC00-4050-B9AB-F84BDD078B0F}</Project>
-      <Name>RestaurantRating.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

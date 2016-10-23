@@ -3,7 +3,7 @@
 namespace RestaurantRating.Domain
 {
     public class ViewAllRestaurantsTransaction :
-        Transaction<ViewAllRestaurantRequestModel, ViewAllRestaurantsResponseModel>
+        Transaction<ViewAllRestaurantRequestModel, ViewRestaurantsResponseModel>
     {
         public ViewAllRestaurantsTransaction(IRepository repo, IApplicationLog log,
             ViewAllRestaurantRequestModel reqeustModel)
@@ -18,7 +18,7 @@ namespace RestaurantRating.Domain
                 //validate permission to run app
 
                 var allRestaurants = Repository.GetAllRestaurantsWithReview();
-                Response.AllRestaurants = allRestaurants;
+                Response.Restaurants = allRestaurants;
                 
                 Response.WasSucessfull = true;
             }

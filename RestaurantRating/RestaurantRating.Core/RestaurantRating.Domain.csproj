@@ -40,7 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\RestaurantConstrantException.cs" />
+    <Compile Include="Entities\Cuisine.cs" />
+    <Compile Include="Requests\ViewRestaurantForCuisineRequestModel.cs" />
+    <Compile Include="Exceptions\CuisineNotFoundException.cs" />
+    <Compile Include="UseCases\ViewRestaurantsForCuisineTransaction.cs" />
     <Compile Include="UseCases\ViewReviewsForRestaurantTransaction.cs" />
     <Compile Include="UseCases\PartialUpdateRestaurantTransaction.cs" />
     <Compile Include="UseCases\CompleteUpdateRestaurantTransaction.cs" />
@@ -79,18 +82,15 @@
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="UseCases\ViewRestaurantTransaction.cs" />
     <Compile Include="Requests\ViewAllRestaurantRequestModel.cs" />
-    <Compile Include="Responses\ViewAllRestaurantsResponseModel.cs" />
+    <Compile Include="Responses\ViewRestaurantsResponseModel.cs" />
     <Compile Include="UseCases\ViewAllRestaurantsTransaction.cs" />
     <Compile Include="Responses\ViewReviewsForRestaurantResponseModel.cs" />
+    <Compile Include="UseCases\ViewCuisineTransaction.cs" />
+    <Compile Include="Requests\ViewCuisinesRequestModel.cs" />
+    <Compile Include="Responses\ViewCuisineResponseModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RestaurantRatingDomain.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RestaurantRating.DTO\RestaurantRating.DTO.csproj">
-      <Project>{81d3a3d7-ec00-4050-b9ab-f84bdd078b0f}</Project>
-      <Name>RestaurantRating.DTO</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

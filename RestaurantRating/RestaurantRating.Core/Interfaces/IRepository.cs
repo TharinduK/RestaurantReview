@@ -17,5 +17,8 @@ namespace RestaurantRating.Domain
         Restaurant GetRestaurantWithReviewsById(int restaurantId);
         void UpdateRestaurant(UpdateRestaurantRequestModel request);
         IEnumerable<Restaurant> GetAllRestaurantsWithReview();
+        IEnumerable<Cuisine> GetAllCuisines();
+        bool DoseCuisineIdAlreadyExist(int requestCusineId);
+        IEnumerable<Restaurant> GetRestaurantForCuisine(int requestCusineId);
     }
 }

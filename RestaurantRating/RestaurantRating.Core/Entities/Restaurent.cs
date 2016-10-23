@@ -5,7 +5,7 @@ namespace RestaurantRating.Domain
 {
     public class Restaurant : AuditRecord
     {
-        private string _cuisine;
+        private string _cuisine;//TODO: must update cuisine to use a cuisine object (not string)
         private string _name;
         private List<Review> _reviews;
 

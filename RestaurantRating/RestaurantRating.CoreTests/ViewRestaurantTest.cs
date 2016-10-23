@@ -11,12 +11,30 @@ namespace RestaurantRating.DomainTests
     {
         public ViewRestaurantTest()
         {
-            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1,Cuisine = "Cuisine 1", Id = 1 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1,Cuisine = "Cuisine 1", Id = 2 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1,Cuisine = "Cuisine 2", Id = 3 });
-            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2,Cuisine = "Cuisine 2", Id = 4 });
+            Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 2, Name = "Armenian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 3, Name = "Italian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
+
+            Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 1 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 2 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 2", Id = 3 });
+            Restaurants.Add(new Restaurant { Name = "Restaurant name Four", CreatedBy = 2, UpdatedBy = 2, Cuisine = "Cuisine 2", Id = 4 });
             Restaurants.Add(new Restaurant { Name = "Restaurant name Five", CreatedBy = 2, UpdatedBy = 1, Cuisine = "Cuisine 3", Id = 5 });
-            
+
+            for (int i = 0; i < 5; i++)
+            {
+                Restaurants.Add(new Restaurant
+                {
+                    Name = $"Indian Restaurant No {i}",
+                    CreatedBy = 1,
+                    UpdatedBy = 1,
+                    Cuisine = "Indian",
+                    Id = (6 + i)
+                });
+            }
+
             Users.Add(new User { Id = 1 });
             Users.Add(new User { Id = 2 });
             Users.Add(new User { Id = 3 });
@@ -75,7 +93,7 @@ namespace RestaurantRating.DomainTests
                     CreatedBy = Users[i].Id,
                     UpdatedBy = Users[i].Id,
                     Comment = $"Comment {i} for Restaurant 4",
-                    Rating = (i%5) + 1,
+                    Rating = (i % 5) + 1,
                     PostedDateTime = new DateTime(2016, 09, i + 1),
                     ReviewNumber = 4 + i,
                     ReviewUser = Users[i]
@@ -94,7 +112,7 @@ namespace RestaurantRating.DomainTests
             var viewingUserId = 1;
             var viewingRestID = 1;
             var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
-            
+
             var expectedName = "Restaurant name one";
             var expectedCuisine = "Cuisine 1";
             var expectedRestId = 1;
@@ -102,9 +120,9 @@ namespace RestaurantRating.DomainTests
             var expectedAverageRating = 0;
             var expectedReviewCount = 0;
             var expectedSucessStatus = true;
-            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
+            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            
+
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
@@ -127,14 +145,14 @@ namespace RestaurantRating.DomainTests
             };
         }
 
-        private static ViewRestaurantResponseModel SetupExpectedResponse(bool expectedSucessStatus, 
-            string expectedName, string expectedCuisine, int expectedRestId, IEnumerable<Review> expectedReviews, 
+        private static ViewRestaurantResponseModel SetupExpectedResponse(bool expectedSucessStatus,
+            string expectedName, string expectedCuisine, int expectedRestId, IEnumerable<Review> expectedReviews,
             double expectedAverageRating, int expectedReviewCount)
         {
             return new ViewRestaurantResponseModel
             {
                 WasSucessfull = expectedSucessStatus,
-                Name =  expectedName, 
+                Name = expectedName,
                 Cuisine = expectedCuisine,
                 RestaurantId = expectedRestId,
                 Reviews = expectedReviews,
@@ -187,7 +205,7 @@ namespace RestaurantRating.DomainTests
 
             //TODO: review response to check if the values can be updated (they should not be able to)
             var expectedSucessStatus = true;
-            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
+            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
@@ -235,9 +253,9 @@ namespace RestaurantRating.DomainTests
             };
 
             var expectedSucessStatus = true;
-            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
+            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            
+
 
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
@@ -272,7 +290,7 @@ namespace RestaurantRating.DomainTests
                     CreatedBy = Users[i].Id,
                     UpdatedBy = Users[i].Id,
                     Comment = $"Comment {i} for Restaurant 4",
-                    Rating = (i%5) + 1,
+                    Rating = (i % 5) + 1,
                     PostedDateTime = new DateTime(2016, 09, i + 1),
                     ReviewNumber = 4 + i,
                     ReviewUser = Users[i]
@@ -283,9 +301,9 @@ namespace RestaurantRating.DomainTests
             }
 
             var expectedSucessStatus = true;
-            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName, 
+            var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            
+
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
             viewRestTran.Execute();
@@ -325,7 +343,7 @@ namespace RestaurantRating.DomainTests
             var expectedSucessStatus = false;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
-            
+
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
             viewRestTran.Execute();
@@ -338,5 +356,51 @@ namespace RestaurantRating.DomainTests
             var actualRest = Restaurants.Find(r => r.Id == viewingRestID);
             Assert.IsNull(actualRest, "Update restaurant not found");
         }
+
+        [TestMethod]
+        public void ViewRestaurants_ValidCuisine_Succeed()
+        {
+            var requestCusineID = 1;
+            var viewingUserId = 1;
+            var requestModel = new ViewRestaurantForCuisineRequestModel { UserId = viewingUserId, CusineID = requestCusineID };
+
+            var expectedCuisine = "Indian";
+            var expectedRestaurants = new List<Restaurant>();
+            //restaurant 4 setup 
+            for (int i = 0; i < 5; i++)
+            {
+                expectedRestaurants.Add(new Restaurant
+                {
+                    Name = $"Indian Restaurant No {i}",
+                    CreatedBy = 1,
+                    UpdatedBy = 1,
+                    Cuisine = "Indian",
+                    Id = (6 + i)
+                });
+            }
+            var expectedRestCount = 5;
+
+            var tran = new ViewRestaurantsForCuisineTransaction(Repo, Log, requestModel);
+            tran.Execute();
+            var actualResponse = tran.Response;
+
+            //assert
+            Assert.AreEqual(true, actualResponse.WasSucessfull, "Invalid execution status");
+            var restIndex = 0;
+            foreach (var actualrest in actualResponse.Restaurants)
+            {
+                var expectedRest = expectedRestaurants[restIndex];
+                Assert.AreEqual(expectedRest.Id, actualrest.Id);
+                Assert.AreEqual(expectedRest.Cuisine, actualrest.Cuisine);
+                Assert.AreEqual(expectedRest.Name, actualrest.Name);
+                Assert.AreEqual(expectedRest.CreatedBy, actualrest.CreatedBy);
+                Assert.AreEqual(expectedRest.UpdatedBy, actualrest.UpdatedBy);
+
+                restIndex++;
+            }
+            Assert.AreEqual(expectedRestCount, restIndex);
+        }
+
+
     }
 }

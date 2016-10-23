@@ -12,9 +12,16 @@ namespace RestaurantRating.Repository.InMemory
         protected List<Restaurant> Restaurants = new List<Restaurant>();
         protected List<Review> Reviews = new EditableList<Review>();
         protected List<User> Users = new List<User>();
-        
+        protected List<Cuisine> Cuisines = new List<Cuisine>();
+
         public InMemoryRepository()
         {
+            Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 2, Name = "Armenian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 3, Name = "Italian", CreatedBy = 1, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 4, Name = "Cajun", CreatedBy = 2, UpdatedBy = 1 });
+            Cuisines.Add(new Cuisine { Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1 });
+
             Restaurants.Add(new Restaurant { Name = "Restaurant name one", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 1 });
             Restaurants.Add(new Restaurant { Name = "Restaurant name Two", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 1", Id = 2 });
             Restaurants.Add(new Restaurant { Name = "Restaurant name Three", CreatedBy = 1, UpdatedBy = 1, Cuisine = "Cuisine 2", Id = 3 });
@@ -172,11 +179,26 @@ namespace RestaurantRating.Repository.InMemory
                 yield return rest;
         }
 
+        public IEnumerable<Cuisine> GetAllCuisines()
+        {
+            return Cuisines;
+        }
+
+        public bool DoseCuisineIdAlreadyExist(int requestCusineId)
+        {
+            return (requestCusineId > 0 && requestCusineId < Cuisines.Count);
+        }
+
+        public IEnumerable<Restaurant> GetRestaurantForCuisine(int requestCusineId)
+        {
+            //var foundRestaurant = Restaurants.Find(r => r.Id == restaurantId);
+            //return foundRestaurant?.Reviews;
+            return Enumerable.Empty<Restaurant>();
+        }
+
         public IEnumerable<Review> GetReviewsForRestaurant(int restaurantId)
         {
             var foundRestaurant = Restaurants.Find(r => r.Id == restaurantId);
-            var s = Enumerable.Empty<Review>();
-
             return foundRestaurant?.Reviews;
         }
     }
