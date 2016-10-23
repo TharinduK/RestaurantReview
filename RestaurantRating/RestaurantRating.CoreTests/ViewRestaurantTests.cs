@@ -336,21 +336,13 @@ namespace RestaurantRating.DomainTests
             var viewingRestID = 20;
             var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
 
-            var expectedName = string.Empty;
-            var expectedCuisine = string.Empty;
-            var expectedRestId = 0;
-            var expectedReviews = Enumerable.Empty<Review>();
-            var expectedAverageRating = 0;
-            var expectedReviewCount = 0;
-            var expectedSucessStatus = false;
-
             var viewRestTran = new ViewRestaurantTransaction(Repo, Log, expectedRequestModel);
 
             viewRestTran.Execute();
             var actualResponse = viewRestTran.Response;
 
             //assert
-            Assert.AreEqual(expectedSucessStatus, actualResponse.WasSucessfull, "Invalid execution status");
+            Assert.AreEqual(false, actualResponse.WasSucessfull, "Invalid execution status");
         }
     }
 }

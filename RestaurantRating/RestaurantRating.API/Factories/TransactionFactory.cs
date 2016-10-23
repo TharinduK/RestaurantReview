@@ -14,6 +14,17 @@ namespace RestaurantRating.API.Factories
             _log = log;
             _callingUserId = callingUserId;
         }
+
+        public ViewRestaurantsForCuisineTransaction CreateViewRestaurantsForCuisineTransaction(int id)
+        {
+            var reqModel = new ViewRestaurantsForCuisineRequestModel
+            {
+                CuisineId = id,
+                UserId = _callingUserId
+            };
+            return new ViewRestaurantsForCuisineTransaction(_repo, _log, reqModel);
+        }
+
         public ViewRestaurantTransaction CreateViewRestaurantTransaction(int restaurantId)
         {
             var reqModel = new ViewRestaurantRequestModel
@@ -70,6 +81,11 @@ namespace RestaurantRating.API.Factories
             return new ViewReviewsForRestaurantTransaction(_repo, _log, reqModel);
         }
 
+        public ViewCuisinesTransaction CreateViewAllCuisinesTransaction()
+        {
+            var reqModel = new ViewCuisinesRequestModel{UserId = _callingUserId};
+            return new ViewCuisinesTransaction(_repo, _log, reqModel);
+        }
 
         public RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove)
         {

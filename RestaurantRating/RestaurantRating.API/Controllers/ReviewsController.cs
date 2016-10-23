@@ -1,6 +1,5 @@
 ﻿using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
-using RestaurantRating.Repository.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -8,25 +7,12 @@ using System.Web.Http;
 namespace RestaurantRating.API.Controllers
 {
     [RoutePrefix("api")]
-    public class ReviewsController : ApiController
+    public class ReviewsController : ControllerBase
     {
-        private readonly IApplicationLog _logger;
-        private readonly TransactionFactory _factory;
+        public ReviewsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
+            : base(repo, logger, factory){}
 
-        public ReviewsController(IRepository repo, IApplicationLog logger)
-        {
-            _logger = logger;
-            _factory = new TransactionFactory(repo, _logger, 1);
-#warning userID hardcoded  (must use factory inteface)
-        }
-
-        public ReviewsController()
-        {
-            //todo: must be removed with di container 
-            IRepository repository = new InMemoryRepository();
-            _logger = new InMemoryApplicationLog();
-            _factory = new TransactionFactory(repository, _logger, 1);
-        }
+        public ReviewsController(){}
 
         [HttpGet]
         [Route("Restaurants/{restaurantId}/Reviews", Name ="ReviewsForRestaurant")]
@@ -34,7 +20,7 @@ namespace RestaurantRating.API.Controllers
         {
             try
             {
-                var tran = _factory.CreateViewReviewsForRestaurantTransaction(restaurantId);
+                var tran = Factory.CreateViewReviewsForRestaurantTransaction(restaurantId);
                 tran.Execute();
 
                 var reviews = ConvertToReviewViewModel(tran);
@@ -44,7 +30,7 @@ namespace RestaurantRating.API.Controllers
             catch (RestaurantNotFoundException) { return NotFound(); } //404
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed getting restaurant id {restaurantId}", ex);
+                Logger.ErrorLog($"Web API failed getting restaurant id {restaurantId}", ex);
                 return InternalServerError(); //500
             }
         }

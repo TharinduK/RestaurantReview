@@ -71,12 +71,12 @@ namespace RestaurantRating.DomainTests
                 .Returns(Cuisines);
 
             repo.Setup(m => m.GetRestaurantForCuisine(It.IsAny<int>()))
-                .Returns<int>(id => FakeGetRestaurantsForCuisineID(id));
+                .Returns<int>(id => FakeGetRestaurantsForCuisineId(id));
                 
             Repo = repo.Object;
         }
 
-        private IEnumerable<Restaurant> FakeGetRestaurantsForCuisineID(int id)
+        private IEnumerable<Restaurant> FakeGetRestaurantsForCuisineId(int id)
         {
             var foundRestaurant = Restaurants.FindAll(r => r.Cuisine.Id == id);
             return foundRestaurant;

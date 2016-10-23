@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Cuisine.cs" />
-    <Compile Include="Requests\ViewRestaurantForCuisineRequestModel.cs" />
+    <Compile Include="Requests\ViewRestaurantsForCuisineRequestModel.cs" />
     <Compile Include="Exceptions\CuisineNotFoundException.cs" />
     <Compile Include="UseCases\ViewRestaurantsForCuisineTransaction.cs" />
     <Compile Include="UseCases\ViewReviewsForRestaurantTransaction.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Responses\ViewRestaurantsResponseModel.cs" />
     <Compile Include="UseCases\ViewAllRestaurantsTransaction.cs" />
     <Compile Include="Responses\ViewReviewsForRestaurantResponseModel.cs" />
-    <Compile Include="UseCases\ViewCuisineTransaction.cs" />
+    <Compile Include="UseCases\ViewCuisinesTransaction.cs" />
     <Compile Include="Requests\ViewCuisinesRequestModel.cs" />
     <Compile Include="Responses\ViewCuisineResponseModel.cs" />
   </ItemGroup>

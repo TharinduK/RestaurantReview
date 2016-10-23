@@ -2,6 +2,5 @@
 {
     public class ViewCuisinesRequestModel:TransactionRequestModel
     {
-        public int UserId { get; set; }
     }
 }

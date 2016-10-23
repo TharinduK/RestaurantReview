@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.DomainTests
@@ -34,7 +33,7 @@ namespace RestaurantRating.DomainTests
                 new Cuisine() {Id = 5, Name = "Mexican", CreatedBy = 2, UpdatedBy = 1}
             };
 
-            var tran = new ViewCuisineTransaction(Repo, Log, expectedRequestModel);
+            var tran = new ViewCuisinesTransaction(Repo, Log, expectedRequestModel);
 
             //act
             tran.Execute();

@@ -145,7 +145,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\CuisinesController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="ViewModels\Cuisine.cs" />
     <Compile Include="ViewModels\ViewModelMapper.cs" />
     <Compile Include="Factories\ITransactionFactory.cs" />
     <Compile Include="Factories\TransactionFactory.cs" />

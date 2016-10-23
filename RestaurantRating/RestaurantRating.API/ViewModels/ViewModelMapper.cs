@@ -6,17 +6,17 @@ namespace RestaurantRating.API
 {
     public class ViewModelMapper
     {
-        public IEnumerable<Restaurant> ConvertDomainRestaurantToViewModel(ViewAllRestaurantsTransaction tran)
+        public static IEnumerable<ViewModels.Restaurant> ConvertDomainRestaurantGroupToViewModel(IEnumerable<Domain.Restaurant> domainRestaurants)
         {
-            var allRestaurants = new List<Restaurant>();
-            foreach (var rest in tran.Response.Restaurants)
+            var allRestaurants = new List<ViewModels.Restaurant>();
+            foreach (var rest in domainRestaurants)
             {
                 allRestaurants.Add(ConvertDomainRestaurantToViewModel(rest));
             }
             return allRestaurants;
         }
 
-        public Restaurant ConvertDomainRestaurantToViewModel(Domain.Restaurant rest)
+        public static Restaurant ConvertDomainRestaurantToViewModel(Domain.Restaurant rest)
         {
             var restViewModel = new ViewModels.Restaurant
             {
@@ -42,6 +42,16 @@ namespace RestaurantRating.API
                 AverageRating = tran.Response.AverageRating
             };
             return rest;
+        }
+
+        public static IEnumerable<ViewModels.Cuisine> ConvertDomainCuisineToViewModel(ViewCuisinesTransaction tran)
+        {
+            var retrivedCuisines = new List<ViewModels.Cuisine>();
+            foreach (var cuisine in tran.Response.Cuisines)
+            {
+                retrivedCuisines.Add(new ViewModels.Cuisine {Id = cuisine.Id, Name = cuisine.Name});
+            }
+            return retrivedCuisines;
         }
     }
 }

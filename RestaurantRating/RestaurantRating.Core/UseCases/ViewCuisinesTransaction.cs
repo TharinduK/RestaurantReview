@@ -2,9 +2,9 @@
 
 namespace RestaurantRating.Domain
 {
-    public class ViewCuisineTransaction : Transaction<ViewCuisinesRequestModel, ViewCuisineResponseModel>
+    public class ViewCuisinesTransaction : Transaction<ViewCuisinesRequestModel, ViewCuisineResponseModel>
     {
-        public ViewCuisineTransaction(IRepository repo, IApplicationLog log, ViewCuisinesRequestModel reqeustModel)
+        public ViewCuisinesTransaction(IRepository repo, IApplicationLog log, ViewCuisinesRequestModel reqeustModel)
             : base(repo, log, reqeustModel)
         {
         }
@@ -21,7 +21,6 @@ namespace RestaurantRating.Domain
             {
                 Response.WasSucessfull = false;
                 ApplicationLog.ErrorLog("Error retrieving cuisines", ex);
-                throw;
             }
             
         }

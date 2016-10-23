@@ -339,9 +339,9 @@ namespace RestaurantRating.DomainTests
         public void ViewRestaurants_ValidCuisine_Succeed()
         {
             var expectedCuisine = Cuisines[4];
-            var requestCusineID = expectedCuisine.Id;
+            var requestCusineId = expectedCuisine.Id;
             var viewingUserId = 1;
-            var requestModel = new ViewRestaurantForCuisineRequestModel { UserId = viewingUserId, CusineID = requestCusineID };
+            var requestModel = new ViewRestaurantsForCuisineRequestModel { UserId = viewingUserId, CuisineId = requestCusineId };
 
             var expectedRestaurants = new List<Restaurant>();
             //restaurant 4 setup 
@@ -385,7 +385,7 @@ namespace RestaurantRating.DomainTests
         {
             var requestCusineID = 222;
             var viewingUserId = 1;
-            var requestModel = new ViewRestaurantForCuisineRequestModel { UserId = viewingUserId, CusineID = requestCusineID };
+            var requestModel = new ViewRestaurantsForCuisineRequestModel { UserId = viewingUserId, CuisineId = requestCusineID };
 
             var tran = new ViewRestaurantsForCuisineTransaction(Repo, Log, requestModel);
             tran.Execute();

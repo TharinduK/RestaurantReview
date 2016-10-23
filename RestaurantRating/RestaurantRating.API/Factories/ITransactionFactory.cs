@@ -8,12 +8,18 @@ namespace RestaurantRating.API.Factories
 
         CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(int restaurantId, string name,
             int cuisineId);
-        RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove);
-
         PartialUpdateRestaurantTransaction CreatePartialUpdateRestraurantTransaction(int restaurantId, string name,
             int cuisineId);
+        RemoveRestaurantTransaction CreateDeleteRestraurantTransaction(int restaurantIdToRemove);
+
+
         ViewAllRestaurantsTransaction CreateViewAllRestaurantsTransaction();
+        ViewRestaurantsForCuisineTransaction CreateViewRestaurantsForCuisineTransaction(int id);
         ViewRestaurantTransaction CreateViewRestaurantTransaction(int restaurantId);
+
         ViewReviewsForRestaurantTransaction CreateViewReviewsForRestaurantTransaction(int restaurantId);
+
+        ViewCuisinesTransaction CreateViewAllCuisinesTransaction();
+
     }
 }

@@ -3,32 +3,15 @@ using System.Net;
 using System.Web.Http;
 using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
-using RestaurantRating.Repository.InMemory;
 
 namespace RestaurantRating.API
 {
-    public class RestaurantsController : ApiController
+    public class RestaurantsController : ControllerBase
     {
-        private readonly IApplicationLog _logger;
-        private readonly ITransactionFactory _factory;
-        private readonly ViewModelMapper _viewModelMapper;
+        public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
+            : base(repo, logger, factory){}
 
-        public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory)
-        {
-            _viewModelMapper = new ViewModelMapper();
-            _logger = logger;
-            _factory = factory;
-#warning userID hardcoded  (must use factory inteface)
-        }
-
-        public RestaurantsController()
-        {
-            //todo: must be removed with di container 
-            _viewModelMapper = new ViewModelMapper();
-            IRepository repository = new InMemoryRepository();
-            _logger = new InMemoryApplicationLog();
-            _factory = new TransactionFactory(repository, _logger, 1);
-        }
+        public RestaurantsController(){}
 
         // GET api/Restaurants
         [HttpGet]
@@ -36,19 +19,19 @@ namespace RestaurantRating.API
         {
             try
             {
-                var tran = _factory.CreateViewAllRestaurantsTransaction();
+                var tran = Factory.CreateViewAllRestaurantsTransaction();
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull)
                 {
-                    var allRestaurants = _viewModelMapper.ConvertDomainRestaurantToViewModel(tran);
+                    var allRestaurants = ViewModelMapper.ConvertDomainRestaurantGroupToViewModel(tran.Response.Restaurants);
                     return Ok(allRestaurants);
                 }
                 else return BadRequest();
             }
             catch (Exception ex)
             {
-                _logger.ErrorLog("Unable to fetch valid restaurants", ex);
+                Logger.ErrorLog("Unable to fetch valid restaurants", ex);
                 return InternalServerError();
             }
         }
@@ -59,7 +42,7 @@ namespace RestaurantRating.API
         {
             try
             {
-                var tran = _factory.CreateViewRestaurantTransaction(id);
+                var tran = Factory.CreateViewRestaurantTransaction(id);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull)
@@ -72,7 +55,7 @@ namespace RestaurantRating.API
             catch (RestaurantNotFoundException) { return NotFound(); } 
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
+                Logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
                 return InternalServerError();
             }
         }
@@ -85,7 +68,7 @@ namespace RestaurantRating.API
             {
                 if (restaurantRequest == null) return BadRequest(); //400
 
-                var tran = _factory.CreateAddRestraurantTransaction(restaurantRequest.Name, restaurantRequest.CuisineId);
+                var tran = Factory.CreateAddRestraurantTransaction(restaurantRequest.Name, restaurantRequest.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull)
@@ -102,7 +85,7 @@ namespace RestaurantRating.API
             catch (RestaurantAlreadyExistsException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {restaurantRequest}", ex);
+                Logger.ErrorLog($"Web API failed add new restaurant {restaurantRequest}", ex);
                 return InternalServerError(); //500
             }
         }
@@ -115,7 +98,7 @@ namespace RestaurantRating.API
             {
                 if (restaurant == null) return BadRequest(); //400
 
-                var tran = _factory.CreateCompleteUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
+                var tran = Factory.CreateCompleteUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200
@@ -126,7 +109,7 @@ namespace RestaurantRating.API
             catch (RestaurantInvalidInputException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
+                Logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
                 return InternalServerError(); //500
             }
         }
@@ -138,7 +121,7 @@ namespace RestaurantRating.API
             {
                 if (restaurant == null) return BadRequest();//400
 
-                var tran = _factory.CreatePartialUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
+                var tran = Factory.CreatePartialUpdateRestraurantTransaction(id, restaurant.Name, restaurant.CuisineId);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return Ok(new ViewModels.Restaurant {Id = id}); //200
@@ -148,7 +131,7 @@ namespace RestaurantRating.API
             catch (RestaurantInvalidInputException) { return BadRequest(); }
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
+                Logger.ErrorLog($"Web API failed add new restaurant {restaurant}", ex);
                 return InternalServerError(); //500
             }
         }
@@ -160,7 +143,7 @@ namespace RestaurantRating.API
         {
             try
             {
-                var tran = _factory.CreateDeleteRestraurantTransaction(id);
+                var tran = Factory.CreateDeleteRestraurantTransaction(id);
                 tran.Execute();
 
                 if (tran.Response.WasSucessfull) return StatusCode(HttpStatusCode.NoContent); //204
@@ -170,7 +153,7 @@ namespace RestaurantRating.API
             catch (RestaurantNotFoundException) { return NotFound(); } //404
             catch (Exception ex)
             {
-                _logger.ErrorLog($"Web API failed add new restaurant {id}", ex);
+                Logger.ErrorLog($"Web API failed add new restaurant {id}", ex);
                 return InternalServerError(); //500
             }
         }

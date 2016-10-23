@@ -11,12 +11,8 @@ using RestaurantRating.API.Factories;
 namespace RestaurantRating.APITests
 {
     [TestClass()]
-    public class RestaurantsControllerTests
+    public class RestaurantsControllerTests : ControllerTestsBase
     {
-        private readonly Mock<IRepository> _mockRepository = new Mock<IRepository>();
-        private readonly Mock<IApplicationLog> _mockLogger = new Mock<IApplicationLog>();
-        private readonly int _callingUserID = 10;
-
         #region Restaurant Get All
         [TestMethod]
         public void GetAllRestaurants_OneRestaurnat_OK()
@@ -27,6 +23,7 @@ namespace RestaurantRating.APITests
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
+            var expectedCollectionCount = 1;
             var cuisine = new Cuisine
             {
                 Name = cuisineName,
@@ -57,12 +54,12 @@ namespace RestaurantRating.APITests
             }
             };
 
-            _mockRepository.Setup(m => m.GetAllRestaurantsWithReview())
+            MockRepository.Setup(m => m.GetAllRestaurantsWithReview())
                 .Returns(repoResonse);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -71,7 +68,7 @@ namespace RestaurantRating.APITests
             //assert
             Assert.IsNotNull(contentResult, "Ok-200 status was not returned");
             Assert.IsNotNull(contentResult.Content, "No content was returned");
-            ValidateRestaurantCollectionResponse(contentResult, expectedResponse);
+            ValidateRestaurantCollectionResponse(contentResult.Content, expectedResponse, expectedCollectionCount);
         }
 
         [TestMethod]
@@ -83,6 +80,8 @@ namespace RestaurantRating.APITests
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var createdUser = 10;
+            var expectedCollectionCount = 2;
+
             var cuisine = new Cuisine
             {
                 Name = cuisineName,
@@ -133,12 +132,12 @@ namespace RestaurantRating.APITests
                 }
             };
 
-            _mockRepository.Setup(m => m.GetAllRestaurantsWithReview())
+            MockRepository.Setup(m => m.GetAllRestaurantsWithReview())
                 .Returns(repoResonse);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -148,18 +147,19 @@ namespace RestaurantRating.APITests
             Assert.IsNotNull(contentResult, "Ok-200 status was not returned");
             Assert.IsNotNull(contentResult.Content, "No content was returned");
 
-            ValidateRestaurantCollectionResponse(contentResult, expectedResponse);
+            ValidateRestaurantCollectionResponse(contentResult.Content, expectedResponse, expectedCollectionCount);
         }
 
-        private static void ValidateRestaurantCollectionResponse(OkNegotiatedContentResult<IEnumerable<API.ViewModels.Restaurant>> contentResult, API.ViewModels.Restaurant[] expectedResponse)
+        internal static void ValidateRestaurantCollectionResponse(IEnumerable<API.ViewModels.Restaurant> responseRestaurants, API.ViewModels.Restaurant[] expectedResponse, int expectedCollectionCount)
         {
-            var i = 0;
-            foreach (var actualRestaurantViewMode in contentResult.Content)
+            var restaruantCountIndex = 0;
+            foreach (var actualRestaurantViewMode in responseRestaurants)
             {
-                var expectedRest = expectedResponse[i];
+                var expectedRest = expectedResponse[restaruantCountIndex];
                 ValidateRestaurantResponse(expectedRest, actualRestaurantViewMode);
-                i++;
+                restaruantCountIndex++;
             }
+            Assert.AreEqual(expectedCollectionCount, restaruantCountIndex);
         }
 
         private static void ValidateRestaurantResponse(API.ViewModels.Restaurant expectedRest, API.ViewModels.Restaurant actualRestaurantViewMode)
@@ -177,15 +177,16 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var expectedResponse = new API.ViewModels.Restaurant[] { };
+            var expectedCollectionCount = 0;
 
             var repoResonse = new Restaurant[] { };
 
-            _mockRepository.Setup(m => m.GetAllRestaurantsWithReview())
+            MockRepository.Setup(m => m.GetAllRestaurantsWithReview())
                 .Returns(repoResonse);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -194,19 +195,19 @@ namespace RestaurantRating.APITests
             //assert
             Assert.IsNotNull(contentResult, "Ok-200 status was not returned");
             Assert.IsNotNull(contentResult.Content, "No content was returned");
-            ValidateRestaurantCollectionResponse(contentResult, expectedResponse);
+            ValidateRestaurantCollectionResponse(contentResult.Content, expectedResponse, expectedCollectionCount);
         }
 
         [TestMethod()]
         public void GetAllRestaurants_DatabaseException_BadData()
         {
             //arrange
-            _mockRepository.Setup(m => m.GetAllRestaurantsWithReview())
+            MockRepository.Setup(m => m.GetAllRestaurantsWithReview())
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -218,7 +219,7 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void GetAllRestaurants_ServerException_InternalError()
         {
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get();
@@ -227,7 +228,7 @@ namespace RestaurantRating.APITests
             Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
         }
 
-        #endregion 
+        #endregion
 
         #region Restaurant Get ID
         [TestMethod()]
@@ -282,12 +283,12 @@ namespace RestaurantRating.APITests
 
                 repoResonse.AddReview(newReview);
             }
-            _mockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
+            MockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
                 .Returns(repoResonse);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(restID);
@@ -297,11 +298,11 @@ namespace RestaurantRating.APITests
             Assert.IsNotNull(contentResult, "Ok-200 status was not returned");
             Assert.IsNotNull(contentResult.Content, "No content was returned");
             ValidateRestaurantResponse(expectedResponse, contentResult.Content);
-            //Assert.AreEqual(expectedResponse.Id, contentResult.Content.Id);
-            //Assert.AreEqual(expectedResponse.Name, contentResult.Content.Name);
-            //Assert.AreEqual(expectedResponse.AverageRating, contentResult.Content.AverageRating);
-            //Assert.AreEqual(expectedResponse.Cuisine, contentResult.Content.Cuisine);
-            //Assert.AreEqual(expectedResponse.ReviewCount, contentResult.Content.ReviewCount);
+            //Assert.AreEqual(expectedResponse.Id, responseRestaurants.Content.Id);
+            //Assert.AreEqual(expectedResponse.Name, responseRestaurants.Content.Name);
+            //Assert.AreEqual(expectedResponse.AverageRating, responseRestaurants.Content.AverageRating);
+            //Assert.AreEqual(expectedResponse.Cuisine, responseRestaurants.Content.Cuisine);
+            //Assert.AreEqual(expectedResponse.ReviewCount, responseRestaurants.Content.ReviewCount);
         }
 
         [TestMethod()]
@@ -310,7 +311,7 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 600;
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(restID);
@@ -325,12 +326,12 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 555;
 
-            _mockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
+            MockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(restID);
@@ -345,10 +346,10 @@ namespace RestaurantRating.APITests
             //arrange
             var restID = 555;
 
-            _mockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
+            MockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get(restID);
@@ -391,14 +392,14 @@ namespace RestaurantRating.APITests
             {
                 CuisineId = cuisineId,
                 Name = restName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.AddRestaurentGetNewId(transactionRequest))
+            MockRepository.Setup(m => m.AddRestaurentGetNewId(transactionRequest))
                 .Returns(expectedRestId);
-            _mockRepository.Setup(m => m.GetCuisineById(It.IsAny<int>())).Returns(cuisine);
+            MockRepository.Setup(m => m.GetCuisineById(It.IsAny<int>())).Returns(cuisine);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -429,12 +430,12 @@ namespace RestaurantRating.APITests
                 UpdatedBy = createdUser
             };
 
-            _mockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
+            MockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -460,12 +461,12 @@ namespace RestaurantRating.APITests
             };
 
 
-            _mockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
+            MockRepository.Setup(m => m.AddRestaurentGetNewId(It.IsAny<AddRestaurantRequestModel>()))
                 .Throws(new RestaurantAlreadyExistsException());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -489,7 +490,7 @@ namespace RestaurantRating.APITests
                 UpdatedBy = createdUser
             };
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -511,14 +512,14 @@ namespace RestaurantRating.APITests
             var transactionRequest = new RemoveRestaurantRequestModel
             {
                 RestaurantId = RestIdToDelete,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
-            _mockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
+            MockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
+            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
                 .Returns(true);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Delete(RestIdToDelete);
@@ -538,14 +539,14 @@ namespace RestaurantRating.APITests
             var transactionRequest = new RemoveRestaurantRequestModel
             {
                 RestaurantId = RestIdToDelete,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
-            _mockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
+            MockRepository.Setup(m => m.RemoveRestaurentId(transactionRequest));
+            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(155))
                 .Returns(false);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Delete(RestIdToDelete);
@@ -560,12 +561,12 @@ namespace RestaurantRating.APITests
             //arrange
             var RestIdToDelete = 555;
 
-            _mockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
+            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object,
-                _mockLogger.Object,
-                new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object,
+                MockLogger.Object,
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Delete(RestIdToDelete);
@@ -580,10 +581,10 @@ namespace RestaurantRating.APITests
             //arrange
             var RestIdToDelete = 555;
 
-            _mockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
+            MockRepository.Setup(m => m.DoseRestaurentIdAlreadyExist(RestIdToDelete))
                 .Returns(true);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get(RestIdToDelete);
@@ -646,15 +647,15 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updateCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
-            _mockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            MockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Returns(restaurantBeforeUpdate);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
@@ -662,13 +663,13 @@ namespace RestaurantRating.APITests
 
             //assert
             Assert.IsNotNull(contentResult, "ok -200 status was not returned");
-            //Assert.AreEqual(HttpStatusCode..Accepted, contentResult.StatusCode);  
+            //Assert.AreEqual(HttpStatusCode..Accepted, responseRestaurants.StatusCode);  
             //TODO: must check if se should return 201-accepted, 200-ok(with body) or 204 (ok with no content)
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual(restaruantIdToUpdate, contentResult.Content.Id);
 
             ////validate response
-            //ValidateRestaurantResponse(contentResult.Content, expectedResponse);
+            //ValidateRestaurantResponse(responseRestaurants.Content, expectedResponse);
         }
 
         [TestMethod]
@@ -702,13 +703,13 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
@@ -747,15 +748,15 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
                 .Throws(new Exception());
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
@@ -795,14 +796,14 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
             .Throws(new Exception());
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
@@ -860,15 +861,15 @@ namespace RestaurantRating.APITests
             {
                 RestaurantId = restaruantIdToUpdate,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
-            _mockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            MockRepository.Setup(m => m.DoseCuisineIdExist(It.IsAny<int>())).Returns(true);
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Returns(restaurantBeforeUpdate);
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);
@@ -876,13 +877,13 @@ namespace RestaurantRating.APITests
 
             //assert
             Assert.IsNotNull(contentResult, "ok -200 status was not returned");
-            //Assert.AreEqual(HttpStatusCode..Accepted, contentResult.StatusCode);  
+            //Assert.AreEqual(HttpStatusCode..Accepted, responseRestaurants.StatusCode);  
             //TODO: must check if se should return 201-accepted, 200-ok(with body) or 204 (ok with no content)
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual(restaruantIdToUpdate, contentResult.Content.Id);
 
             ////validate response
-            //ValidateRestaurantResponse(contentResult.Content, expectedResponse);
+            //ValidateRestaurantResponse(responseRestaurants.Content, expectedResponse);
         }
 
         [TestMethod]
@@ -916,13 +917,13 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest));
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);
@@ -962,16 +963,16 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
                 .Throws(new Exception());
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, new TransactionFactory(_mockRepository.Object, _mockLogger.Object, _callingUserID));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);
@@ -1011,15 +1012,15 @@ namespace RestaurantRating.APITests
                 RestaurantId = restaruantIdToUpdate,
                 CuisineId = updatedCuisineId,
                 Name = updatedRestaurantName,
-                UserId = _callingUserID
+                UserId = CallingUserId
             };
 
 
-            _mockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
+            MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
             .Throws(new Exception());
-            _mockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
+            MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(_mockRepository.Object, _mockLogger.Object, null);
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);
