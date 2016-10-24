@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.API
 {
+    [EnableCors("*", "*", "*")]
     public class RestaurantsController : ControllerBase
     {
         public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 

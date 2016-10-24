@@ -3,9 +3,11 @@ using RestaurantRating.Domain;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace RestaurantRating.API.Controllers
 {
+    [EnableCors("*", "*", "GET,POST")]
     [RoutePrefix("api")]
     public class ReviewsController : ControllerBase
     {
@@ -59,9 +61,8 @@ namespace RestaurantRating.API.Controllers
             catch (Exception ex)
             {
                 Logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
-                return InternalServerError(); //500
+                return InternalServerError();
             }
         }
-        //public IHttpActionResult Post()
     }
 }

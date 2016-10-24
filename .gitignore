@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/RestaurantRating/RestaurantRatings.Web
+*.pubxml
