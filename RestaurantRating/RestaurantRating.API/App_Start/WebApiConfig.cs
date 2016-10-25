@@ -3,10 +3,6 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
-using RestaurantRating.API.Factories;
-using RestaurantRating.Domain;
-using RestaurantRating.Repository.InMemory;
-using RestaurantRating.Repository.Sql;
 
 namespace RestaurantRating.API
 {

@@ -1,9 +1,8 @@
 ﻿using RestaurantRating.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantRating.Repository.Sql
 {
@@ -13,26 +12,21 @@ namespace RestaurantRating.Repository.Sql
 
         public SqlRepository(RestaurantEntities db)
         {
-             _restaurantDbContex = db;
+            _restaurantDbContex = db;
         }
 
         public IEnumerable<Domain.Cuisine> GetAllCuisines()
         {
-            var cuisineList = from cuisine in _restaurantDbContex.Cuisines
-                select
-                (new Domain.Cuisine
-                {
-                    Id = cuisine.Id,
-                    CreatedBy = cuisine.CreatedBy,
-                    Name = cuisine.Name,
-                    UpdatedBy = cuisine.UpdatedBy
-                });
-            return cuisineList.ToList();
+            var cuisineList = new List<Domain.Cuisine>();
+                
+            foreach(var cuisine in _restaurantDbContex.Cuisines) cuisineList.Add(DomainFactory.CreateCuisine(cuisine));
+
+            return cuisineList;
         }
 
         public bool DoseUserIdAlreadyExist(int requestUserId)
         {
-            throw new NotImplementedException();
+            return _restaurantDbContex.AppUsers.Any<AppUser>(u => u.Id == requestUserId);
         }
 
         public object GetAdminUser()
@@ -43,16 +37,8 @@ namespace RestaurantRating.Repository.Sql
         public User GetUserById(int userId)
         {
             var appUser = _restaurantDbContex.AppUsers.FirstOrDefault<Sql.AppUser>(u => u.Id == userId);
-            if (appUser != null)
-                return new Domain.User
-                {
-                    Id = appUser.Id,
-                    UserName = appUser.UserName,
-                    FirstName = appUser.FirstName,
-                    LastName = appUser.LastName,
-                };
-            else
-                return null;
+
+            return DomainFactory.CreateUser(appUser);
         }
 
         public bool DoseRestaurentNameAlreadyExist(string restaurantNameToCheck)
@@ -68,70 +54,109 @@ namespace RestaurantRating.Repository.Sql
         public IEnumerable<Domain.Restaurant> GetRestaurantForCuisine(int requestCusineId)
         {
             var cuisineRestList = _restaurantDbContex.Restaurants
-                .Where(r => r.CuisineId == requestCusineId)
-                .Select(
-                    r =>
-                        new Domain.Restaurant
-                        {
-                            Id = r.Id,
-                            Cuisine = new Domain.Cuisine {Id = r.CuisineId},
-                            Name = r.Name,
-                            CreatedBy = r.CreatedBy,
-                            UpdatedBy = r.UpdatedBy
-                        });
+                .Where(r => r.CuisineId == requestCusineId);
 
-            return cuisineRestList.ToList();
+            var returnRestList = new List<Domain.Restaurant>();
+            foreach (var rest in cuisineRestList) returnRestList.Add(DomainFactory.CreateRestaurant(rest));
+
+            return returnRestList;
         }
 
         public Domain.Restaurant GetRestaurantById(int restaurantId)
         {
-            throw new NotImplementedException();
-            //var restarentFound = _restaurantDbContex.Restaurants.FirstOrDefault<Sql.Restaurant>(r => r.Id == restaurantId);
-            //if (restarentFound != null)
-            //    return new Domain.Restaurant
-            //    {
-            //        Id = appUser.Id,
-            //        UserName = appUser.UserName,
-            //        FirstName = appUser.FirstName,
-            //        LastName = appUser.LastName,
-            //    };
-            //else
-            //    return null;
+            var restaurantFound = _restaurantDbContex.Restaurants.FirstOrDefault<Sql.Restaurant>(r => r.Id == restaurantId);
+            return DomainFactory.CreateRestaurant(restaurantFound);
         }
 
         public Domain.Restaurant GetRestaurantWithReviewsById(int restaurantId)
         {
-            throw new NotImplementedException();
+            var restaurantFound = _restaurantDbContex.Restaurants
+                .Where(r => r.Id == restaurantId)
+                .Include(r => r.Reviews.Select(rev => rev.AppUser))
+                .FirstOrDefault<Sql.Restaurant>();
+            return DomainFactory.CreateRestaurantWithReivew(restaurantFound);
         }
 
         public IEnumerable<Domain.Restaurant> GetAllRestaurantsWithReview()
         {
-            throw new NotImplementedException();
+            var allrestaurants = _restaurantDbContex.Restaurants
+                .Include(r => r.Reviews.Select(rev => rev.AppUser));
+
+            var restaurantsToReturn = new List<Domain.Restaurant>();
+            foreach(var rest in allrestaurants) restaurantsToReturn.Add(DomainFactory.CreateRestaurantWithReivew(rest));
+
+            return restaurantsToReturn;
         }
 
         public int AddRestaurentGetNewId(AddRestaurantRequestModel requestModel)
         {
-            throw new NotImplementedException();
+            var newRestaurant = new Sql.Restaurant
+            {
+                Name = requestModel.Name,
+                CuisineId = requestModel.CuisineId,
+                CreatedBy = requestModel.UserId,
+                UpdatedBy = requestModel.UserId,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            _restaurantDbContex.Restaurants.Add(newRestaurant);
+            _restaurantDbContex.SaveChanges();
+            return newRestaurant.Id;
         }
 
         public void UpdateRestaurant(UpdateRestaurantRequestModel request)
         {
-            throw new NotImplementedException();
+            var restaurantFound = _restaurantDbContex.Restaurants.FirstOrDefault<Sql.Restaurant>(r => r.Id == request.RestaurantId);
+            if (restaurantFound != null)
+            {
+                restaurantFound.CuisineId = request.CuisineId;
+                restaurantFound.Name = request.Name;
+                restaurantFound.UpdatedBy = request.UserId;
+                restaurantFound.UpdatedDate = DateTime.Now;
+
+                _restaurantDbContex.SaveChanges();
+            }
         }
 
-        public void RemoveRestaurentId(RemoveRestaurantRequestModel reqeustModel)
+        public void RemoveRestaurentId(RemoveRestaurantRequestModel request)
         {
-            throw new NotImplementedException();
+            var restaurantFound = _restaurantDbContex.Restaurants.FirstOrDefault<Sql.Restaurant>(r => r.Id == request.RestaurantId);
+            if (restaurantFound != null)
+            {
+                _restaurantDbContex.Restaurants.Remove(restaurantFound);
+                _restaurantDbContex.SaveChanges();
+            }
         }
 
         public IEnumerable<Domain.Review> GetReviewsForRestaurant(int restaurantId)
         {
-            throw new NotImplementedException();
+            var reviewsFound = _restaurantDbContex.Reviews
+                .Where(r => r.RestaurantId == restaurantId)
+                .Include(r => r.AppUser);
+
+            var reviewToReturn = new List<Domain.Review>();
+            foreach (var r in reviewsFound) reviewToReturn.Add(DomainFactory.CreateReview(r));
+
+            return reviewToReturn;
         }
 
         public int AddReviewGetNewId(AddReviewRequestModel reviewToAdd)
         {
-            throw new NotImplementedException();
+            var newReview = new Sql.Review
+            {
+                Comment = reviewToAdd.Comment,
+                CreatedBy = reviewToAdd.UserId,
+                UpdatedBy = reviewToAdd.UserId,
+                Rating = reviewToAdd.Rating,
+                RestaurantId = reviewToAdd.RestaurantId,
+                PostedDate = reviewToAdd.DateTimePosted,
+                ReviewUser = reviewToAdd.UserId,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            _restaurantDbContex.Reviews.Add(newReview);
+            _restaurantDbContex.SaveChanges();
+            return newReview.ReviewNumber;
         }
 
         public bool DoseCuisineIdExist(int requestCusineId)
@@ -139,11 +164,11 @@ namespace RestaurantRating.Repository.Sql
             return _restaurantDbContex.Cuisines.Any(c => c.Id == requestCusineId);
         }
 
- 
-
         public Domain.Cuisine GetCuisineById(int cuisineId)
         {
-            throw new NotImplementedException();
+            var cuisineFound = _restaurantDbContex.Cuisines
+                .FirstOrDefault<Sql.Cuisine>(c => c.Id == cuisineId);
+            return DomainFactory.CreateCuisine(cuisineFound);
         }
     }
 }

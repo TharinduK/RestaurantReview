@@ -1,5 +1,4 @@
 ﻿using System;
-using RestaurantRating.Domain;
 
 namespace RestaurantRating.Domain
 {

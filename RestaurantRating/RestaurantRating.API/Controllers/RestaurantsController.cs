@@ -2,7 +2,6 @@
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.API

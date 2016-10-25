@@ -2,13 +2,9 @@
 using RestaurantRating.API.Controllers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http.Results;
 using Moq;
 using RestaurantRating.API;
-using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 using Review = RestaurantRating.API.ViewModels.Review;
 

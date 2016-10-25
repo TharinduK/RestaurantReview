@@ -6,7 +6,6 @@ using RestaurantRating.API;
 using Moq;
 using RestaurantRating.Domain;
 using System.Web.Http.Results;
-using RestaurantRating.API.Factories;
 
 namespace RestaurantRating.APITests
 {

@@ -1,7 +1,5 @@
-﻿using RestaurantRating.API.Factories;
-using RestaurantRating.Domain;
+﻿using RestaurantRating.Domain;
 using System;
-using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
 

@@ -1,7 +1,6 @@
 ﻿using System.Web.Http;
 using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
-using RestaurantRating.Repository.InMemory;
 
 namespace RestaurantRating.API
 {

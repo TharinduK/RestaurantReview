@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
-using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.APITests
