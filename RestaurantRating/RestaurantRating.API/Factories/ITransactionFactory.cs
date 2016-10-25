@@ -1,11 +1,12 @@
 ﻿using RestaurantRating.Domain;
 using Review = RestaurantRating.API.ViewModels.Review;
 
-namespace RestaurantRating.API.Factories
+namespace RestaurantRating.API
 {
     public interface ITransactionFactory
     {
         AddRestaurantTransaction CreateAddRestraurantTransaction(string name, int cuisineId);
+
 
         CompleteUpdateRestaurantTransaction CreateCompleteUpdateRestraurantTransaction(int restaurantId, string name,
             int cuisineId);
@@ -18,9 +19,12 @@ namespace RestaurantRating.API.Factories
         ViewRestaurantsForCuisineTransaction CreateViewRestaurantsForCuisineTransaction(int id);
         ViewRestaurantTransaction CreateViewRestaurantTransaction(int restaurantId);
 
+
         ViewReviewsForRestaurantTransaction CreateViewReviewsForRestaurantTransaction(int restaurantId);
 
+
         ViewCuisinesTransaction CreateViewAllCuisinesTransaction();
+
 
         AddReviewTransaction CreateAddReviewsForRestaurantTransaction(int restaurantId, Review reviewRequest);
     }

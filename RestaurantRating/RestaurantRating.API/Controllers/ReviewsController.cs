@@ -9,8 +9,8 @@ namespace RestaurantRating.API.Controllers
     [RoutePrefix("api")]
     public class ReviewsController : ControllerBase
     {
-        //public ReviewsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
-        //    : base(repo, logger, factory){}
+        public ReviewsController(IApplicationLog logger, ITransactionFactory factory)
+            : base(logger, factory) { }
 
         public ReviewsController(IRepository repo, IApplicationLog logger)
         : base(repo, logger) { }
@@ -29,13 +29,13 @@ namespace RestaurantRating.API.Controllers
                     var reviews = ViewModelMapper.ConvertDomainReviewToViewModel(tran.Response.Reviews);
                     return Ok(reviews); 
                 }
-                else return BadRequest(); //400
+                else return BadRequest(); 
             }
-            catch (RestaurantNotFoundException) { return NotFound(); } //404
+            catch (RestaurantNotFoundException) { return NotFound(); }
             catch (Exception ex)
             {
                 Logger.ErrorLog($"Web API failed getting restaurant id {id}", ex);
-                return InternalServerError(); //500
+                return InternalServerError(); 
             }
         }
 
@@ -50,7 +50,7 @@ namespace RestaurantRating.API.Controllers
 
                 if (tran.Response.WasSucessfull)
                 {
-                    reviewRequest.ReviewNumber = tran.Response.ReviewNumber; //TK: check if the user name needs to be returned 
+                    reviewRequest.ReviewNumber = tran.Response.ReviewNumber; 
                     return CreatedAtRoute("NewReviewForRestaurant", new { id = id}, reviewRequest);
                 }
                 else return BadRequest(); 

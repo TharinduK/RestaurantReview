@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestaurantRating.Domain;
+using System;
 
 namespace RestaurantRating.DomainTests
 {
@@ -247,10 +248,49 @@ namespace RestaurantRating.DomainTests
         }
 
         [TestMethod]
-        [Ignore]
         public void CompleteUpdateRestaurant_WithExistingReviews_Succeed()
         {
-            Assert.Fail();
+            Users.Add(new User { Id = 1, FirstName = "Ruchira", LastName = "Kumara", UserName = "Ruch" });
+            Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = Cuisines[0], Name = "Restaurant one" });
+            Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = Cuisines[1], Name = "Restaurant Two" });
+
+            Restaurants[1].AddReview(new Review
+            {
+                CreatedBy = 4,
+                UpdatedBy = 4,
+                Comment = "First Comment for 3",
+                Rating = 3,
+                PostedDateTime = new DateTime(2016, 10, 16),
+                ReviewNumber = 2,
+                ReviewUser = Users[0]
+            });
+            Restaurants[1].AddReview(new Review
+            {
+                CreatedBy = 3,
+                UpdatedBy = 3,
+                Comment = "Second Comment for 3",
+                Rating = 5,
+                PostedDateTime = new DateTime(2016, 10, 10),
+                ReviewNumber = 3,
+                ReviewUser = Users[0]
+            });
+
+            var expectedID = 2;
+            var expectedName = "New Restaurant Name";
+            var restToUpdate = new UpdateRestaurantRequestModel
+            {
+                UserId = Users[0].Id,
+                CuisineId = Cuisines[0].Id,
+                RestaurantId = expectedID,
+                Name = expectedName
+            };
+            var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
+
+            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
+
+            //act
+            updateRestTran.Execute();
+            var actualResponse = updateRestTran.Response;
         }
     }
 }

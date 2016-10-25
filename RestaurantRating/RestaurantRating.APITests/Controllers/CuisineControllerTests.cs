@@ -161,8 +161,9 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void GetAllCuisines_ServerException_InternalError()
         {
-            //var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new CuisinesController(null, MockLogger.Object);
+            //arrange
+            var ctrl = new CuisinesController(MockLogger.Object, null);
+
             //act
             var actionResult = ctrl.Get();
 
@@ -384,8 +385,7 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineId = 4;
-            //var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new CuisinesController(null, MockLogger.Object);
+            var ctrl = new CuisinesController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get(cuisineId);

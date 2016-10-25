@@ -1,7 +1,7 @@
 ﻿using RestaurantRating.Domain;
 using Review = RestaurantRating.API.ViewModels.Review;
 
-namespace RestaurantRating.API.Factories
+namespace RestaurantRating.API
 {
     public class TransactionFactory : ITransactionFactory
     {

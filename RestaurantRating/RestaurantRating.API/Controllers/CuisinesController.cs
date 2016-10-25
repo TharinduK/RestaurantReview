@@ -9,10 +9,9 @@ namespace RestaurantRating.API.Controllers
     [RoutePrefix("api")]
     public class CuisinesController : ControllerBase
     {
-        //public CuisinesController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
-        //    : base(repo, logger, factory)
-        //{
-        //}
+        public CuisinesController(IApplicationLog logger, ITransactionFactory factory)
+            : base(logger, factory) { }
+
         public CuisinesController(IRepository repo, IApplicationLog logger)
             : base(repo, logger){}
 
@@ -61,6 +60,5 @@ namespace RestaurantRating.API.Controllers
                 return InternalServerError();
             }
         }
-
     }
 }

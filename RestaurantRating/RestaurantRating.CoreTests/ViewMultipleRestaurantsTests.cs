@@ -308,16 +308,18 @@ namespace RestaurantRating.DomainTests
             ValidateRestaurant(expectedRestId, expectedName, expectedCuisine, expectedReviews, expectedAverageRating,
                 expectedReviewCount);
         }
-        [TestMethod]
-        [Ignore]
-        public void ViewRestaurantAvg_ValidIdMultiReviewsDuplicateUser_Succeed()
-        {
-        }
-        [TestMethod]
-        [Ignore]
-        public void ViewRestaurantAvg_ValidIdReviewCountDuplicateUser_Succeed()
-        {
-        }
+        //User not being able to enter multiple reviews is not an requirement 
+        //[TestMethod]
+        //[Ignore]
+        //public void ViewRestaurantAvg_ValidIdMultiReviewsDuplicateUser_Succeed()
+        //{
+        //}
+        //User not being able to enter multiple reviews is not an requirement 
+        //[TestMethod]
+        //[Ignore]
+        //public void ViewRestaurantAvg_ValidIdReviewCountDuplicateUser_Succeed()
+        //{
+        //}
         [TestMethod]
         [ExpectedException(typeof(RestaurantNotFoundException))]
         public void ViewRestaurant_InvalidID_Fail()

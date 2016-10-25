@@ -64,12 +64,13 @@ namespace RestaurantRating.DomainTests
             Assert.IsFalse(RestaurantExists(restaruntToRemove), "Restaurant not found");
         }
 
-        [TestMethod]
-        [Ignore]
-        public void RemoveRestaurant_WithExistingReviews_Fail()
-        {
-            Assert.Fail();
-        }
+        //This is not an requirement 
+        //[TestMethod]
+        //[Ignore]
+        //public void RemoveRestaurant_WithExistingReviews_Fail()
+        //{
+        //    Assert.Fail();
+        //}
     }
 
     [TestClass]

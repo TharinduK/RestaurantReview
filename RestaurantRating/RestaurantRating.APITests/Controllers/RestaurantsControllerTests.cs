@@ -218,8 +218,8 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void GetAllRestaurants_ServerException_InternalError()
         {
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            //arrange
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get();
@@ -350,8 +350,7 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
                 .Throws(new Exception());
 
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get(restID);
@@ -401,9 +400,8 @@ namespace RestaurantRating.APITests
                 .Returns(expectedRestId);
             MockRepository.Setup(m => m.GetCuisineById(It.IsAny<int>())).Returns(cuisine);
 
-            var ctrl = new RestaurantsController(MockRepository.Object,
-                                MockLogger.Object);//,
-                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new RestaurantsController(MockLogger.Object, 
+                new TransactionFactory(MockRepository.Object, MockLogger.Object, createdUser));
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -465,11 +463,11 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void PostNewRestaurant_ServerException_InternalError()
         {
+            //arrange
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
 
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -567,8 +565,7 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.DoseRestaurentIdExist(RestIdToDelete))
                 .Returns(true);
 
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Get(RestIdToDelete);
@@ -793,8 +790,8 @@ namespace RestaurantRating.APITests
             .Throws(new Exception());
             MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
@@ -985,13 +982,11 @@ namespace RestaurantRating.APITests
                 UserId = CallingUserId
             };
 
-
             MockRepository.Setup(m => m.UpdateRestaurant(transactionRequest))
             .Throws(new Exception());
             MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            //var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object, null);
-            var ctrl = new RestaurantsController(null, MockLogger.Object);
+            var ctrl = new RestaurantsController(MockLogger.Object, null);
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);

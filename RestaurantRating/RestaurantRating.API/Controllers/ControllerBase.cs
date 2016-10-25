@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using RestaurantRating.API.Factories;
 using RestaurantRating.Domain;
 
 namespace RestaurantRating.API
@@ -9,16 +8,15 @@ namespace RestaurantRating.API
         protected IApplicationLog Logger;
         protected ITransactionFactory Factory;
 
-//        public ControllerBase(IRepository repo, IApplicationLog logger, ITransactionFactory factory)
-//        {
-//            Logger = logger;
-//            Factory = factory;
-//#warning userID hardcoded  (must use factory inteface)
-//        }
+        public ControllerBase(IApplicationLog logger, ITransactionFactory factory)
+        {
+            Logger = logger;
+            Factory = factory;
+        }
 
         public ControllerBase(IRepository repo, IApplicationLog logger)
         {
-#warning userID hardcoded  (must use factory inteface)
+            //TODO: Get Authentication Server and pass in user ID
             Logger = logger;
             Factory = new TransactionFactory(repo, logger, 1);
         }
