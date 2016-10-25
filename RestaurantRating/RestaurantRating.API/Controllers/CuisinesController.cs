@@ -10,12 +10,12 @@ namespace RestaurantRating.API.Controllers
     [RoutePrefix("api")]
     public class CuisinesController : ControllerBase
     {
-        public CuisinesController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
-            : base(repo, logger, factory)
-        {
-        }
-
-        public CuisinesController(){}
+        //public CuisinesController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
+        //    : base(repo, logger, factory)
+        //{
+        //}
+        public CuisinesController(IRepository repo, IApplicationLog logger)
+            : base(repo, logger){}
 
         [HttpGet]
         public IHttpActionResult Get()

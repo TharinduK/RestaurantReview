@@ -10,11 +10,10 @@ namespace RestaurantRating.API
     [EnableCors("*", "*", "*")]
     public class RestaurantsController : ControllerBase
     {
-        public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
-            : base(repo, logger, factory){}
-
-        public RestaurantsController(){}
-
+        //public RestaurantsController(IRepository repo, IApplicationLog logger, ITransactionFactory factory) 
+        //    : base(repo, logger, factory){}
+        public RestaurantsController(IRepository repo, IApplicationLog logger)
+            : base(repo, logger) { }
         // GET api/Restaurants
         [HttpGet]
         public IHttpActionResult Get()

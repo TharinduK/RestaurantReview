@@ -39,8 +39,8 @@ namespace RestaurantRating.APITests
                 .Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                MockLogger.Object);//,
+                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -87,8 +87,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetAllCuisines()).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                MockLogger.Object);//',
+                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -129,8 +129,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetAllCuisines()).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                MockLogger.Object);//',
+                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get();
@@ -150,10 +150,9 @@ namespace RestaurantRating.APITests
                 .Throws(new Exception());
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
-
-            //act
+                MockLogger.Object);//',
+                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                                   //act
             var actionResult = ctrl.Get();
 
             // assert
@@ -163,8 +162,8 @@ namespace RestaurantRating.APITests
         [TestMethod()]
         public void GetAllCuisines_ServerException_InternalError()
         {
-            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
-
+            //var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
+            var ctrl = new CuisinesController(null, MockLogger.Object);
             //act
             var actionResult = ctrl.Get();
 
@@ -221,8 +220,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                MockLogger.Object);//,
+                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -298,8 +297,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                                MockLogger.Object);//,
+                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -327,8 +326,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                                MockLogger.Object);//,
+                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -352,8 +351,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                                MockLogger.Object);//,
+                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -371,8 +370,8 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Throws(new Exception());
 
             var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+                                MockLogger.Object);//,
+                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -386,7 +385,8 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineId = 4;
-            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
+            //var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, null);
+            var ctrl = new CuisinesController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);

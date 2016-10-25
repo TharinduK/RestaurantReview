@@ -1,6 +1,12 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Configuration;
+using RestaurantRating.API.Factories;
+using RestaurantRating.Domain;
+using RestaurantRating.Repository.InMemory;
+using RestaurantRating.Repository.Sql;
 
 namespace RestaurantRating.API
 {
@@ -9,6 +15,12 @@ namespace RestaurantRating.API
         public static HttpConfiguration Register()
         {
             var config = new HttpConfiguration();
+
+            //DI Container setup
+            var container = new UnityContainer();
+            container.LoadConfiguration();
+            config.DependencyResolver = new UnityResolver(container);
+
 
             // Web API routes
             config.MapHttpAttributeRoutes();

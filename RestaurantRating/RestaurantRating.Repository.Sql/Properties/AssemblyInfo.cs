@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RestaurantRating.DTO")]
+[assembly: AssemblyTitle("RestaurantRating.Repository.Sql")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RestaurantRating.DTO")]
+[assembly: AssemblyProduct("RestaurantRating.Repository.Sql")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("81d3a3d7-ec00-4050-b9ab-f84bdd078b0f")]
+[assembly: Guid("f1279d80-665b-448f-84bc-50dd572a56a8")]
 
 // Version information for an assembly consists of the following four values:
 //
