@@ -8,11 +8,11 @@ namespace RestaurantRating.API
         protected IApplicationLog Logger;
         protected ITransactionFactory Factory;
 
-        public ControllerBase(IApplicationLog logger, ITransactionFactory factory)
-        {
-            Logger = logger;
-            Factory = factory;
-        }
+        //public ControllerBase(IApplicationLog logger, ITransactionFactory factory)
+        //{
+        //    Logger = logger;
+        //    Factory = factory;
+        //}
 
         public ControllerBase(IRepository repo, IApplicationLog logger)
         {

@@ -39,6 +39,19 @@ namespace RestaurantRating.Repository.InMemory
             Users.Add(new User { Id = 10 });
             Users.Add(new User { Id = 11 });
 
+            Reviews.Add(new Review
+            {
+                CreatedBy = 3,
+                ReviewUser = Users[2],
+                UpdatedBy = 3,
+                //ReviewRestaurant = Restaurants[1],
+                Comment = "Comment for 2",
+                Rating = 3,
+                PostedDateTime = new DateTime(2016, 10, 16),
+                ReviewNumber = 20,
+            });
+            Restaurants[0].AddReview(Reviews[0]);
+
             //restaurant 2 setup 
             Reviews.Add(new Review
             {

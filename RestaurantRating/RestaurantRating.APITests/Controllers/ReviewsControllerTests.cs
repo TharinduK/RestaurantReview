@@ -200,13 +200,14 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var restaurantId = 1;
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get(restaurantId);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -219,7 +220,7 @@ namespace RestaurantRating.APITests
             var restaurantID = 10;
 
             var postedDate = new DateTime(2016, 10, 1);
-            var createdUser = 10;
+            var createdUser = 1;
             int postedRating = 3;
             int expectedReviewNumber = 1;
             string postedComment = "Review comment 1";
@@ -265,8 +266,7 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
             MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
 
-            var ctrl = new ReviewsController(MockLogger.Object,
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, createdUser));
+            var ctrl = new ReviewsController(MockRepository.Object, MockLogger.Object); 
 
             //act
             var actionResult = ctrl.Post(restaurantID, requestReview);
@@ -413,13 +413,14 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.DoseRestaurentIdExist(restaurantID)).Returns(true);
             MockRepository.Setup(m => m.DoseUserIdAlreadyExist(postingUser.Id)).Returns(true);
 
-            var ctrl = new ReviewsController(MockLogger.Object, null);
+            var ctrl = new ReviewsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Post(restaurantID, requestReview);
 
             //assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
         #endregion
     }

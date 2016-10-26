@@ -162,13 +162,14 @@ namespace RestaurantRating.APITests
         public void GetAllCuisines_ServerException_InternalError()
         {
             //arrange
-            var ctrl = new CuisinesController(MockLogger.Object, null);
+            var ctrl = new CuisinesController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get();
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -385,13 +386,14 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineId = 4;
-            var ctrl = new CuisinesController(MockLogger.Object, null);
+            var ctrl = new CuisinesController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion

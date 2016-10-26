@@ -9,8 +9,8 @@ namespace RestaurantRating.API
     [EnableCors("*", "*", "*")]
     public class RestaurantsController : ControllerBase
     {
-        public RestaurantsController(IApplicationLog logger, ITransactionFactory factory)
-            : base(logger, factory) { }
+        //public RestaurantsController(IApplicationLog logger, ITransactionFactory factory)
+        //    : base(logger, factory) { }
 
         public RestaurantsController(IRepository repo, IApplicationLog logger)
             : base(repo, logger) { }

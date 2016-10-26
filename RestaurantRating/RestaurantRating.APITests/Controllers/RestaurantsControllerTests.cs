@@ -219,13 +219,14 @@ namespace RestaurantRating.APITests
         public void GetAllRestaurants_ServerException_InternalError()
         {
             //arrange
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get();
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -350,13 +351,14 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.GetRestaurantWithReviewsById(restID))
                 .Throws(new Exception());
 
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get(restID);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -370,7 +372,7 @@ namespace RestaurantRating.APITests
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
             var expectedRestId = 155;
-            var createdUser = 10;
+            var createdUser = 1;
             var cuisine = new Cuisine
             {
                 Name = cuisineName,
@@ -393,15 +395,14 @@ namespace RestaurantRating.APITests
             {
                 CuisineId = cuisineId,
                 Name = restName,
-                UserId = CallingUserId
+                UserId = createdUser
             };
 
             MockRepository.Setup(m => m.AddRestaurentGetNewId(transactionRequest))
                 .Returns(expectedRestId);
             MockRepository.Setup(m => m.GetCuisineById(It.IsAny<int>())).Returns(cuisine);
 
-            var ctrl = new RestaurantsController(MockLogger.Object, 
-                new TransactionFactory(MockRepository.Object, MockLogger.Object, createdUser));
+            var ctrl = new RestaurantsController(MockRepository.Object, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
@@ -467,13 +468,14 @@ namespace RestaurantRating.APITests
             var cuisineId = 10;
             var restName = "No1 Mexican Restaurant";
 
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Post(new API.ViewModels.Restaurant { CuisineId = cuisineId, Name = restName });
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
         #endregion
 
@@ -565,13 +567,14 @@ namespace RestaurantRating.APITests
             MockRepository.Setup(m => m.DoseRestaurentIdExist(RestIdToDelete))
                 .Returns(true);
 
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Get(RestIdToDelete);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -790,14 +793,15 @@ namespace RestaurantRating.APITests
             .Throws(new Exception());
             MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
-            
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
+
 
             //act
             var actionResult = ctrl.Put(restaruantIdToUpdate, requestModel);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion
@@ -986,13 +990,14 @@ namespace RestaurantRating.APITests
             .Throws(new Exception());
             MockRepository.Setup(m => m.GetRestaurantById(restaruantIdToUpdate));
 
-            var ctrl = new RestaurantsController(MockLogger.Object, null);
+            var ctrl = new RestaurantsController(null, MockLogger.Object);
 
             //act
             var actionResult = ctrl.Patch(restaruantIdToUpdate, requestModel);
 
             // assert
-            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
         }
 
         #endregion

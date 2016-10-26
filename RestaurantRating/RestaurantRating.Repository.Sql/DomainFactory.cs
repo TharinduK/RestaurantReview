@@ -36,7 +36,7 @@
                 return new Domain.Restaurant
                 {
                     Id = restaurnatIn.Id,
-                    Cuisine = new Domain.Cuisine { Id = restaurnatIn.CuisineId },
+                    Cuisine = new Domain.Cuisine { Id = restaurnatIn.CuisineId, Name=restaurnatIn.Cuisine.Name },
                     Name = restaurnatIn.Name,
                     CreatedBy = restaurnatIn.CreatedBy,
                     UpdatedBy = restaurnatIn.UpdatedBy

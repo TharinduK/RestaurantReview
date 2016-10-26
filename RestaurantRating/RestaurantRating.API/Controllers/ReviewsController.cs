@@ -9,8 +9,8 @@ namespace RestaurantRating.API.Controllers
     [RoutePrefix("api")]
     public class ReviewsController : ControllerBase
     {
-        public ReviewsController(IApplicationLog logger, ITransactionFactory factory)
-            : base(logger, factory) { }
+        //public ReviewsController(IApplicationLog logger, ITransactionFactory factory)
+        //    : base(logger, factory) { }
 
         public ReviewsController(IRepository repo, IApplicationLog logger)
         : base(repo, logger) { }

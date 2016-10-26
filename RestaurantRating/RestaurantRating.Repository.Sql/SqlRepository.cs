@@ -54,7 +54,8 @@ namespace RestaurantRating.Repository.Sql
         public IEnumerable<Domain.Restaurant> GetRestaurantForCuisine(int requestCusineId)
         {
             var cuisineRestList = _restaurantDbContex.Restaurants
-                .Where(r => r.CuisineId == requestCusineId);
+                .Where(r => r.CuisineId == requestCusineId)
+                .Include(r => r.Cuisine);
 
             var returnRestList = new List<Domain.Restaurant>();
             foreach (var rest in cuisineRestList) returnRestList.Add(DomainFactory.CreateRestaurant(rest));
@@ -64,7 +65,9 @@ namespace RestaurantRating.Repository.Sql
 
         public Domain.Restaurant GetRestaurantById(int restaurantId)
         {
-            var restaurantFound = _restaurantDbContex.Restaurants.FirstOrDefault<Sql.Restaurant>(r => r.Id == restaurantId);
+            var restaurantFound = _restaurantDbContex.Restaurants
+                .Include(r => r.Cuisine)
+                .FirstOrDefault<Sql.Restaurant>(r => r.Id == restaurantId);
             return DomainFactory.CreateRestaurant(restaurantFound);
         }
 
@@ -73,6 +76,7 @@ namespace RestaurantRating.Repository.Sql
             var restaurantFound = _restaurantDbContex.Restaurants
                 .Where(r => r.Id == restaurantId)
                 .Include(r => r.Reviews.Select(rev => rev.AppUser))
+                .Include(r => r.Cuisine)
                 .FirstOrDefault<Sql.Restaurant>();
             return DomainFactory.CreateRestaurantWithReivew(restaurantFound);
         }
@@ -80,7 +84,8 @@ namespace RestaurantRating.Repository.Sql
         public IEnumerable<Domain.Restaurant> GetAllRestaurantsWithReview()
         {
             var allrestaurants = _restaurantDbContex.Restaurants
-                .Include(r => r.Reviews.Select(rev => rev.AppUser));
+                .Include(r => r.Reviews.Select(rev => rev.AppUser))
+                .Include(r => r.Cuisine);
 
             var restaurantsToReturn = new List<Domain.Restaurant>();
             foreach(var rest in allrestaurants) restaurantsToReturn.Add(DomainFactory.CreateRestaurantWithReivew(rest));
