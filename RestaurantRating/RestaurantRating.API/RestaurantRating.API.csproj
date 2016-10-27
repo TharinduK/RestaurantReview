@@ -173,6 +173,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\CuisinesController.cs" />
+    <Compile Include="Factories\IdentityProvider.cs" />
+    <Compile Include="Factories\IIdentityProvider.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="ViewModels\Cuisine.cs" />
     <Compile Include="ViewModels\ViewModelMapper.cs" />

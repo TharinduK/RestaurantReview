@@ -13,6 +13,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
+                //TODO: validate user permission 
                 var restaurantFetched = Repository.GetRestaurantWithReviewsById(Request.RestaurantId);
 
                 if (restaurantFetched == null)

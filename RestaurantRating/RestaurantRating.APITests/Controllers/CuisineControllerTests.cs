@@ -34,12 +34,10 @@ namespace RestaurantRating.APITests
             };
             var expectedCuisineCount = 1;
             var repoResonse = new[] { cuisine };
-            MockRepository.Setup(m => m.GetAllCuisines())
-                .Returns(repoResonse);
+            MockRepository.Setup(m => m.GetAllCuisines()).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object);//,
-                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object,MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get();
@@ -84,10 +82,9 @@ namespace RestaurantRating.APITests
 
             var repoResonse = new[] { cuisine1, cuisine2 };
             MockRepository.Setup(m => m.GetAllCuisines()).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object);//',
-                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get();
@@ -126,10 +123,9 @@ namespace RestaurantRating.APITests
 
             var repoResonse = Enumerable.Empty<Domain.Cuisine>();
             MockRepository.Setup(m => m.GetAllCuisines()).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object);//',
-                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get();
@@ -147,11 +143,11 @@ namespace RestaurantRating.APITests
             //arrange
             MockRepository.Setup(m => m.GetAllCuisines())
                 .Throws(new Exception());
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object);//',
-                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
-                                   //act
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
+
+            //act
             var actionResult = ctrl.Get();
 
             // assert
@@ -162,14 +158,16 @@ namespace RestaurantRating.APITests
         public void GetAllCuisines_ServerException_InternalError()
         {
             //arrange
-            var ctrl = new CuisinesController(null, MockLogger.Object);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Throws(new Exception());
 
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
+            
             //act
             var actionResult = ctrl.Get();
 
             // assert
-            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+
         }
 
         #endregion
@@ -219,10 +217,10 @@ namespace RestaurantRating.APITests
 
             MockRepository.Setup(m => m.DoseCuisineIdExist(cuisineId)).Returns(true);
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                MockLogger.Object);//,
-                //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
+
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -296,10 +294,9 @@ namespace RestaurantRating.APITests
 
             MockRepository.Setup(m => m.DoseCuisineIdExist(cuisineId)).Returns(true);
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                                MockLogger.Object);//,
-                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -325,10 +322,9 @@ namespace RestaurantRating.APITests
 
             MockRepository.Setup(m => m.DoseCuisineIdExist(cuisineId)).Returns(true);
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                                MockLogger.Object);//,
-                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -350,10 +346,9 @@ namespace RestaurantRating.APITests
 
             MockRepository.Setup(m => m.DoseCuisineIdExist(cuisineId)).Returns(false);
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Returns(repoResonse);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                                MockLogger.Object);//,
-                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -369,10 +364,9 @@ namespace RestaurantRating.APITests
             var cuisineId = 4;
             MockRepository.Setup(m => m.DoseCuisineIdExist(cuisineId)).Returns(true);
             MockRepository.Setup(m => m.GetRestaurantForCuisine(cuisineId)).Throws(new Exception());
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Returns(10);
 
-            var ctrl = new CuisinesController(MockRepository.Object,
-                                MockLogger.Object);//,
-                                                   //new TransactionFactory(MockRepository.Object, MockLogger.Object, CallingUserId));
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
@@ -386,14 +380,16 @@ namespace RestaurantRating.APITests
         {
             //arrange
             var cuisineId = 4;
-            var ctrl = new CuisinesController(null, MockLogger.Object);
+            MockIdentity.Setup(m => m.GetRequestingUserId()).Throws(new Exception());
+
+            var ctrl = new CuisinesController(MockRepository.Object, MockLogger.Object, MockIdentity.Object);
 
             //act
             var actionResult = ctrl.Get(cuisineId);
 
             // assert
-            //Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(actionResult, typeof(InternalServerErrorResult));
+
         }
 
         #endregion

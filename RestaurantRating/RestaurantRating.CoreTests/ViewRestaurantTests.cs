@@ -109,7 +109,6 @@ namespace RestaurantRating.DomainTests
         [TestMethod]
         public void ViewRestaurant_ValidIDNoReviews_Succeed()
         {
-            //TODO: review response to check if the values can be updated (they should not be able to)
             var viewingUserId = 1;
             var viewingRestID = 1;
             var expectedRequestModel = SetupExpectedRequest(viewingUserId, viewingRestID);
@@ -205,7 +204,6 @@ namespace RestaurantRating.DomainTests
                 }
             };
 
-            //TODO: review response to check if the values can be updated (they should not be able to)
             var expectedSucessStatus = true;
             var expectedResponse = SetupExpectedResponse(expectedSucessStatus, expectedName,
                 expectedCuisine, expectedRestId, expectedReviews, expectedAverageRating, expectedReviewCount);
@@ -319,18 +317,6 @@ namespace RestaurantRating.DomainTests
                 expectedReviewCount);
         }
 
-        //User not being able to enter multiple reviews is not an requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void ViewRestaurantAvg_ValidIdMultiReviewsDuplicateUser_Succeed()
-        //{
-        //}
-        //User not being able to enter multiple reviews is not an requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void ViewRestaurantAvg_ValidIdReviewCountDuplicateUser_Succeed()
-        //{
-        //}
         [TestMethod]
         [ExpectedException(typeof(RestaurantNotFoundException))]
         public void ViewRestaurant_InvalidID_Fail()

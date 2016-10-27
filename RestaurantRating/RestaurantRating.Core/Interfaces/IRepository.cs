@@ -5,7 +5,6 @@ namespace RestaurantRating.Domain
     public interface IRepository
     {
         bool DoseUserIdAlreadyExist(int requestUserId);
-        object GetAdminUser();
         User GetUserById(int userId);
 
         bool DoseRestaurentNameAlreadyExist(string restaurantNameToCheck);

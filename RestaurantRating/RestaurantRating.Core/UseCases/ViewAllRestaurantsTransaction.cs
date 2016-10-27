@@ -15,7 +15,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
-                //validate permission to run app
+                //TODO: validate user permission 
 
                 var allRestaurants = Repository.GetAllRestaurantsWithReview();
                 Response.Restaurants = allRestaurants;

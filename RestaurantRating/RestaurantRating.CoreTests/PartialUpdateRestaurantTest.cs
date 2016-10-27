@@ -179,35 +179,7 @@ namespace RestaurantRating.DomainTests
 
             ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
-        //[TestMethod]
-        //public void PartialUpdateRestaurant_ValidIDWithBlankUpdatePaddedCuisine_Succeed()
-        //{
-        //    Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, CuisineId = Cuisines[0], Name = "Restaurant one" });
-        //    Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, CuisineId = Cuisines[1], Name = "Restaurant Two" });
-        //    var expectedID = 2;
-        //    var expectedName = "Restaurant Two";
-        //    var expectedCuisine = Cuisines[2].Id;
-        //    var expectedCreatedById = 102;
-        //    var expectedUpdatedById = 103;
-        //    var restToUpdate = new UpdateRestaurantRequestModel
-        //    {
-        //        UserId = 103,
-        //        RestaurantId = expectedID,
-        //        CuisineId = "   " + expectedCuisine + "  "
-        //    };
-        //    var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-        //    var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
-        //    //act
-        //    updateRestTran.Execute();
-        //    var actualResponse = updateRestTran.Response;
-
-        //    //assert
-        //    Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
-
-        //    ValidateRestUpdate(expectedID, expectedName, expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
-        //}
         [TestMethod]
         public void PartialUpdateRestaurant_ValidIDWithBlankUpdatePaddedName_Succeed()
         {
@@ -298,14 +270,13 @@ namespace RestaurantRating.DomainTests
                 Name = expectedName
             };
             var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
-
+            
             var updateRestTran = new PartialUpdateRestaurantTransaction(Repo, Log, restToUpdate);
-                      
 
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+            Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
         }
     }
 }

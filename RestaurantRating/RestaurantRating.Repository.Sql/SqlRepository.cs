@@ -29,10 +29,6 @@ namespace RestaurantRating.Repository.Sql
             return _restaurantDbContex.AppUsers.Any<AppUser>(u => u.Id == requestUserId);
         }
 
-        public object GetAdminUser()
-        {
-            throw new NotImplementedException();
-        }
 
         public User GetUserById(int userId)
         {
@@ -55,10 +51,11 @@ namespace RestaurantRating.Repository.Sql
         {
             var cuisineRestList = _restaurantDbContex.Restaurants
                 .Where(r => r.CuisineId == requestCusineId)
-                .Include(r => r.Cuisine);
+                .Include(r => r.Cuisine)
+                .Include(r => r.Reviews.Select(rev => rev.AppUser));
 
             var returnRestList = new List<Domain.Restaurant>();
-            foreach (var rest in cuisineRestList) returnRestList.Add(DomainFactory.CreateRestaurant(rest));
+            foreach (var rest in cuisineRestList) returnRestList.Add(DomainFactory.CreateRestaurantWithReivew(rest));
 
             return returnRestList;
         }

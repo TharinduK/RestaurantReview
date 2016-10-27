@@ -9,7 +9,6 @@ namespace RestaurantRating.DomainTests
     [TestClass]
     public class ViewMultipleRestaurantsTests : MockTestSetup
     {
-        //TODO: review response to check if the values can be updated (they should not be able to)
         public ViewMultipleRestaurantsTests()
         {
             Cuisines.Add(new Cuisine { Id = 1, Name = "Indian", CreatedBy = 1, UpdatedBy = 1 });
@@ -308,18 +307,8 @@ namespace RestaurantRating.DomainTests
             ValidateRestaurant(expectedRestId, expectedName, expectedCuisine, expectedReviews, expectedAverageRating,
                 expectedReviewCount);
         }
-        //User not being able to enter multiple reviews is not an requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void ViewRestaurantAvg_ValidIdMultiReviewsDuplicateUser_Succeed()
-        //{
-        //}
-        //User not being able to enter multiple reviews is not an requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void ViewRestaurantAvg_ValidIdReviewCountDuplicateUser_Succeed()
-        //{
-        //}
+
+
         [TestMethod]
         [ExpectedException(typeof(RestaurantNotFoundException))]
         public void ViewRestaurant_InvalidID_Fail()

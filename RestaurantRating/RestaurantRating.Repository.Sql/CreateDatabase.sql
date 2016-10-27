@@ -96,7 +96,23 @@ INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate]
 INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (9, N'Thai-Namite', 1, NULL, CAST(N'2016-10-24T18:44:20.713' AS DateTime), CAST(N'2016-10-24T18:44:20.713' AS DateTime), 5)
 INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (11, N'Su Casa Grande', 1, NULL, CAST(N'2016-10-24T18:44:54.400' AS DateTime), CAST(N'2016-10-24T18:44:54.400' AS DateTime), 4)
 INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (12, N'Chipotle Mexican Grill', 1, NULL, CAST(N'2016-10-24T18:45:07.770' AS DateTime), CAST(N'2016-10-24T18:45:07.770' AS DateTime), 4)
-INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (13, N'India Garden', 1, NULL, CAST(N'2016-10-24T18:45:32.763' AS DateTime), CAST(N'2016-10-24T18:45:32.763' AS DateTime), 1)
-INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (14, N'Taste of India', 1, NULL, CAST(N'2016-10-24T18:45:42.757' AS DateTime), CAST(N'2016-10-24T18:45:42.757' AS DateTime), 1)
-INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (15, N'Maharaja', 1, NULL, CAST(N'2016-10-24T18:46:01.390' AS DateTime), CAST(N'2016-10-24T18:46:01.390' AS DateTime), 1)
+INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (13, N'India Garden', 1, NULL, CAST(N'2016-10-24T18:45:32.763' AS DateTime), CAST(N'2016-10-24T18:45:32.763' AS DateTime), 2)
+INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (14, N'Taste of India', 1, NULL, CAST(N'2016-10-24T18:45:42.757' AS DateTime), CAST(N'2016-10-24T18:45:42.757' AS DateTime), 2)
+INSERT [dbo].[Restaurant] ([Id], [Name], [CreatedBy], [UpdatedBy], [CreatedDate], [UpdatedDate], [CuisineId]) VALUES (15, N'Maharaja', 1, NULL, CAST(N'2016-10-24T18:46:01.390' AS DateTime), CAST(N'2016-10-24T18:46:01.390' AS DateTime), 2)
 SET IDENTITY_INSERT [dbo].[Restaurant] OFF
+
+
+Manually added
+
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (1,getdate(), 'ok place', 1, 1,1, 13);
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (3,getdate(), '', 1, 1,1, 13);
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (3,getdate(), 'love the food', 5, 1,1, 13);
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (1,getdate(), '', 1, 1,1, 14)
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (1,getdate(), '', 1, 1,1, 15)
+insert into review (rating, postedDate, comment, reviewUser, createdby,updatedby, restaurantID)
+values (1,getdate(), '', 5, 1,1, 15)

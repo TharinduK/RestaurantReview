@@ -12,6 +12,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
+                //TODO: validate user permission 
                 var restaurantToUpdate = Repository.GetRestaurantById(Request.RestaurantId);
                 if (restaurantToUpdate == null) throw new RestaurantNotFoundException();
 

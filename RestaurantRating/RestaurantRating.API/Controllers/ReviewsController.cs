@@ -9,11 +9,8 @@ namespace RestaurantRating.API.Controllers
     [RoutePrefix("api")]
     public class ReviewsController : ControllerBase
     {
-        //public ReviewsController(IApplicationLog logger, ITransactionFactory factory)
-        //    : base(logger, factory) { }
-
-        public ReviewsController(IRepository repo, IApplicationLog logger)
-        : base(repo, logger) { }
+        public ReviewsController(IRepository repo, IApplicationLog logger, IIdentityProvider identity)
+        : base(repo, logger, identity) { }
 
         [HttpGet]
         [Route("Restaurants/{id}/Reviews", Name ="ReviewsForRestaurant")]

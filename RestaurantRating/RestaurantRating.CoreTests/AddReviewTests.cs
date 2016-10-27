@@ -179,7 +179,6 @@ namespace RestaurantRating.DomainTests
                 PostedDateTime = DateTime.Now.AddDays(-1),
                 Rating = 3,
                 ReviewNumber = 1,
-                //ReviewRestaurant = Restaurants[0],
                 ReviewUser = Users[0],
                 UpdatedBy = 1
             });

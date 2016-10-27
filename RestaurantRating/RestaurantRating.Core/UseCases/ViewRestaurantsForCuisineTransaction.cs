@@ -14,6 +14,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
+                //TODO: validate user permission 
                 if (!Repository.DoseCuisineIdExist(Request.CuisineId))
                 {
                     Response.WasSucessfull = false;

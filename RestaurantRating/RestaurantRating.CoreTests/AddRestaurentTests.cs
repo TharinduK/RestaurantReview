@@ -56,7 +56,6 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedUpdatedById, actualRest.UpdatedBy, "Updated by");
         }
 
-        //TODO: move to presistance validation 
         [TestMethod]
         [ExpectedException(typeof(RestaurantAlreadyExistsException))]
         public void AddResturant_WithExistingNameSame_ResturantExistExceptionThrown()
@@ -165,24 +164,5 @@ namespace RestaurantRating.DomainTests
 
             ExistingResturantAssert(sut);
         }
-        //Not a requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void AddResturant_WithExistingNameExtratSpaceInMiddle_ResturantExistExceptionThrown()
-        //{
-        //    Restaurants.Add(new Restaurant { Name = "Restaurant 1", CreatedBy = 100, UpdatedBy = 101, Cuisine = Cuisines[0], Id = 1 });
-        //    var reqData = new AddRestaurantRequestModel()
-        //    {
-        //        Name = "   Restaurant    1  ",
-        //        CuisineId = Cuisines[1].Id,
-        //        UserId = 1
-        //    };
-
-        //    var sut = new AddRestaurantTransaction(Repo, Log, reqData);
-
-        //    sut.Execute();
-
-        //    ExistingResturantAssert(sut);
-        //}
     }
 }

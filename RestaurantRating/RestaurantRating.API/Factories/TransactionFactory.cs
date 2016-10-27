@@ -7,13 +7,14 @@ namespace RestaurantRating.API
     {
         private readonly IRepository _repo;
         private readonly IApplicationLog _log;
-        private readonly int _callingUserId;
+        private readonly IIdentityProvider _identity;
 
-        public TransactionFactory(IRepository repo, IApplicationLog log, int callingUserId)
+        public TransactionFactory(IRepository repo, IApplicationLog log, IIdentityProvider identity)
         {
             _repo = repo;
             _log = log;
-            _callingUserId = callingUserId;
+            _identity = identity;
+
         }
 
         public ViewRestaurantsForCuisineTransaction CreateViewRestaurantsForCuisineTransaction(int id)
@@ -21,7 +22,7 @@ namespace RestaurantRating.API
             var reqModel = new ViewRestaurantsForCuisineRequestModel
             {
                 CuisineId = id,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new ViewRestaurantsForCuisineTransaction(_repo, _log, reqModel);
         }
@@ -31,7 +32,7 @@ namespace RestaurantRating.API
             var reqModel = new ViewRestaurantRequestModel
             {
                 RestaurantId = restaurantId,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new ViewRestaurantTransaction(_repo, _log, reqModel);
         }
@@ -42,7 +43,7 @@ namespace RestaurantRating.API
             {
                 Name = name,
                 CuisineId = cuisineId,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new AddRestaurantTransaction(_repo, _log, reqModel);
         }
@@ -60,7 +61,7 @@ namespace RestaurantRating.API
                 RestaurantId = restaurantId,
                 Name = name,
                 CuisineId = cuisineId,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return reqModel;
         }
@@ -77,14 +78,14 @@ namespace RestaurantRating.API
             var reqModel = new ViewRestaurantRequestModel
             {
                 RestaurantId = restaurantId,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new ViewReviewsForRestaurantTransaction(_repo, _log, reqModel);
         }
 
         public ViewCuisinesTransaction CreateViewAllCuisinesTransaction()
         {
-            var reqModel = new ViewCuisinesRequestModel{UserId = _callingUserId};
+            var reqModel = new ViewCuisinesRequestModel { UserId = _identity.GetRequestingUserId() };
             return new ViewCuisinesTransaction(_repo, _log, reqModel);
         }
 
@@ -97,7 +98,7 @@ namespace RestaurantRating.API
                 Comment = reviewRequest.Comment,
                 DateTimePosted = reviewRequest.PostedDateTime,
                 Rating = reviewRequest.Rating,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new AddReviewTransaction(_repo, _log, reqModel);
         }
@@ -107,14 +108,14 @@ namespace RestaurantRating.API
             var reqModel = new RemoveRestaurantRequestModel
             {
                 RestaurantId = restaurantIdToRemove,
-                UserId = _callingUserId
+                UserId = _identity.GetRequestingUserId()
             };
             return new RemoveRestaurantTransaction(_repo, _log, reqModel);
         }
 
         public ViewAllRestaurantsTransaction CreateViewAllRestaurantsTransaction()
         {
-            var reqModel = new ViewAllRestaurantRequestModel {UserId = _callingUserId};
+            var reqModel = new ViewAllRestaurantRequestModel { UserId = _identity.GetRequestingUserId() };
             return new ViewAllRestaurantsTransaction(_repo, _log, reqModel);
         }
     }

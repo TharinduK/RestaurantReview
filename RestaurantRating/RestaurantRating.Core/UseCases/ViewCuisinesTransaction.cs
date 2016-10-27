@@ -13,6 +13,7 @@ namespace RestaurantRating.Domain
         {
             try
             {
+                //TODO: validate user permission 
                 Response.Cuisines = Repository.GetAllCuisines();
                 Response.WasSucessfull = true;
 

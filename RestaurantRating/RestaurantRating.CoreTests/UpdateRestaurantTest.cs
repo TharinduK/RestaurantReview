@@ -175,34 +175,10 @@ namespace RestaurantRating.DomainTests
             };
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
             //act
             updateRestTran.Execute();
-            var actualResponse = updateRestTran.Response;
         }
-        //[TestMethod]
-        //[ExpectedException(typeof(RestaurantInvalidInputException))]
-        //public void CompleteUpdateRestaurant_ValidIDWithBlankUpdatePaddedCuisine_Succeed()
-        //{
-        //    Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = Cuisines[0], Name = "Restaurant one" });
-        //    Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = Cuisines[1], Name = "Restaurant Two" });
-        //    var expectedID = 2;
-        //    var expectedCuisine = "New CuisineId";
-        //    var restToUpdate = new UpdateRestaurantRequestModel
-        //    {
-        //        UserId = 103,
-        //        RestaurantId = expectedID,
-        //        Cuisine = "   " + expectedCuisine + "  "
-        //    };
-        //    var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-        //    var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
-        //    //act
-        //    updateRestTran.Execute();
-        //    var actualResponse = updateRestTran.Response;
-        //}
         [TestMethod]
         [ExpectedException(typeof(RestaurantInvalidInputException))]
         public void CompleteUpdateRestaurant_ValidIDWithBlankUpdatePaddedName_Succeed()
@@ -219,11 +195,8 @@ namespace RestaurantRating.DomainTests
             };
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
             //act
             updateRestTran.Execute();
-            var actualResponse = updateRestTran.Response;
         }
 
         [TestMethod]
@@ -238,13 +211,11 @@ namespace RestaurantRating.DomainTests
                 RestaurantId = 200,
                 Name = "New Name"
             };
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = false };
 
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
             //act
             updateRestTran.Execute();
-            var actualResponse = updateRestTran.Response;
         }
 
         [TestMethod]
@@ -253,6 +224,10 @@ namespace RestaurantRating.DomainTests
             Users.Add(new User { Id = 1, FirstName = "Ruchira", LastName = "Kumara", UserName = "Ruch" });
             Restaurants.Add(new Restaurant { Id = 1, CreatedBy = 101, UpdatedBy = 101, Cuisine = Cuisines[0], Name = "Restaurant one" });
             Restaurants.Add(new Restaurant { Id = 2, CreatedBy = 102, UpdatedBy = 102, Cuisine = Cuisines[1], Name = "Restaurant Two" });
+
+            var expectedCuisine = Cuisines[0].Id;
+            var expectedCreatedById = 102;
+            var expectedUpdatedById = Users[0].Id;
 
             Restaurants[1].AddReview(new Review
             {
@@ -279,18 +254,18 @@ namespace RestaurantRating.DomainTests
             var expectedName = "New Restaurant Name";
             var restToUpdate = new UpdateRestaurantRequestModel
             {
-                UserId = Users[0].Id,
-                CuisineId = Cuisines[0].Id,
+                UserId = expectedUpdatedById,
+                CuisineId = expectedCuisine,
                 RestaurantId = expectedID,
                 Name = expectedName
             };
             var updateRestTran = new CompleteUpdateRestaurantTransaction(Repo, Log, restToUpdate);
 
-            var expectedResponse = new UpdateRestaurantResponseModel { WasSucessfull = true };
-
             //act
             updateRestTran.Execute();
             var actualResponse = updateRestTran.Response;
+            Assert.AreEqual(true, actualResponse.WasSucessfull, "Invalid response");
+            ValidateRestUpdate(expectedID, expectedName,  expectedCuisine, expectedCreatedById, expectedUpdatedById, restToUpdate);
         }
     }
 }

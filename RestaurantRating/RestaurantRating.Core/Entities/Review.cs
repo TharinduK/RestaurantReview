@@ -37,7 +37,6 @@ namespace RestaurantRating.Domain
                        && Comment.Equals(model.Comment)
                        && ReviewNumber.Equals(model.ReviewNumber)
                        && ReviewUser.Equals(model.ReviewUser);
-            //&& ReviewRestaurant.Equals(model.ReviewRestaurant);
         }
         public override int GetHashCode()
         {

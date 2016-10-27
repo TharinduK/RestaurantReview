@@ -114,11 +114,6 @@ namespace RestaurantRating.DomainTests
             };
             var expectedSucessStatus = true;
             var expectedReviewCount = 1;
-            var expectedResponse = new ViewReviewsForRestaurantResponseModel()
-            {
-                Reviews = new List<Review> { expectedReview},
-                WasSucessfull = expectedSucessStatus
-            };
             
             //act
             ViewReviewsForRestaurantTransaction tran = new ViewReviewsForRestaurantTransaction(Repo, Log, request);
@@ -171,11 +166,6 @@ namespace RestaurantRating.DomainTests
 
             var expectedSucessStatus = true;
             var expectedReviewCount = 2;
-            var expectedResponse = new ViewReviewsForRestaurantResponseModel()
-            {
-                Reviews = expectedReviews,
-                WasSucessfull = expectedSucessStatus
-            };
 
             //act
             ViewReviewsForRestaurantTransaction tran = new ViewReviewsForRestaurantTransaction(Repo, Log, request);
@@ -228,11 +218,6 @@ namespace RestaurantRating.DomainTests
 
             var expectedSucessStatus = true;
             var expectedReviewCount = 10;
-            var expectedResponse = new ViewReviewsForRestaurantResponseModel()
-            {
-                Reviews = expectedReviews,
-                WasSucessfull = expectedSucessStatus
-            };
 
             //act
             ViewReviewsForRestaurantTransaction tran = new ViewReviewsForRestaurantTransaction(Repo, Log, request);
@@ -252,11 +237,6 @@ namespace RestaurantRating.DomainTests
             var expectedReviews = new List<Review>();
             var expectedSucessStatus = true;
             var expectedReviewCount = 0;
-            var expectedResponse = new ViewReviewsForRestaurantResponseModel()
-            {
-                Reviews = expectedReviews,
-                WasSucessfull = expectedSucessStatus
-            };
 
             //act
             ViewReviewsForRestaurantTransaction tran = new ViewReviewsForRestaurantTransaction(Repo, Log, request);
@@ -277,11 +257,6 @@ namespace RestaurantRating.DomainTests
             var expectedReviews = new List<Review>();
             var expectedSucessStatus = false;
             var expectedReviewCount = 0;
-            var expectedResponse = new ViewReviewsForRestaurantResponseModel()
-            {
-                Reviews = expectedReviews,
-                WasSucessfull = expectedSucessStatus
-            };
 
             //act
             ViewReviewsForRestaurantTransaction tran = new ViewReviewsForRestaurantTransaction(Repo, Log, request);

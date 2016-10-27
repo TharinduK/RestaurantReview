@@ -27,7 +27,7 @@ namespace RestaurantRating.API
             //return json when browser request rest
             //config.Formatters.JsonFormatter.SupportedMediaTypes
             //    .Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
-            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear(); //dont support xml
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear(); //don't support xml
 
             //format Json
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(

@@ -63,19 +63,5 @@ namespace RestaurantRating.DomainTests
             Assert.AreEqual(expectedResponse.WasSucessfull, actualResponse.WasSucessfull, "Invalid execution status");
             Assert.IsFalse(RestaurantExists(restaruntToRemove), "Restaurant not found");
         }
-
-        //This is not an requirement 
-        //[TestMethod]
-        //[Ignore]
-        //public void RemoveRestaurant_WithExistingReviews_Fail()
-        //{
-        //    Assert.Fail();
-        //}
-    }
-
-    [TestClass]
-    public class RemoveRestauranteAndReviewsTeset
-    {
-
     }
 }

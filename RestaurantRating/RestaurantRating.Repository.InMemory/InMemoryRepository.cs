@@ -112,10 +112,6 @@ namespace RestaurantRating.Repository.InMemory
 
 
         }
-        public object GetAdminUser()
-        {
-            throw new NotImplementedException();
-        }
 
         public int AddRestaurentGetNewId(AddRestaurantRequestModel requestModel)
         {

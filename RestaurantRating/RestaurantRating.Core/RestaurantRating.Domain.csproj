@@ -50,7 +50,6 @@
     <Compile Include="Exceptions\RestaurantAlreadyExistsException.cs" />
     <Compile Include="Exceptions\RestaurantNotFoundException.cs" />
     <Compile Include="Exceptions\RestaurantInvalidInputException.cs" />
-    <Compile Include="UseCases\AddAdminTransaction.cs" />
     <Compile Include="Responses\AddAdminResponseModel.cs" />
     <Compile Include="Requests\AddAdminRequestModel.cs" />
     <Compile Include="UseCases\AddRestaurantTransaction.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Responses\UpdateRestaurantResponseModel.cs" />
     <Compile Include="UseCases\UpdateRestaurantTransaction.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\Administrator.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Requests\AddResturantRequestModel.cs" />
     <Compile Include="Responses\AddRestaurantResponseModel.cs" />
